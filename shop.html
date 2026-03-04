@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | Black Knights Chess Club</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#050505',
+                        accentBlue: '#2563eb',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 1s ease-out forwards',
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .animate-fade-in { opacity: 0; animation: fadeIn 1s ease-out forwards; }
+        .animate-slide-up { opacity: 0; animation: slideUp 0.8s ease-out forwards; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 10px; }
+        .glass { backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-darkBg text-slate-900 dark:text-slate-100 transition-colors duration-500 font-sans overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="bg-blue-600 p-2.5 rounded-2xl shadow-blue-500/20 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M8 22V14M16 22V14M2 22H22M15 6C15 3.79086 13.2091 2 11 2C8.79086 2 7 3.79086 7 6C7 8.20914 8.79086 10 11 10C13.2091 10 15 8.20914 15 6ZM11 10V14M11 14H7L5 18H19L17 14H11Z" />
+                    </svg>
+                </div>
+                <span class="text-2xl font-black tracking-tighter uppercase">Black<span class="text-blue-600">Knights</span></span>
+            </a>
+
+            <div class="hidden lg:flex items-center gap-10">
+                <div class="flex items-center gap-8">
+                    <a href="club.html" class="text-[13px] font-bold hover:text-blue-600 transition-all uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300">Club</a>
+                    <a href="academy.html" class="text-[13px] font-bold hover:text-blue-600 transition-all uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300">Academy</a>
+                    <a href="tournaments.html" class="text-[13px] font-bold hover:text-blue-600 transition-all uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300">Tournaments</a>
+                    <a href="shop.html" class="text-[13px] font-bold text-blue-600 transition-all uppercase tracking-[0.15em]">Shop</a>
+                </div>
+                
+                <div class="h-8 w-px bg-slate-200 dark:bg-slate-800 mx-2"></div>
+                
+                <div class="flex items-center gap-5">
+                    <button id="theme-toggle" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500/50 transition-all text-slate-600 dark:text-slate-400">
+                        <i id="theme-icon" class="fas fa-sun"></i>
+                    </button>
+                    <a href="login.html" class="text-[13px] font-bold uppercase tracking-wider hover:text-blue-600 px-2 transition-colors">Login</a>
+                    <a href="register.html" class="px-7 py-3 text-[13px] font-bold rounded-2xl bg-blue-600 text-white hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/30 transition-all uppercase tracking-widest active:scale-95 text-center">
+                        Join Us
+                    </a>
+                </div>
+            </div>
+
+            <button class="lg:hidden w-12 h-12 flex items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="pt-32 pb-12 px-6 text-center animate-slide-up">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-5xl lg:text-6xl font-extrabold mb-4 tracking-tight">The Knight's <span class="text-blue-600">Collection</span></h1>
+            <p class="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">Premium chess equipment and apparel designed for masters of strategy.</p>
+        </div>
+    </header>
+
+    <!-- Product Grid -->
+    <section class="pb-24 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            
+            <!-- Product 1 -->
+            <div class="group bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-[32px] overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+                <div class="aspect-square overflow-hidden relative">
+                    <img src="assets/images/shop/magnetic_board.png" alt="Magnetic Chess Board" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute top-4 right-4 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Premium</div>
+                </div>
+                <div class="p-6">
+                    <h3 class="font-bold text-lg mb-1">Magnetic Chess Board</h3>
+                    <p class="text-slate-500 text-xs mb-4">Sleek wood finish, travel-friendly.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-black text-blue-600">$45.00</span>
+                        <button class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors">
+                            <i class="fas fa-shopping-cart text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="group bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-[32px] overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+                <div class="aspect-square overflow-hidden relative">
+                    <img src="assets/images/shop/slotted_board.png" alt="Slotted Chess Board" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </div>
+                <div class="p-6">
+                    <h3 class="font-bold text-lg mb-1">Slotted Chess Board</h3>
+                    <p class="text-slate-500 text-xs mb-4">Luxury Walnut & Maple design.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-black text-blue-600">$60.00</span>
+                        <button class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors">
+                            <i class="fas fa-shopping-cart text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="group bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-[32px] overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+                <div class="aspect-square overflow-hidden relative">
+                    <img src="assets/images/shop/hoodie.png" alt="Black Knights Hoodie" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute top-4 right-4 bg-slate-900 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">New Arrival</div>
+                </div>
+                <div class="p-6">
+                    <h3 class="font-bold text-lg mb-1">Black Knights Hoodie</h3>
+                    <p class="text-slate-500 text-xs mb-4">Minimalist knight embroidery.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-black text-blue-600">$35.00</span>
+                        <button class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors">
+                            <i class="fas fa-shopping-cart text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="group bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-[32px] overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+                <div class="aspect-square overflow-hidden relative">
+                    <img src="assets/images/shop/chess_set.png" alt="Professional Chess Set" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </div>
+                <div class="p-6">
+                    <h3 class="font-bold text-lg mb-1">Professional Chess Set</h3>
+                    <p class="text-slate-500 text-xs mb-4">Staunton weighted pieces.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-black text-blue-600">$85.00</span>
+                        <button class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors">
+                            <i class="fas fa-shopping-cart text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="group bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-[32px] overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+                <div class="aspect-square overflow-hidden relative">
+                    <img src="assets/images/shop/chess_clock.png" alt="Digital Chess Clock" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </div>
+                <div class="p-6">
+                    <h3 class="font-bold text-lg mb-1">Digital Chess Clock</h3>
+                    <p class="text-slate-500 text-xs mb-4">Pro tournament LED display.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-black text-blue-600">$40.00</span>
+                        <button class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors">
+                            <i class="fas fa-shopping-cart text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="group bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-[32px] overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+                <div class="aspect-square overflow-hidden relative">
+                    <img src="assets/images/shop/scorebook.png" alt="Chess Scorebook" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </div>
+                <div class="p-6">
+                    <h3 class="font-bold text-lg mb-1">Chess Scorebook</h3>
+                    <p class="text-slate-500 text-xs mb-4">Luxury leather-bound edition.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-black text-blue-600">$15.00</span>
+                        <button class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors">
+                            <i class="fas fa-shopping-cart text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 7 -->
+            <div class="group bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-[32px] overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+                <div class="aspect-square overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1529699211952-734e80c4d42b?auto=format&fit=crop&q=80&w=400" alt="Training Keychain" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </div>
+                <div class="p-6">
+                    <h3 class="font-bold text-lg mb-1">Training Keychain</h3>
+                    <p class="text-slate-500 text-xs mb-4">Silver-plated knight piece.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-black text-blue-600">$10.00</span>
+                        <button class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors">
+                            <i class="fas fa-shopping-cart text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 8 -->
+            <div class="group bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-[32px] overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+                <div class="aspect-square overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1588850567047-1849a444bc68?auto=format&fit=crop&q=80&w=400" alt="Grandmaster Cap" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </div>
+                <div class="p-6">
+                    <h3 class="font-bold text-lg mb-1">Grandmaster Cap</h3>
+                    <p class="text-slate-500 text-xs mb-4">Embroidered navy classic.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-black text-blue-600">$25.00</span>
+                        <button class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors">
+                            <i class="fas fa-shopping-cart text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-24 pb-12 px-6 bg-slate-50 dark:bg-black border-t border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-2 space-y-6">
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl font-bold tracking-tight">BLACK<span class="text-blue-600">KNIGHTS</span></span>
+                    </div>
+                    <p class="max-w-xs text-slate-500 text-sm leading-relaxed">
+                        The ultimate destination for chess players in Kenya. Home to the Black Knights Club, Academy, and national-level tournaments.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-6 text-sm uppercase text-blue-600">Explore</h4>
+                    <ul class="space-y-4 text-sm text-slate-500 font-medium">
+                        <li class="hover:text-blue-600 cursor-pointer transition-colors">Club Membership</li>
+                        <li class="hover:text-blue-600 cursor-pointer transition-colors">Academy Programs</li>
+                        <li class="hover:text-blue-600 cursor-pointer transition-colors">Tournaments</li>
+                        <li class="hover:text-blue-600 cursor-pointer transition-colors"><a href="shop.html">Shop</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-6 text-sm uppercase text-blue-600">Contact</h4>
+                    <p class="text-sm text-slate-500 font-medium leading-relaxed">Nairobi, Kenya<br>info@blackknights.co.ke</p>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-slate-200 dark:border-slate-800 text-[10px] uppercase font-bold text-slate-400 tracking-widest">
+                © 2024 Black Knights Chess Club. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('bg-white/80', 'dark:bg-black/80', 'backdrop-blur-md', 'shadow-lg', 'py-3');
+                nav.classList.remove('py-5');
+            } else {
+                nav.classList.remove('bg-white/80', 'dark:bg-black/80', 'backdrop-blur-md', 'shadow-lg', 'py-3');
+                nav.classList.add('py-5');
+            }
+        });
+
+        // Theme Logic
+        (function() {
+            const themeBtn = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const html = document.documentElement;
+
+            function updateThemeElements(isDark) {
+                if (isDark) {
+                    html.classList.add('dark');
+                    if (themeIcon) themeIcon.classList.replace('fa-moon', 'fa-sun');
+                } else {
+                    html.classList.remove('dark');
+                    if (themeIcon) themeIcon.classList.replace('fa-sun', 'fa-moon');
+                }
+            }
+
+            const isDarkMode = html.classList.contains('dark');
+            updateThemeElements(isDarkMode);
+
+            if (themeBtn) {
+                themeBtn.addEventListener('click', () => {
+                    const isDark = html.classList.toggle('dark');
+                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                    updateThemeElements(isDark);
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
