@@ -21,14 +21,52 @@
             theme: {
                 extend: {
                     colors: {
-                        darkBg: '#050505',
-                        brandTeal: '#66AAA0',
-                        brandBlue: '#57638F',
+                        darkBg: '#2B2B2B',
+                        brandGreen: '#80D200',
+                        brandNeonGreen: '#00FF00',
+                        brandMint: '#B3FFB3',
+                        brandDarkGreen: '#003300',
+                        brandOrange: '#FFA500',
+                        brandGold: '#FFCC66',
+                        brandBrown: '#805300',
+                        accentGreen: '#80D200',
                     }
                 }
             }
         }
     </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #80D200;
+            border-radius: 10px;
+        }
+
+        .glass {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        /* Modal Animation */
+        .modal-enter {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .modal-enter-active {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 300ms, transform 300ms;
+        }
+    </style>
 </head>
 
 <body class="bg-slate-50 dark:bg-darkBg text-slate-900 dark:text-slate-100 transition-colors duration-500 font-sans">
@@ -40,36 +78,36 @@
             <a href="index.html" class="flex items-center gap-3 group">
                 <div
                     class="bg-white p-2.5 rounded-2xl shadow-lg ring-1 ring-slate-200/50 group-hover:scale-110 transition-transform duration-300">
-                    <img src="assets/images/logo.png" alt="Ascending Pawn Logo" class="w-6 h-6 object-contain">
+                    <img src="assets/images/logo1.png" alt="Ascending Pawn Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-2xl font-black tracking-tighter uppercase">Ascending<span
-                        class="text-brandTeal">Pawn</span></span>
+                        class="text-brandGreen">Pawn</span></span>
             </a>
 
             <!-- Desktop Menu -->
             <div class="hidden lg:flex items-center gap-10">
                 <div class="flex items-center gap-8">
                     <a href="club.html"
-                        class="text-[13px] font-bold hover:text-brandTeal transition-all uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300">Club</a>
+                        class="text-[13px] font-bold hover:text-brandGreen transition-all uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300">Club</a>
                     <a href="academy.html"
-                        class="text-[13px] font-bold text-brandTeal uppercase tracking-[0.15em]">Academy</a>
+                        class="text-[13px] font-bold text-brandGreen uppercase tracking-[0.15em]">Academy</a>
                     <a href="tournaments.html"
-                        class="text-[13px] font-bold hover:text-brandTeal transition-all uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300">Tournaments</a>
+                        class="text-[13px] font-bold hover:text-brandGreen transition-all uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300">Tournaments</a>
                     <a href="shop.html"
-                        class="text-[13px] font-bold hover:text-brandTeal transition-all uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300">Shop</a>
+                        class="text-[13px] font-bold hover:text-brandGreen transition-all uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300">Shop</a>
                 </div>
 
                 <div class="h-8 w-px bg-slate-200 dark:bg-slate-800 mx-2"></div>
 
                 <div class="flex items-center gap-5">
                     <button id="theme-toggle"
-                        class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brandTeal/50 transition-all text-slate-600 dark:text-slate-400">
+                        class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brandGreen/50 transition-all text-slate-600 dark:text-slate-400">
                         <i id="theme-icon" class="fas fa-sun"></i>
                     </button>
                     <a href="login.html"
-                        class="text-[13px] font-bold uppercase tracking-wider hover:text-brandTeal px-2 transition-colors">Login</a>
+                        class="text-[13px] font-bold uppercase tracking-wider hover:text-brandGreen px-2 transition-colors">Login</a>
                     <a href="register.html"
-                        class="px-7 py-3 text-[13px] font-bold rounded-2xl bg-brandTeal text-white hover:bg-brandTeal/90 hover:shadow-xl hover:shadow-brandTeal/30 transition-all uppercase tracking-widest active:scale-95 text-center">
+                        class="px-7 py-3 text-[13px] font-bold rounded-2xl bg-brandGreen text-white hover:bg-brandGreen/90 hover:shadow-xl hover:shadow-brandGreen/30 transition-all uppercase tracking-widest active:scale-95 text-center">
                         Join Us
                     </a>
                 </div>
@@ -90,10 +128,10 @@
             <div class="flex justify-between items-center mb-12">
                 <a href="index.html" class="flex items-center gap-3">
                     <div class="bg-white p-2 rounded-xl ring-1 ring-slate-200/50 shadow-sm">
-                        <img src="assets/images/logo.png" alt="Logo" class="w-5 h-5 object-contain">
+                        <img src="assets/images/logo1.png" alt="Logo" class="w-5 h-5 object-contain">
                     </div>
                     <span class="text-xl font-black uppercase tracking-tighter">Ascending<span
-                            class="text-brandTeal">Pawn</span></span>
+                            class="text-brandGreen">Pawn</span></span>
                 </a>
                 <button id="close-menu"
                     class="w-12 h-12 flex items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-900">
@@ -103,59 +141,162 @@
 
             <div class="flex flex-col gap-6">
                 <a href="club.html"
-                    class="text-2xl font-black uppercase tracking-tight hover:text-brandTeal transition-colors">Club</a>
-                <a href="academy.html" class="text-2xl font-black uppercase tracking-tight text-brandTeal">Academy</a>
+                    class="text-2xl font-black uppercase tracking-tight hover:text-brandGreen transition-colors">Club</a>
+                <a href="academy.html" class="text-2xl font-black uppercase tracking-tight text-brandGreen">Academy</a>
                 <a href="tournaments.html"
-                    class="text-2xl font-black uppercase tracking-tight hover:text-brandTeal transition-colors">Tournaments</a>
+                    class="text-2xl font-black uppercase tracking-tight hover:text-brandGreen transition-colors">Tournaments</a>
                 <a href="shop.html"
-                    class="text-2xl font-black uppercase tracking-tight hover:text-brandTeal transition-colors">Shop</a>
+                    class="text-2xl font-black uppercase tracking-tight hover:text-brandGreen transition-colors">Shop</a>
             </div>
 
             <div class="mt-auto pt-10 border-t border-slate-100 dark:border-slate-800">
                 <a href="login.html"
                     class="block w-full py-4 text-center font-bold uppercase tracking-widest text-sm mb-4">Login</a>
                 <a href="register.html"
-                    class="block w-full py-4 bg-brandTeal text-white text-center font-bold rounded-2xl uppercase tracking-widest text-sm shadow-lg shadow-brandTeal/20">Join
+                    class="block w-full py-4 bg-brandGreen text-white text-center font-bold rounded-2xl uppercase tracking-widest text-sm shadow-lg shadow-brandGreen/20">Join
                     Us</a>
             </div>
         </div>
     </div>
 
-    <section class="pt-32 pb-20 px-6">
+    <section class="pt-32 pb-20 lg:pt-48 lg:pb-32 px-6">
         <div class="max-w-7xl mx-auto">
-            <h1 class="text-4xl md:text-6xl font-black mb-8">Chess Academy</h1>
-            <p class="text-lg text-slate-500 max-w-2xl mb-12">Systematic learning programs for all skill levels.</p>
+            <div
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brandGreen/10 dark:bg-brandGreen/20 text-brandGreen dark:text-brandGreen text-xs font-bold uppercase tracking-widest mb-6">
+                <i class="fas fa-graduation-cap text-[10px]"></i> Learning Ecosystem
+            </div>
+            <h1 class="text-5xl lg:text-7xl font-extrabold mb-8 tracking-tight text-slate-900 dark:text-white">
+                The Master's <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandGreen to-brandOrange">Academy</span>
+            </h1>
+            <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed mb-16">
+                Systematic learning programs tailored for absolute beginners to aspiring grandmasters. Our curriculum is
+                designed by certified FIDE trainers and seasoned competitors.
+            </p>
 
-            <div class="grid md:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Level 1: Foundations -->
                 <div
-                    class="group p-10 rounded-[50px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brandTeal transition-all">
-                    <div class="text-brandTeal text-3xl mb-6"><i class="fas fa-graduation-cap"></i></div>
-                    <h3 class="text-2xl font-bold mb-4">Intermediate Mastery</h3>
-                    <p class="text-slate-500 mb-8 font-medium">Deep dive into openings, endgames, and advanced tactics.
+                    class="group p-10 rounded-[40px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brandGreen transition-all shadow-xl hover:shadow-brandGreen/10 relative overflow-hidden">
+                    <div
+                        class="absolute top-0 right-0 w-32 h-32 bg-brandGreen/5 blur-[40px] rounded-full -mr-10 -mt-10 transition-all group-hover:bg-brandGreen/10">
+                    </div>
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-brandGreen/10 flex items-center justify-center text-brandGreen text-2xl mb-8">
+                        <i class="fas fa-chess-pawn"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-slate-900 dark:text-white">Foundations Program</h3>
+                    <p class="text-slate-500 dark:text-slate-400 mb-8 font-medium leading-relaxed">
+                        For absolute beginners. Master the rules, movement, and fundamental principles of the Royal Game.
                     </p>
-                    <button
-                        class="px-8 py-3 rounded-2xl border-2 border-slate-900 dark:border-white font-bold uppercase text-xs">View
-                        Syllabus</button>
+                    <button onclick="openModal('foundations')"
+                        class="w-full py-4 rounded-2xl border-2 border-slate-900 dark:border-white font-bold uppercase tracking-widest text-[11px] hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 transition-all active:scale-95">
+                        View Syllabus
+                    </button>
+                </div>
+
+                <!-- Level 2: Tactics & Strategy -->
+                <div
+                    class="group p-10 rounded-[40px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brandGreen transition-all shadow-xl hover:shadow-brandGreen/10 relative overflow-hidden">
+                    <div
+                        class="absolute top-0 right-0 w-32 h-32 bg-brandOrange/5 blur-[40px] rounded-full -mr-10 -mt-10 transition-all group-hover:bg-brandOrange/10">
+                    </div>
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-brandOrange/10 flex items-center justify-center text-brandOrange text-2xl mb-8">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-slate-900 dark:text-white">Tactics & Strategy</h3>
+                    <p class="text-slate-500 dark:text-slate-400 mb-8 font-medium leading-relaxed">
+                        Intermediate level. Explore tactical motifs, positional play, and essential opening concepts.
+                    </p>
+                    <button onclick="openModal('tactics')"
+                        class="w-full py-4 rounded-2xl border-2 border-slate-900 dark:border-white font-bold uppercase tracking-widest text-[11px] hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 transition-all active:scale-95">
+                        View Syllabus
+                    </button>
+                </div>
+
+                <!-- Level 3: Competitive Mastery -->
+                <div
+                    class="group p-10 rounded-[40px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brandGreen transition-all shadow-xl hover:shadow-brandGreen/10 relative overflow-hidden">
+                    <div
+                        class="absolute top-0 right-0 w-32 h-32 bg-brandGold/5 blur-[40px] rounded-full -mr-10 -mt-10 transition-all group-hover:bg-brandGold/10">
+                    </div>
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-brandGold/10 flex items-center justify-center text-brandGold text-2xl mb-8">
+                        <i class="fas fa-chess-king"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-slate-900 dark:text-white">Competitive Mastery</h3>
+                    <p class="text-slate-500 dark:text-slate-400 mb-8 font-medium leading-relaxed">
+                        Advanced program. Prepare for high-level tournaments with professional analysis and endgame
+                        technique.
+                    </p>
+                    <button onclick="openModal('mastery')"
+                        class="w-full py-4 rounded-2xl border-2 border-slate-900 dark:border-white font-bold uppercase tracking-widest text-[11px] hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 transition-all active:scale-95">
+                        View Syllabus
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Syllabus Modal Overlay -->
+    <div id="syllabus-modal"
+        class="fixed inset-0 z-[100] hidden items-center justify-center p-6 bg-slate-950/80 backdrop-blur-md opacity-0 transition-opacity duration-300">
+        <div
+            class="bg-white dark:bg-slate-900 w-full max-w-2xl max-h-[80vh] rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col transform scale-95 transition-transform duration-300">
+            <!-- Modal Header -->
+            <div class="p-8 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                <div>
+                    <h2 id="modal-title" class="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                        Syllabus Overview</h2>
+                    <p id="modal-subtitle" class="text-slate-500 text-sm font-bold uppercase tracking-widest mt-1">Level 1:
+                        Foundations</p>
+                </div>
+                <button onclick="closeModal()"
+                    class="w-12 h-12 flex items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="p-8 overflow-y-auto flex-grow custom-scrollbar">
+                <div id="syllabus-content" class="space-y-6">
+                    <!-- Dynamic Content -->
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-8 bg-slate-50/50 dark:bg-slate-800/30 border-t border-slate-100 dark:border-slate-800">
+                <button onclick="closeModal()"
+                    class="w-full py-5 bg-brandGreen text-white rounded-2xl font-black uppercase tracking-widest text-sm shadow-xl shadow-brandGreen/20 hover:scale-[1.02] active:scale-95 transition-all">
+                    Close Overview
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const themeBtn = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
         const html = document.documentElement;
+
         function updateThemeElements(isDark) {
             if (isDark) {
                 html.classList.add('dark');
-                if (themeIcon) themeIcon.classList.replace('fa-moon', 'fa-sun');
+                if (themeIcon) {
+                    themeIcon.classList.replace('fa-moon', 'fa-sun');
+                }
             } else {
                 html.classList.remove('dark');
-                if (themeIcon) themeIcon.classList.replace('fa-sun', 'fa-moon');
+                if (themeIcon) {
+                    themeIcon.classList.replace('fa-sun', 'fa-moon');
+                }
             }
         }
+
         const currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         updateThemeElements(currentTheme === 'dark');
+
         if (themeBtn) {
             themeBtn.addEventListener('click', () => {
                 const isDark = html.classList.toggle('dark');
@@ -180,7 +321,95 @@
                 mobileMenu.classList.add('translate-x-full');
             });
         }
+
+        // Syllabus Modal Logic
+        const syllabusData = {
+            foundations: {
+                title: "Foundations Program",
+                subtitle: "Level 1: Absolute Beginner",
+                content: [
+                    { title: "The Board & Pieces", description: "Master the battlefield layout and unique movement rules for each piece." },
+                    { title: "Special Rules", description: "Castling, En Passant, and Pawn Promotion explained in detail." },
+                    { title: "Core Tactics", description: "Learn Forks, Pins, and Skewers—the building blocks of calculation." },
+                    { title: "Checkmate Patterns", description: "Fundamental patterns: Ladder mate, Back-rank mate, and Scholar's Mate defense." }
+                ]
+            },
+            tactics: {
+                title: "Tactics & Strategy",
+                subtitle: "Level 2: Intermediate Player",
+                content: [
+                    { title: "Positional Mastery", description: "Space, pawn structure, and the power of outposts for your pieces." },
+                    { title: "Opening Theory", description: "Developing a reliable repertoire for both White and Black." },
+                    { title: "Endgame Mechanics", description: "King and Pawn endgames, opposition, and technical draw techniques." },
+                    { title: "Calculation Speed", description: "Training drills to visualize 3-5 moves ahead with precision." }
+                ]
+            },
+            mastery: {
+                title: "Competitive Mastery",
+                subtitle: "Level 3: Advanced Competitor",
+                content: [
+                    { title: "Complex Endgames", description: "Deep dive into Rook vs. Pawn and minor piece technical wins." },
+                    { title: "Elite Opening Prep", description: "Mastering theoretical variations and preparing specifically for opponents." },
+                    { title: "Psychology & Clock", description: "Managing time pressure and psychological aspects of tournament play." },
+                    { title: "Game Analysis", description: "Methodical database review and engine-assisted post-game analysis." }
+                ]
+            }
+        };
+
+        const modalOverlay = document.getElementById('syllabus-modal');
+        const modalContainer = modalOverlay.querySelector('div');
+        const modalTitle = document.getElementById('modal-title');
+        const modalSubtitle = document.getElementById('modal-subtitle');
+        const syllabusContent = document.getElementById('syllabus-content');
+
+        function openModal(levelId) {
+            const data = syllabusData[levelId];
+            if (!data) return;
+
+            modalTitle.innerText = data.title;
+            modalSubtitle.innerText = data.subtitle;
+
+            syllabusContent.innerHTML = data.content.map(item => `
+                <div class="flex gap-6 p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 transition-all hover:border-brandGreen/20">
+                    <div class="w-12 h-12 shrink-0 rounded-2xl bg-brandGreen text-white flex items-center justify-center font-bold text-sm">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-1 uppercase tracking-tight">${item.title}</h4>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">${item.description}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            modalOverlay.classList.remove('hidden');
+            modalOverlay.classList.add('flex');
+            
+            // Allow browser to process layout before animating
+            setTimeout(() => {
+                modalOverlay.classList.replace('opacity-0', 'opacity-100');
+                modalContainer.classList.replace('scale-95', 'scale-100');
+            }, 10);
+
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeModal() {
+            modalOverlay.classList.replace('opacity-100', 'opacity-0');
+            modalContainer.classList.replace('scale-100', 'scale-95');
+
+            setTimeout(() => {
+                modalOverlay.classList.remove('flex');
+                modalOverlay.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }, 300);
+        }
+
+        // Close on backdrop click
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
     </script>
 </body>
 
 </html>
+

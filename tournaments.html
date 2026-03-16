@@ -21,8 +21,14 @@
             theme: {
                 extend: {
                     colors: {
-                        darkBg: '#050505',
-                        brandTeal: '#66AAA0',
+                        darkBg: '#2B2B2B',
+                        brandGreen: '#80D200',
+                        brandNeonGreen: '#00FF00',
+                        brandMint: '#B3FFB3',
+                        brandDarkGreen: '#003300',
+                        brandOrange: '#FFA500',
+                        brandGold: '#FFCC66',
+                        brandBrown: '#805300',
                     }
                 }
             }
@@ -37,12 +43,12 @@
         }
 
         .dark .card-gradient-pattern {
-            background-color: #0F172A;
+            background-color: #1a1a1a;
         }
 
         .card-gradient-pattern:hover {
             transform: translateY(-5px);
-            border-color: rgba(102, 170, 160, 0.4);
+            border-color: rgba(128, 210, 0, 0.4);
         }
 
         .card-gradient-pattern::before {
@@ -50,9 +56,9 @@
             position: absolute;
             inset: 0;
             background-image:
-                radial-gradient(at 0% 0%, rgba(102, 170, 160, 0.15) 0, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(225, 29, 72, 0.1) 0, transparent 50%),
-                url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2366AAA0' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zM1 1h2v2H1V1zm4 4h2v2H4V5zm4 4h2v2H8V9zm4 4h2v2h-2v-2zm4 4h2v2h-2v-2zm4 4h2v2h-2v-2zM11 1h2v2h-2V1zm4 4h2v2h-2V5zm4 4h2v2h-2V9zm-8 8h2v2h-2v-2zm-4-4h2v2h-2v-2zm-4-4h2v2H1V9zm12-8h2v2h-2V1zm4 4h2v2h-2V5zm-4 4h2v2h-2V9zm-4 4h2v2h-2v-2zm-4 4h2v2H1v-2zm16-16h2v2h-2V1zm-4 4h2v2h-2V5zm-4 4h2v2h-2V9zm-4 4h2v2H1v-2z'/%3E%3C/g%3E%3C/svg%3E");
+                radial-gradient(at 0% 0%, rgba(128, 210, 0, 0.15) 0, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(255, 165, 0, 0.1) 0, transparent 50%),
+                url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2380D200' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zM1 1h2v2H1V1zm4 4h2v2H4V5zm4 4h2v2H8V9zm4 4h2v2h-2v-2zm4 4h2v2h-2v-2zm4 4h2v2h-2v-2zM11 1h2v2h-2V1zm4 4h2v2h-2V5zm4 4h2v2h-2V9zm-8 8h2v2h-2v-2zm-4-4h2v2h-2v-2zm-4-4h2v2H1V9zm12-8h2v2h-2V1zm4 4h2v2h-2V5zm-4 4h2v2h-2V9zm-4 4h2v2h-2v-2zm-4 4h2v2H1v-2zm16-16h2v2h-2V1zm-4 4h2v2h-2V5zm-4 4h2v2h-2V9zm-4 4h2v2H1v-2z'/%3E%3C/g%3E%3C/svg%3E");
             opacity: 0.15;
             pointer-events: none;
             z-index: 0;
@@ -69,13 +75,13 @@
         }
 
         .date-box {
-            background: linear-gradient(135deg, rgba(102, 170, 160, 0.1), rgba(102, 170, 160, 0.05));
-            border: 1px solid rgba(102, 170, 160, 0.2);
+            background: linear-gradient(135deg, rgba(128, 210, 0, 0.1), rgba(128, 210, 0, 0.05));
+            border: 1px solid rgba(128, 210, 0, 0.2);
             backdrop-filter: blur(8px);
         }
 
         .dark .date-box {
-            background: linear-gradient(135deg, rgba(102, 170, 160, 0.2), rgba(102, 170, 160, 0.05));
+            background: linear-gradient(135deg, rgba(128, 210, 0, 0.2), rgba(128, 210, 0, 0.05));
         }
     </style>
 </head>
@@ -89,36 +95,36 @@
             <a href="index.html" class="flex items-center gap-3 group">
                 <div
                     class="bg-white p-2.5 rounded-2xl shadow-lg ring-1 ring-slate-200/50 group-hover:scale-110 transition-transform duration-300">
-                    <img src="assets/images/logo.png" alt="Ascending Pawn Logo" class="w-6 h-6 object-contain">
+                    <img src="assets/images/logo1.png" alt="Ascending Pawn Logo" class="w-6 h-6 object-contain">
                 </div>
                 <span class="text-2xl font-black tracking-tighter uppercase">Ascending<span
-                        class="text-brandTeal">Pawn</span></span>
+                        class="text-brandGreen">Pawn</span></span>
             </a>
 
             <!-- Desktop Menu -->
             <div class="hidden lg:flex items-center gap-10">
                 <div class="flex items-center gap-8">
                     <a href="club.html"
-                        class="text-[13px] font-bold hover:text-brandTeal transition-all uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300">Club</a>
+                        class="text-[13px] font-bold hover:text-brandGreen transition-all uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300">Club</a>
                     <a href="academy.html"
-                        class="text-[13px] font-bold hover:text-brandTeal transition-all uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300">Academy</a>
+                        class="text-[13px] font-bold hover:text-brandGreen transition-all uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300">Academy</a>
                     <a href="tournaments.html"
-                        class="text-[13px] font-bold text-brandTeal uppercase tracking-[0.15em]">Tournaments</a>
+                        class="text-[13px] font-bold text-brandGreen uppercase tracking-[0.15em]">Tournaments</a>
                     <a href="shop.html"
-                        class="text-[13px] font-bold hover:text-brandTeal transition-all uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300">Shop</a>
+                        class="text-[13px] font-bold hover:text-brandGreen transition-all uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300">Shop</a>
                 </div>
 
                 <div class="h-8 w-px bg-slate-200 dark:bg-slate-800 mx-2"></div>
 
                 <div class="flex items-center gap-5">
                     <button id="theme-toggle"
-                        class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brandTeal/50 transition-all text-slate-600 dark:text-slate-400">
+                        class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brandGreen/50 transition-all text-slate-600 dark:text-slate-400">
                         <i id="theme-icon" class="fas fa-sun"></i>
                     </button>
                     <a href="login.html"
-                        class="text-[13px] font-bold uppercase tracking-wider hover:text-brandTeal px-2 transition-colors">Login</a>
+                        class="text-[13px] font-bold uppercase tracking-wider hover:text-brandGreen px-2 transition-colors">Login</a>
                     <a href="register.html"
-                        class="px-7 py-3 text-[13px] font-bold rounded-2xl bg-brandTeal text-white hover:bg-brandTeal/90 hover:shadow-xl hover:shadow-brandTeal/30 transition-all uppercase tracking-widest active:scale-95 text-center">
+                        class="px-7 py-3 text-[13px] font-bold rounded-2xl bg-brandGreen text-white hover:bg-brandGreen/90 hover:shadow-xl hover:shadow-brandGreen/30 transition-all uppercase tracking-widest active:scale-95 text-center">
                         Join Us
                     </a>
                 </div>
@@ -139,10 +145,10 @@
             <div class="flex justify-between items-center mb-12">
                 <a href="index.html" class="flex items-center gap-3">
                     <div class="bg-white p-2 rounded-xl ring-1 ring-slate-200/50 shadow-sm">
-                        <img src="assets/images/logo.png" alt="Logo" class="w-5 h-5 object-contain">
+                        <img src="assets/images/logo1.png" alt="Logo" class="w-5 h-5 object-contain">
                     </div>
                     <span class="text-xl font-black uppercase tracking-tighter">Ascending<span
-                            class="text-brandTeal">Pawn</span></span>
+                            class="text-brandGreen">Pawn</span></span>
                 </a>
                 <button id="close-menu"
                     class="w-12 h-12 flex items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-900">
@@ -152,20 +158,20 @@
 
             <div class="flex flex-col gap-6">
                 <a href="club.html"
-                    class="text-2xl font-black uppercase tracking-tight hover:text-brandTeal transition-colors">Club</a>
+                    class="text-2xl font-black uppercase tracking-tight hover:text-brandGreen transition-colors">Club</a>
                 <a href="academy.html"
-                    class="text-2xl font-black uppercase tracking-tight hover:text-brandTeal transition-colors">Academy</a>
+                    class="text-2xl font-black uppercase tracking-tight hover:text-brandGreen transition-colors">Academy</a>
                 <a href="tournaments.html"
-                    class="text-2xl font-black uppercase tracking-tight text-brandTeal">Tournaments</a>
+                    class="text-2xl font-black uppercase tracking-tight text-brandGreen">Tournaments</a>
                 <a href="shop.html"
-                    class="text-2xl font-black uppercase tracking-tight hover:text-brandTeal transition-colors">Shop</a>
+                    class="text-2xl font-black uppercase tracking-tight hover:text-brandGreen transition-colors">Shop</a>
             </div>
 
             <div class="mt-auto pt-10 border-t border-slate-100 dark:border-slate-800">
                 <a href="login.html"
                     class="block w-full py-4 text-center font-bold uppercase tracking-widest text-sm mb-4">Login</a>
                 <a href="register.html"
-                    class="block w-full py-4 bg-brandTeal text-white text-center font-bold rounded-2xl uppercase tracking-widest text-sm shadow-lg shadow-brandTeal/20">Join
+                    class="block w-full py-4 bg-brandGreen text-white text-center font-bold rounded-2xl uppercase tracking-widest text-sm shadow-lg shadow-brandGreen/20">Join
                     Us</a>
             </div>
         </div>
@@ -175,8 +181,8 @@
         <div class="max-w-7xl mx-auto">
             <!-- Section 1: Featured BIG Tournament -->
             <div class="mb-20">
-                <h2 class="text-sm font-black uppercase tracking-[0.3em] text-brandTeal mb-6 flex items-center gap-4">
-                    <span class="w-12 h-[2px] bg-brandTeal"></span>
+                <h2 class="text-sm font-black uppercase tracking-[0.3em] text-brandGreen mb-6 flex items-center gap-4">
+                    <span class="w-12 h-[2px] bg-brandGreen"></span>
                     Featured Major Event
                 </h2>
 
@@ -184,14 +190,14 @@
                     class="relative group p-8 md:p-12 rounded-[50px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden shadow-2xl transition-all duration-500">
                     <!-- Dynamic Background -->
                     <div class="absolute inset-0 opacity-20 dark:opacity-40 transition-opacity duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-br from-brandTeal via-brandTeal/20 to-brandTeal/40">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brandGreen via-brandGreen/20 to-brandGreen/40">
                         </div>
                         <!-- Large Chess Piece Silhouette -->
                         <div class="absolute -right-20 -bottom-20 w-[400px] h-[400px] opacity-10 dark:opacity-20 pointer-events-none transform rotate-12">
-                            <i class="fas fa-chess-knight text-[400px] text-brandTeal"></i>
+                            <i class="fas fa-chess-knight text-[400px] text-brandGreen"></i>
                         </div>
                         <div
-                            class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(102,170,160,0.2)_1px,transparent_1px)] bg-[size:30px_30px]">
+                            class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(128,210,0,0.2)_1px,transparent_1px)] bg-[size:30px_30px]">
                         </div>
                     </div>
 
@@ -199,7 +205,7 @@
                         <div>
                             <div class="flex items-center gap-3 mb-6">
                                 <span
-                                    class="px-4 py-1.5 rounded-full bg-brandTeal text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-brandTeal/30">Ultimate
+                                    class="px-4 py-1.5 rounded-full bg-brandGreen text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-brandGreen/30">Ultimate
                                     Edition</span>
                                 <span
                                     class="px-4 py-1.5 rounded-full bg-slate-100 dark:bg-white/10 backdrop-blur-md text-slate-600 dark:text-white/80 text-[10px] font-black uppercase tracking-widest border border-slate-200 dark:border-white/10">Dec
@@ -208,7 +214,7 @@
 
                             <h1 class="text-5xl md:text-7xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
                                 The <span
-                                    class="text-transparent bg-clip-text bg-gradient-to-r from-brandTeal to-slate-400 dark:to-white">Grand
+                                    class="text-transparent bg-clip-text bg-gradient-to-r from-brandGreen to-brandOrange">Grand
                                     Chess</span> Masters 2025
                             </h1>
 
@@ -220,8 +226,8 @@
                             <div class="flex flex-wrap gap-10 mb-10">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-12 h-12 rounded-2xl bg-brandTeal/10 dark:bg-white/5 flex items-center justify-center border border-brandTeal/20 dark:border-white/10">
-                                        <i class="fas fa-trophy text-brandTeal text-xl"></i>
+                                        class="w-12 h-12 rounded-2xl bg-brandGreen/10 dark:bg-white/5 flex items-center justify-center border border-brandGreen/20 dark:border-white/10">
+                                        <i class="fas fa-trophy text-brandGreen text-xl"></i>
                                     </div>
                                     <div>
                                         <p class="text-[10px] font-black uppercase text-slate-500 tracking-wider">Prize
@@ -231,8 +237,8 @@
                                 </div>
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-12 h-12 rounded-2xl bg-brandTeal/10 dark:bg-white/5 flex items-center justify-center border border-brandTeal/20 dark:border-white/10">
-                                        <i class="fas fa-location-dot text-brandTeal text-xl"></i>
+                                        class="w-12 h-12 rounded-2xl bg-brandGreen/10 dark:bg-white/5 flex items-center justify-center border border-brandGreen/20 dark:border-white/10">
+                                        <i class="fas fa-location-dot text-brandGreen text-xl"></i>
                                     </div>
                                     <div>
                                         <p class="text-[10px] font-black uppercase text-slate-500 tracking-wider">Venue
@@ -265,35 +271,35 @@
                 <div
                     class="p-8 md:p-10 rounded-[40px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-12 shadow-sm transition-all group relative overflow-hidden card-gradient-pattern">
                     <div
-                        class="relative z-10 w-24 h-24 md:w-28 md:h-28 rounded-3xl flex flex-col items-center justify-center text-brandTeal date-box shadow-inner">
+                        class="relative z-10 w-24 h-24 md:w-28 md:h-28 rounded-3xl flex flex-col items-center justify-center text-brandGreen date-box shadow-inner">
                         <span class="text-3xl font-black leading-none">14</span>
                         <span class="text-[12px] font-black uppercase tracking-widest mt-1">Jun</span>
                     </div>
                     <div class="relative z-10">
                         <div class="flex flex-wrap items-center gap-3 mb-4">
                             <span
-                                class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-brandTeal text-white shadow-lg shadow-brandTeal/30">Upcoming</span>
+                                class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-brandGreen text-white shadow-lg shadow-brandGreen/30">Upcoming</span>
                             <span
                                 class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700">15th
                                 Edition</span>
                         </div>
                         <h3
-                            class="text-2xl md:text-3xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors tracking-tight">
+                            class="text-2xl md:text-3xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors tracking-tight">
                             The Nanyuki Checkmate Ramble</h3>
                         <div class="flex flex-wrap gap-6">
                             <p class="text-slate-500 text-sm font-semibold flex items-center">
-                                <i class="fas fa-map-marker-alt mr-2 text-brandTeal"></i> 
+                                <i class="fas fa-map-marker-alt mr-2 text-brandGreen"></i> 
                                 St. Christopher's Schools Nanyuki
                             </p>
                             <p class="text-slate-500 text-sm font-semibold flex items-center">
-                                <i class="fas fa-clock mr-2 text-brandTeal"></i> 
+                                <i class="fas fa-clock mr-2 text-brandGreen"></i> 
                                 08:00 AM
                             </p>
                         </div>
                     </div>
                     <div class="relative z-10 text-right md:min-w-[160px]">
                         <button
-                            class="w-full md:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-xl hover:shadow-brandTeal/20 hover:scale-[1.02] active:scale-95 transition-all">
+                            class="w-full md:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-xl hover:shadow-brandGreen/20 hover:scale-[1.02] active:scale-95 transition-all">
                             Register
                         </button>
                     </div>
@@ -303,35 +309,35 @@
                 <div
                     class="p-8 md:p-10 rounded-[40px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-12 shadow-sm transition-all group relative overflow-hidden card-gradient-pattern">
                     <div
-                        class="relative z-10 w-24 h-24 md:w-28 md:h-28 rounded-3xl flex flex-col items-center justify-center text-brandTeal date-box shadow-inner">
+                        class="relative z-10 w-24 h-24 md:w-28 md:h-28 rounded-3xl flex flex-col items-center justify-center text-brandGreen date-box shadow-inner">
                         <span class="text-3xl font-black leading-none">12</span>
                         <span class="text-[12px] font-black uppercase tracking-widest mt-1">Jul</span>
                     </div>
                     <div class="relative z-10">
                         <div class="flex flex-wrap items-center gap-3 mb-4">
                             <span
-                                class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-brandTeal text-white shadow-lg shadow-brandTeal/30">Upcoming</span>
+                                class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-brandGreen text-white shadow-lg shadow-brandGreen/30">Upcoming</span>
                             <span
                                 class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700">16th
                                 Edition</span>
                         </div>
                         <h3
-                            class="text-2xl md:text-3xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors tracking-tight">
+                            class="text-2xl md:text-3xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors tracking-tight">
                             The Grandmaster Chess Duel</h3>
                         <div class="flex flex-wrap gap-6">
                             <p class="text-slate-500 text-sm font-semibold flex items-center">
-                                <i class="fas fa-map-marker-alt mr-2 text-brandTeal"></i> 
+                                <i class="fas fa-map-marker-alt mr-2 text-brandGreen"></i> 
                                 Brickwoods Schools Nanyuki
                             </p>
                             <p class="text-slate-500 text-sm font-semibold flex items-center">
-                                <i class="fas fa-clock mr-2 text-brandTeal"></i> 
+                                <i class="fas fa-clock mr-2 text-brandGreen"></i> 
                                 08:30 AM
                             </p>
                         </div>
                     </div>
                     <div class="relative z-10 text-right md:min-w-[160px]">
                         <button
-                            class="w-full md:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-xl hover:shadow-brandTeal/20 hover:scale-[1.02] active:scale-95 transition-all">
+                            class="w-full md:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-xl hover:shadow-brandGreen/20 hover:scale-[1.02] active:scale-95 transition-all">
                             Register
                         </button>
                     </div>
@@ -342,35 +348,35 @@
                 <div
                     class="p-8 md:p-10 rounded-[40px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-12 shadow-sm transition-all group relative overflow-hidden card-gradient-pattern">
                     <div
-                        class="relative z-10 w-24 h-24 md:w-28 md:h-28 rounded-3xl flex flex-col items-center justify-center text-brandTeal date-box shadow-inner">
+                        class="relative z-10 w-24 h-24 md:w-28 md:h-28 rounded-3xl flex flex-col items-center justify-center text-brandGreen date-box shadow-inner">
                         <span class="text-3xl font-black leading-none">27</span>
                         <span class="text-[12px] font-black uppercase tracking-widest mt-1">Sep</span>
                     </div>
                     <div class="relative z-10">
                         <div class="flex flex-wrap items-center gap-3 mb-4">
                             <span
-                                class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-brandTeal text-white shadow-lg shadow-brandTeal/30">Upcoming</span>
+                                class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-brandGreen text-white shadow-lg shadow-brandGreen/30">Upcoming</span>
                             <span
                                 class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700">17th
                                 Edition</span>
                         </div>
                         <h3
-                            class="text-2xl md:text-3xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors tracking-tight">
+                            class="text-2xl md:text-3xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors tracking-tight">
                             The Laikipia Checkmate Clash</h3>
                         <div class="flex flex-wrap gap-6">
                             <p class="text-slate-500 text-sm font-semibold flex items-center">
-                                <i class="fas fa-map-marker-alt mr-2 text-brandTeal"></i> 
+                                <i class="fas fa-map-marker-alt mr-2 text-brandGreen"></i> 
                                 Three Rivers Academy
                             </p>
                             <p class="text-slate-500 text-sm font-semibold flex items-center">
-                                <i class="fas fa-clock mr-2 text-brandTeal"></i> 
+                                <i class="fas fa-clock mr-2 text-brandGreen"></i> 
                                 09:00 AM
                             </p>
                         </div>
                     </div>
                     <div class="relative z-10 text-right md:min-w-[160px]">
                         <button
-                            class="w-full md:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-xl hover:shadow-brandTeal/20 hover:scale-[1.02] active:scale-95 transition-all">
+                            class="w-full md:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-xl hover:shadow-brandGreen/20 hover:scale-[1.02] active:scale-95 transition-all">
                             Register
                         </button>
                     </div>
@@ -380,35 +386,35 @@
                 <div
                     class="p-8 md:p-10 rounded-[40px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-12 shadow-sm transition-all group relative overflow-hidden card-gradient-pattern">
                     <div
-                        class="relative z-10 w-24 h-24 md:w-28 md:h-28 rounded-3xl flex flex-col items-center justify-center text-brandTeal date-box shadow-inner">
+                        class="relative z-10 w-24 h-24 md:w-28 md:h-28 rounded-3xl flex flex-col items-center justify-center text-brandGreen date-box shadow-inner">
                         <span class="text-3xl font-black leading-none">31</span>
                         <span class="text-[12px] font-black uppercase tracking-widest mt-1">Jan</span>
                     </div>
                     <div class="relative z-10">
                         <div class="flex flex-wrap items-center gap-3 mb-4">
                             <span
-                                class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-brandTeal text-white shadow-lg shadow-brandTeal/30">Upcoming</span>
+                                class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-brandGreen text-white shadow-lg shadow-brandGreen/30">Upcoming</span>
                             <span
                                 class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700">18th
                                 Edition</span>
                         </div>
                         <h3
-                            class="text-2xl md:text-3xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors tracking-tight">
+                            class="text-2xl md:text-3xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors tracking-tight">
                             The Laikipia Chess Gambit</h3>
                         <div class="flex flex-wrap gap-6">
                             <p class="text-slate-500 text-sm font-semibold flex items-center">
-                                <i class="fas fa-map-marker-alt mr-2 text-brandTeal"></i> 
+                                <i class="fas fa-map-marker-alt mr-2 text-brandGreen"></i> 
                                 St. Christopher's Schools Nanyuki
                             </p>
                             <p class="text-slate-500 text-sm font-semibold flex items-center">
-                                <i class="fas fa-clock mr-2 text-brandTeal"></i> 
+                                <i class="fas fa-clock mr-2 text-brandGreen"></i> 
                                 08:00 AM
                             </p>
                         </div>
                     </div>
                     <div class="relative z-10 text-right md:min-w-[160px]">
                         <button
-                            class="w-full md:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-xl hover:shadow-brandTeal/20 hover:scale-[1.02] active:scale-95 transition-all">
+                            class="w-full md:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-xl hover:shadow-brandGreen/20 hover:scale-[1.02] active:scale-95 transition-all">
                             Register
                         </button>
                     </div>
@@ -418,35 +424,35 @@
                 <div
                     class="p-8 md:p-10 rounded-[40px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-12 shadow-sm transition-all group relative overflow-hidden card-gradient-pattern">
                     <div
-                        class="relative z-10 w-24 h-24 md:w-28 md:h-28 rounded-3xl flex flex-col items-center justify-center text-brandTeal date-box shadow-inner">
+                        class="relative z-10 w-24 h-24 md:w-28 md:h-28 rounded-3xl flex flex-col items-center justify-center text-brandGreen date-box shadow-inner">
                         <span class="text-3xl font-black leading-none">14</span>
                         <span class="text-[12px] font-black uppercase tracking-widest mt-1">Feb</span>
                     </div>
                     <div class="relative z-10">
                         <div class="flex flex-wrap items-center gap-3 mb-4">
                             <span
-                                class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-brandTeal text-white shadow-lg shadow-brandTeal/30">Upcoming</span>
+                                class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-brandGreen text-white shadow-lg shadow-brandGreen/30">Upcoming</span>
                             <span
                                 class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700">19th
                                 Edition</span>
                         </div>
                         <h3
-                            class="text-2xl md:text-3xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors tracking-tight">
+                            class="text-2xl md:text-3xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors tracking-tight">
                             The Grandmaster Rumble in Nyahururu</h3>
                         <div class="flex flex-wrap gap-6">
                             <p class="text-slate-500 text-sm font-semibold flex items-center">
-                                <i class="fas fa-map-marker-alt mr-2 text-brandTeal"></i> 
+                                <i class="fas fa-map-marker-alt mr-2 text-brandGreen"></i> 
                                 Graceland School Nyahururu
                             </p>
                             <p class="text-slate-500 text-sm font-semibold flex items-center">
-                                <i class="fas fa-clock mr-2 text-brandTeal"></i> 
+                                <i class="fas fa-clock mr-2 text-brandGreen"></i> 
                                 09:30 AM
                             </p>
                         </div>
                     </div>
                     <div class="relative z-10 text-right md:min-w-[160px]">
                         <button
-                            class="w-full md:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-xl hover:shadow-brandTeal/20 hover:scale-[1.02] active:scale-95 transition-all">
+                            class="w-full md:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-xl hover:shadow-brandGreen/20 hover:scale-[1.02] active:scale-95 transition-all">
                             Register
                         </button>
                     </div>
@@ -456,35 +462,35 @@
                 <div
                     class="p-8 md:p-10 rounded-[40px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-12 shadow-sm transition-all group relative overflow-hidden card-gradient-pattern">
                     <div
-                        class="relative z-10 w-24 h-24 md:w-28 md:h-28 rounded-3xl flex flex-col items-center justify-center text-brandTeal date-box shadow-inner">
+                        class="relative z-10 w-24 h-24 md:w-28 md:h-28 rounded-3xl flex flex-col items-center justify-center text-brandGreen date-box shadow-inner">
                         <span class="text-3xl font-black leading-none">21</span>
                         <span class="text-[12px] font-black uppercase tracking-widest mt-1">Feb</span>
                     </div>
                     <div class="relative z-10">
                         <div class="flex flex-wrap items-center gap-3 mb-4">
                             <span
-                                class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-brandTeal text-white shadow-lg shadow-brandTeal/30">Upcoming</span>
+                                class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-brandGreen text-white shadow-lg shadow-brandGreen/30">Upcoming</span>
                             <span
                                 class="text-[10px] font-bold uppercase px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700">20th
                                 Edition</span>
                         </div>
                         <h3
-                            class="text-2xl md:text-3xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors tracking-tight">
+                            class="text-2xl md:text-3xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors tracking-tight">
                             Mathenge TTI Chess Showdown</h3>
                         <div class="flex flex-wrap gap-6">
                             <p class="text-slate-500 text-sm font-semibold flex items-center">
-                                <i class="fas fa-map-marker-alt mr-2 text-brandTeal"></i> 
+                                <i class="fas fa-map-marker-alt mr-2 text-brandGreen"></i> 
                                 Mathenge Technical Training Institute
                             </p>
                             <p class="text-slate-500 text-sm font-semibold flex items-center">
-                                <i class="fas fa-clock mr-2 text-brandTeal"></i> 
+                                <i class="fas fa-clock mr-2 text-brandGreen"></i> 
                                 10:00 AM
                             </p>
                         </div>
                     </div>
                     <div class="relative z-10 text-right md:min-w-[160px]">
                         <button
-                            class="w-full md:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-xl hover:shadow-brandTeal/20 hover:scale-[1.02] active:scale-95 transition-all">
+                            class="w-full md:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-xl hover:shadow-brandGreen/20 hover:scale-[1.02] active:scale-95 transition-all">
                             Register
                         </button>
                     </div>
@@ -516,10 +522,10 @@
                                     class="fas fa-users mr-2"></i>10 Participants</span>
                         </div>
                         <h3
-                            class="text-2xl md:text-3xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors tracking-tight">
+                            class="text-2xl md:text-3xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors tracking-tight">
                             Ascending Pawn Chess Edition 1</h3>
                         <p class="text-slate-500 text-sm font-semibold flex items-center">
-                            <i class="fas fa-map-marker-alt mr-2 text-brandTeal/60"></i> Karatina NCBA Building
+                            <i class="fas fa-map-marker-alt mr-2 text-brandGreen/60"></i> Karatina NCBA Building
                         </p>
                     </div>
                     <div class="relative z-10 text-right md:min-w-[160px] hidden md:block">
@@ -546,10 +552,10 @@
                                     class="fas fa-users mr-2"></i>75 Participants</span>
                         </div>
                         <h3
-                            class="text-2xl md:text-3xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors tracking-tight">
+                            class="text-2xl md:text-3xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors tracking-tight">
                             KNYCC Laikipia Regional Qualifiers</h3>
                         <p class="text-slate-500 text-sm font-semibold flex items-center">
-                            <i class="fas fa-map-marker-alt mr-2 text-brandTeal/60"></i> St. Christopher's Schools Nanyuki
+                            <i class="fas fa-map-marker-alt mr-2 text-brandGreen/60"></i> St. Christopher's Schools Nanyuki
                         </p>
                     </div>
                     <div class="relative z-10 text-right md:min-w-[160px] hidden md:block">
@@ -561,12 +567,12 @@
                 </div>
 
                         <div
-                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandTeal/10 transition-all group relative overflow-hidden">
+                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandGreen/10 transition-all group relative overflow-hidden">
                             <div
-                                class="absolute inset-0 bg-gradient-to-br from-brandTeal/5 via-transparent to-brandRose/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                class="absolute inset-0 bg-gradient-to-br from-brandGreen/5 via-transparent to-brandOrange/5 opacity-0 group-hover:opacity-100 transition-opacity">
                             </div>
                             <div
-                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandTeal/20 to-brandTeal/5 dark:from-brandTeal/30 dark:to-brandTeal/10 rounded-3xl flex flex-col items-center justify-center text-brandTeal border border-brandTeal/20 shadow-inner">
+                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandGreen/20 to-brandGreen/5 dark:from-brandGreen/30 dark:to-brandGreen/10 rounded-3xl flex flex-col items-center justify-center text-brandGreen border border-brandGreen/20 shadow-inner">
                                 <span class="text-2xl font-black leading-none">29</span>
                                 <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Jul</span>
                             </div>
@@ -579,10 +585,10 @@
                                             class="fas fa-users mr-1"></i> 67 Participants</span>
                                 </div>
                                 <h3
-                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors">
+                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors">
                                     Laikipia Regional Qualifiers</h3>
                                 <p class="text-slate-500 text-sm font-medium flex items-center"><i
-                                        class="fas fa-map-marker-alt mr-2 text-brandTeal/60"></i> St.
+                                        class="fas fa-map-marker-alt mr-2 text-brandGreen/60"></i> St.
                                     Christopher's Schools
                                     Nanyuki</p>
                             </div>
@@ -593,12 +599,12 @@
                         </div>
 
                         <div
-                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandTeal/10 transition-all group relative overflow-hidden">
+                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandGreen/10 transition-all group relative overflow-hidden">
                             <div
-                                class="absolute inset-0 bg-gradient-to-br from-brandTeal/5 via-transparent to-brandRose/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                class="absolute inset-0 bg-gradient-to-br from-brandGreen/5 via-transparent to-brandOrange/5 opacity-0 group-hover:opacity-100 transition-opacity">
                             </div>
                             <div
-                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandTeal/20 to-brandTeal/5 dark:from-brandTeal/30 dark:to-brandTeal/10 rounded-3xl flex flex-col items-center justify-center text-brandTeal border border-brandTeal/20 shadow-inner">
+                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandGreen/20 to-brandGreen/5 dark:from-brandGreen/30 dark:to-brandGreen/10 rounded-3xl flex flex-col items-center justify-center text-brandGreen border border-brandGreen/20 shadow-inner">
                                 <span class="text-2xl font-black leading-none">21</span>
                                 <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Oct</span>
                             </div>
@@ -611,10 +617,10 @@
                                             class="fas fa-users mr-1"></i> 42 Participants</span>
                                 </div>
                                 <h3
-                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors">
+                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors">
                                     Mathenge TTI Chess Tournament</h3>
                                 <p class="text-slate-500 text-sm font-medium flex items-center"><i
-                                        class="fas fa-map-marker-alt mr-2 text-brandTeal/60"></i> Mathenge
+                                        class="fas fa-map-marker-alt mr-2 text-brandGreen/60"></i> Mathenge
                                     Technical
                                     Training
                                     Institute</p>
@@ -626,12 +632,12 @@
                         </div>
 
                         <div
-                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandTeal/10 transition-all group relative overflow-hidden">
+                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandGreen/10 transition-all group relative overflow-hidden">
                             <div
-                                class="absolute inset-0 bg-gradient-to-br from-brandTeal/5 via-transparent to-brandRose/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                class="absolute inset-0 bg-gradient-to-br from-brandGreen/5 via-transparent to-brandOrange/5 opacity-0 group-hover:opacity-100 transition-opacity">
                             </div>
                             <div
-                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandTeal/20 to-brandTeal/5 dark:from-brandTeal/30 dark:to-brandTeal/10 rounded-3xl flex flex-col items-center justify-center text-brandTeal border border-brandTeal/20 shadow-inner">
+                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandGreen/20 to-brandGreen/5 dark:from-brandGreen/30 dark:to-brandGreen/10 rounded-3xl flex flex-col items-center justify-center text-brandGreen border border-brandGreen/20 shadow-inner">
                                 <span class="text-2xl font-black leading-none">30</span>
                                 <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Sep</span>
                             </div>
@@ -644,10 +650,10 @@
                                             class="fas fa-users mr-1"></i> 56 Participants</span>
                                 </div>
                                 <h3
-                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors">
+                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors">
                                     Lewa Wildlife Chess Experience</h3>
                                 <p class="text-slate-500 text-sm font-medium flex items-center"><i
-                                        class="fas fa-map-marker-alt mr-2 text-brandTeal/60"></i> Lewa
+                                        class="fas fa-map-marker-alt mr-2 text-brandGreen/60"></i> Lewa
                                     Wildlife Conservancy
                                     -
                                     Matunda Gate</p>
@@ -659,12 +665,12 @@
                         </div>
 
                         <div
-                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandTeal/10 transition-all group relative overflow-hidden">
+                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandGreen/10 transition-all group relative overflow-hidden">
                             <div
-                                class="absolute inset-0 bg-gradient-to-br from-brandTeal/5 via-transparent to-brandRose/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                class="absolute inset-0 bg-gradient-to-br from-brandGreen/5 via-transparent to-brandOrange/5 opacity-0 group-hover:opacity-100 transition-opacity">
                             </div>
                             <div
-                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandTeal/20 to-brandTeal/5 dark:from-brandTeal/30 dark:to-brandTeal/10 rounded-3xl flex flex-col items-center justify-center text-brandTeal border border-brandTeal/20 shadow-inner">
+                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandGreen/20 to-brandGreen/5 dark:from-brandGreen/30 dark:to-brandGreen/10 rounded-3xl flex flex-col items-center justify-center text-brandGreen border border-brandGreen/20 shadow-inner">
                                 <span class="text-2xl font-black leading-none">27</span>
                                 <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Jan</span>
                             </div>
@@ -677,10 +683,10 @@
                                             class="fas fa-users mr-1"></i> 51 Participants</span>
                                 </div>
                                 <h3
-                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors">
+                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors">
                                     Kenyatta Open Chess Tournament 2024</h3>
                                 <p class="text-slate-500 text-sm font-medium flex items-center"><i
-                                        class="fas fa-map-marker-alt mr-2 text-brandTeal/60"></i> Kenyatta
+                                        class="fas fa-map-marker-alt mr-2 text-brandGreen/60"></i> Kenyatta
                                     High School
                                     Mahiga
                                 </p>
@@ -692,12 +698,12 @@
                         </div>
 
                         <div
-                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandTeal/10 transition-all group relative overflow-hidden">
+                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandGreen/10 transition-all group relative overflow-hidden">
                             <div
-                                class="absolute inset-0 bg-gradient-to-br from-brandTeal/5 via-transparent to-brandRose/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                class="absolute inset-0 bg-gradient-to-br from-brandGreen/5 via-transparent to-brandOrange/5 opacity-0 group-hover:opacity-100 transition-opacity">
                             </div>
                             <div
-                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandTeal/20 to-brandTeal/5 dark:from-brandTeal/30 dark:to-brandTeal/10 rounded-3xl flex flex-col items-center justify-center text-brandTeal border border-brandTeal/20 shadow-inner">
+                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandGreen/20 to-brandGreen/5 dark:from-brandGreen/30 dark:to-brandGreen/10 rounded-3xl flex flex-col items-center justify-center text-brandGreen border border-brandGreen/20 shadow-inner">
                                 <span class="text-2xl font-black leading-none">16</span>
                                 <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Mar</span>
                             </div>
@@ -710,10 +716,10 @@
                                             class="fas fa-users mr-1"></i> 117 Participants</span>
                                 </div>
                                 <h3
-                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors">
+                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors">
                                     KNYCCC Laikipia Regional Qualifiers 2024</h3>
                                 <p class="text-slate-500 text-sm font-medium flex items-center"><i
-                                        class="fas fa-map-marker-alt mr-2 text-brandTeal/60"></i> Mary
+                                        class="fas fa-map-marker-alt mr-2 text-brandGreen/60"></i> Mary
                                     Immaculate Primary
                                     School
                                     - Nanyuki</p>
@@ -725,12 +731,12 @@
                         </div>
 
                         <div
-                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandTeal/10 transition-all group relative overflow-hidden">
+                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandGreen/10 transition-all group relative overflow-hidden">
                             <div
-                                class="absolute inset-0 bg-gradient-to-br from-brandTeal/5 via-transparent to-brandRose/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                class="absolute inset-0 bg-gradient-to-br from-brandGreen/5 via-transparent to-brandOrange/5 opacity-0 group-hover:opacity-100 transition-opacity">
                             </div>
                             <div
-                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandTeal/20 to-brandTeal/5 dark:from-brandTeal/30 dark:to-brandTeal/10 rounded-3xl flex flex-col items-center justify-center text-brandTeal border border-brandTeal/20 shadow-inner">
+                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandGreen/20 to-brandGreen/5 dark:from-brandGreen/30 dark:to-brandGreen/10 rounded-3xl flex flex-col items-center justify-center text-brandGreen border border-brandGreen/20 shadow-inner">
                                 <span class="text-2xl font-black leading-none">15</span>
                                 <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Jun</span>
                             </div>
@@ -743,10 +749,10 @@
                                             class="fas fa-users mr-1"></i> 40 Participants</span>
                                 </div>
                                 <h3
-                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors">
+                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors">
                                     Laikipia Junior Chess 2024</h3>
                                 <p class="text-slate-500 text-sm font-medium flex items-center"><i
-                                        class="fas fa-map-marker-alt mr-2 text-brandTeal/60"></i> St.
+                                        class="fas fa-map-marker-alt mr-2 text-brandGreen/60"></i> St.
                                     Christopher's Schools
                                     Nanyuki</p>
                             </div>
@@ -757,12 +763,12 @@
                         </div>
 
                         <div
-                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandTeal/10 transition-all group relative overflow-hidden">
+                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandGreen/10 transition-all group relative overflow-hidden">
                             <div
-                                class="absolute inset-0 bg-gradient-to-br from-brandTeal/5 via-transparent to-brandRose/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                class="absolute inset-0 bg-gradient-to-br from-brandGreen/5 via-transparent to-brandOrange/5 opacity-0 group-hover:opacity-100 transition-opacity">
                             </div>
                             <div
-                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandTeal/20 to-brandTeal/5 dark:from-brandTeal/30 dark:to-brandTeal/10 rounded-3xl flex flex-col items-center justify-center text-brandTeal border border-brandTeal/20 shadow-inner">
+                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandGreen/20 to-brandGreen/5 dark:from-brandGreen/30 dark:to-brandGreen/10 rounded-3xl flex flex-col items-center justify-center text-brandGreen border border-brandGreen/20 shadow-inner">
                                 <span class="text-2xl font-black leading-none">29</span>
                                 <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Jun</span>
                             </div>
@@ -775,10 +781,10 @@
                                             class="fas fa-users mr-1"></i> 59 Participants</span>
                                 </div>
                                 <h3
-                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors">
+                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors">
                                     Mathenge Technical Chess Tournament 2024</h3>
                                 <p class="text-slate-500 text-sm font-medium flex items-center"><i
-                                        class="fas fa-map-marker-alt mr-2 text-brandTeal/60"></i> Mathenge
+                                        class="fas fa-map-marker-alt mr-2 text-brandGreen/60"></i> Mathenge
                                     Technical
                                     Training
                                     Institute</p>
@@ -790,12 +796,12 @@
                         </div>
 
                         <div
-                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandTeal/10 transition-all group relative overflow-hidden">
+                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandGreen/10 transition-all group relative overflow-hidden">
                             <div
-                                class="absolute inset-0 bg-gradient-to-br from-brandTeal/5 via-transparent to-brandRose/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                class="absolute inset-0 bg-gradient-to-br from-brandGreen/5 via-transparent to-brandOrange/5 opacity-0 group-hover:opacity-100 transition-opacity">
                             </div>
                             <div
-                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandTeal/20 to-brandTeal/5 dark:from-brandTeal/30 dark:to-brandTeal/10 rounded-3xl flex flex-col items-center justify-center text-brandTeal border border-brandTeal/20 shadow-inner">
+                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandGreen/20 to-brandGreen/5 dark:from-brandGreen/30 dark:to-brandGreen/10 rounded-3xl flex flex-col items-center justify-center text-brandGreen border border-brandGreen/20 shadow-inner">
                                 <span class="text-2xl font-black leading-none">27</span>
                                 <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Jul</span>
                             </div>
@@ -808,10 +814,10 @@
                                             class="fas fa-users mr-1"></i> 136 Participants</span>
                                 </div>
                                 <h3
-                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors">
+                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors">
                                     Laikipia Junior Chess Tournament 2024</h3>
                                 <p class="text-slate-500 text-sm font-medium flex items-center"><i
-                                        class="fas fa-map-marker-alt mr-2 text-brandTeal/60"></i> Grain of
+                                        class="fas fa-map-marker-alt mr-2 text-brandGreen/60"></i> Grain of
                                     Rice Academy</p>
                             </div>
                             <div class="relative z-10 text-right md:min-w-[140px] hidden md:block">
@@ -821,12 +827,12 @@
                         </div>
 
                         <div
-                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandTeal/10 transition-all group relative overflow-hidden">
+                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandGreen/10 transition-all group relative overflow-hidden">
                             <div
-                                class="absolute inset-0 bg-gradient-to-br from-brandTeal/5 via-transparent to-brandRose/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                class="absolute inset-0 bg-gradient-to-br from-brandGreen/5 via-transparent to-brandOrange/5 opacity-0 group-hover:opacity-100 transition-opacity">
                             </div>
                             <div
-                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandTeal/20 to-brandTeal/5 dark:from-brandTeal/30 dark:to-brandTeal/10 rounded-3xl flex flex-col items-center justify-center text-brandTeal border border-brandTeal/20 shadow-inner">
+                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandGreen/20 to-brandGreen/5 dark:from-brandGreen/30 dark:to-brandGreen/10 rounded-3xl flex flex-col items-center justify-center text-brandGreen border border-brandGreen/20 shadow-inner">
                                 <span class="text-2xl font-black leading-none">19</span>
                                 <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Oct</span>
                             </div>
@@ -839,10 +845,10 @@
                                             class="fas fa-users mr-1"></i> 77 Participants</span>
                                 </div>
                                 <h3
-                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors">
+                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors">
                                     Laikipia Junior Chess Tournament</h3>
                                 <p class="text-slate-500 text-sm font-medium flex items-center"><i
-                                        class="fas fa-map-marker-alt mr-2 text-brandTeal/60"></i> Three
+                                        class="fas fa-map-marker-alt mr-2 text-brandGreen/60"></i> Three
                                     Rivers Academy</p>
                             </div>
                             <div class="relative z-10 text-right md:min-w-[140px] hidden md:block">
@@ -852,12 +858,12 @@
                         </div>
 
                         <div
-                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandTeal/10 transition-all group relative overflow-hidden">
+                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandGreen/10 transition-all group relative overflow-hidden">
                             <div
-                                class="absolute inset-0 bg-gradient-to-br from-brandTeal/5 via-transparent to-brandRose/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                class="absolute inset-0 bg-gradient-to-br from-brandGreen/5 via-transparent to-brandOrange/5 opacity-0 group-hover:opacity-100 transition-opacity">
                             </div>
                             <div
-                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandTeal/20 to-brandTeal/5 dark:from-brandTeal/30 dark:to-brandTeal/10 rounded-3xl flex flex-col items-center justify-center text-brandTeal border border-brandTeal/20 shadow-inner">
+                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandGreen/20 to-brandGreen/5 dark:from-brandGreen/30 dark:to-brandGreen/10 rounded-3xl flex flex-col items-center justify-center text-brandGreen border border-brandGreen/20 shadow-inner">
                                 <span class="text-2xl font-black leading-none">25</span>
                                 <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Jan</span>
                             </div>
@@ -870,10 +876,10 @@
                                             class="fas fa-users mr-1"></i> 46 Participants</span>
                                 </div>
                                 <h3
-                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors">
+                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors">
                                     Kenyatta Mahiga Open Tournament</h3>
                                 <p class="text-slate-500 text-sm font-medium flex items-center"><i
-                                        class="fas fa-map-marker-alt mr-2 text-brandTeal/60"></i> Kenyatta
+                                        class="fas fa-map-marker-alt mr-2 text-brandGreen/60"></i> Kenyatta
                                     High School
                                     Mahiga
                                 </p>
@@ -885,12 +891,12 @@
                         </div>
 
                         <div
-                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandTeal/10 transition-all group relative overflow-hidden">
+                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandGreen/10 transition-all group relative overflow-hidden">
                             <div
-                                class="absolute inset-0 bg-gradient-to-br from-brandTeal/5 via-transparent to-brandRose/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                class="absolute inset-0 bg-gradient-to-br from-brandGreen/5 via-transparent to-brandOrange/5 opacity-0 group-hover:opacity-100 transition-opacity">
                             </div>
                             <div
-                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandTeal/20 to-brandTeal/5 dark:from-brandTeal/30 dark:to-brandTeal/10 rounded-3xl flex flex-col items-center justify-center text-brandTeal border border-brandTeal/20 shadow-inner">
+                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandGreen/20 to-brandGreen/5 dark:from-brandGreen/30 dark:to-brandGreen/10 rounded-3xl flex flex-col items-center justify-center text-brandGreen border border-brandGreen/20 shadow-inner">
                                 <span class="text-2xl font-black leading-none">22</span>
                                 <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Feb</span>
                             </div>
@@ -903,10 +909,10 @@
                                             class="fas fa-users mr-1"></i> 39 Participants</span>
                                 </div>
                                 <h3
-                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors">
+                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors">
                                     Ol Pejeta Conservancy Chess Tournament</h3>
                                 <p class="text-slate-500 text-sm font-medium flex items-center"><i
-                                        class="fas fa-map-marker-alt mr-2 text-brandTeal/60"></i> Ol Pejeta
+                                        class="fas fa-map-marker-alt mr-2 text-brandGreen/60"></i> Ol Pejeta
                                     Conservancy -
                                     Rongai
                                     Gate</p>
@@ -918,12 +924,12 @@
                         </div>
 
                         <div
-                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandTeal/10 transition-all group relative overflow-hidden">
+                            class="p-6 md:p-8 rounded-[40px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800/80 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 shadow-sm hover:shadow-2xl hover:shadow-brandGreen/10 transition-all group relative overflow-hidden">
                             <div
-                                class="absolute inset-0 bg-gradient-to-br from-brandTeal/5 via-transparent to-brandRose/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                class="absolute inset-0 bg-gradient-to-br from-brandGreen/5 via-transparent to-brandOrange/5 opacity-0 group-hover:opacity-100 transition-opacity">
                             </div>
                             <div
-                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandTeal/20 to-brandTeal/5 dark:from-brandTeal/30 dark:to-brandTeal/10 rounded-3xl flex flex-col items-center justify-center text-brandTeal border border-brandTeal/20 shadow-inner">
+                                class="relative z-10 w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-brandGreen/20 to-brandGreen/5 dark:from-brandGreen/30 dark:to-brandGreen/10 rounded-3xl flex flex-col items-center justify-center text-brandGreen border border-brandGreen/20 shadow-inner">
                                 <span class="text-2xl font-black leading-none">08</span>
                                 <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Mar</span>
                             </div>
@@ -936,10 +942,10 @@
                                             class="fas fa-users mr-1"></i> 250 Participants</span>
                                 </div>
                                 <h3
-                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandTeal transition-colors">
+                                    class="text-2xl font-bold mb-1 text-slate-900 dark:text-white group-hover:text-brandGreen transition-colors">
                                     Laikipia Schools Individual Chess Qualifiers</h3>
                                 <p class="text-slate-500 text-sm font-medium flex items-center"><i
-                                        class="fas fa-map-marker-alt mr-2 text-brandTeal/60"></i> Three
+                                        class="fas fa-map-marker-alt mr-2 text-brandGreen/60"></i> Three
                                     Rivers Academy</p>
                             </div>
                             <div class="relative z-10 text-right md:min-w-[140px] hidden md:block">
@@ -1008,3 +1014,4 @@
 </body>
 
 </html>
+
