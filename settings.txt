@@ -1,0 +1,4 @@
+Project Settings & Rules:
+1. PHP Version: Use PHP up to version 7.4.
+2. Database: Use MySQLi for database interactions.
+3. Asynchronous Operations: Use AJAX for seamless UI updates.

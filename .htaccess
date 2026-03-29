@@ -1,0 +1,9 @@
+# Basic .htaccess for Chess Club
+# Rewriting disabled as per user request to avoid Apache configuration conflicts
+
+# Ensure index.php is the default page
+DirectoryIndex index.php
+
+# Prevent directory listing for security
+Options -Indexes
+
