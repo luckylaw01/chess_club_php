@@ -156,7 +156,7 @@ foreach($tournaments as $t) {
                                     <div>
                                         <p class="text-[10px] font-black uppercase text-slate-500 tracking-wider">Prize
                                             Pool</p>
-                                        <p class="text-slate-900 dark:text-white font-bold">Ksh <?php echo number_format($featured['prize_pool']); ?></p>
+                                        <p class="text-slate-900 dark:text-white font-bold">KES <?php echo number_format($featured['prize_pool']); ?></p>
                                     </div>
                                 </div>
                                 <div class="flex items-center gap-4">

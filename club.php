@@ -162,7 +162,7 @@ if($result_plans = $conn->query($sql_plans)){
                     <div class="p-8 rounded-[40px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl flex flex-col <?php echo $user['membership_plan_id'] == $plan['id'] ? 'ring-2 ring-brandGreen ring-offset-4 dark:ring-offset-slate-900' : ''; ?>">
                         <h3 class="text-2xl font-bold mb-4"><?php echo htmlspecialchars($plan['name']); ?></h3>
                         <p class="text-slate-500 mb-6 font-medium"><?php echo htmlspecialchars($plan['description']); ?></p>
-                        <div class="text-4xl font-black mb-8">Ksh <?php echo number_format($plan['price']); ?><span
+                        <div class="text-4xl font-black mb-8">KES <?php echo number_format($plan['price']); ?><span
                                 class="text-sm font-bold text-slate-400">/<?php echo $plan['duration_months']; ?> mo</span></div>
                         <ul class="space-y-4 mb-8 text-sm font-medium flex-grow">
                             <?php 
@@ -212,7 +212,7 @@ if($result_plans = $conn->query($sql_plans)){
                 <div class="mb-8 p-6 rounded-2xl bg-brandGreen/5 border border-brandGreen/10">
                     <div class="flex justify-between items-center mb-2">
                         <span class="text-sm font-bold opacity-60">Total Amount</span>
-                        <span id="displayPrice" class="text-xl font-black text-brandGreen">Ksh 0.00</span>
+                        <span id="displayPrice" class="text-xl font-black text-brandGreen">KES 0.00</span>
                     </div>
                     <p class="text-[10px] leading-relaxed opacity-50">Enter your M-Pesa number above. A simulated STK push will be triggered for verification.</p>
                 </div>
@@ -235,7 +235,7 @@ if($result_plans = $conn->query($sql_plans)){
         document.getElementById('planId').value = id;
         document.getElementById('planPrice').value = price;
         document.getElementById('modalPlanName').innerText = name.toUpperCase();
-        document.getElementById('displayPrice').innerText = 'Ksh ' + new Intl.NumberFormat().format(price);
+        document.getElementById('displayPrice').innerText = 'KES ' + new Intl.NumberFormat().format(price);
         document.getElementById('mpesaModal').classList.remove('hidden');
     }
 

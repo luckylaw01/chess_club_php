@@ -10,7 +10,7 @@ $stats = [
     'users' => $conn->query("SELECT COUNT(*) FROM users")->fetch_row()[0],
     'active_members' => $conn->query("SELECT COUNT(*) FROM users WHERE membership_status = 'active'")->fetch_row()[0],
     'tournaments' => $conn->query("SELECT COUNT(*) FROM tournaments WHERE status = 'upcoming'")->fetch_row()[0],
-    'courses' => $conn->query("SELECT COUNT(*) FROM academy_courses")->fetch_row()[0],
+    'orders' => $conn->query("SELECT COUNT(*) FROM orders WHERE status = 'pending'")->fetch_row()[0],
 ];
 
 // Fetch recent users
@@ -60,14 +60,14 @@ $recentUsers = $conn->query("SELECT id, username, email, membership_status, crea
     <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
         <div class="flex items-center gap-4 mb-4">
             <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-xl">
-                <i class="fas fa-graduation-cap"></i>
+                <i class="fas fa-shopping-basket"></i>
             </div>
             <div>
-                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Courses</p>
-                <h3 class="text-2xl font-black"><?php echo $stats['courses']; ?></h3>
+                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Pending Orders</p>
+                <h3 class="text-2xl font-black"><?php echo $stats['orders']; ?></h3>
             </div>
         </div>
-        <p class="text-xs text-slate-400">Academy programs available</p>
+        <p class="text-xs text-slate-400">Orders awaiting processing</p>
     </div>
 </div>
 

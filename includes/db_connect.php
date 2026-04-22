@@ -1,7 +1,13 @@
 <?php
 // Database connection configuration
-if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
+if (isset($_SERVER['HTTP_HOST']) && ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1')) {
     // Local configuration
+    $host = 'localhost';
+    $db_name = 'chess_club_db';
+    $username = 'root';
+    $password = '';
+} elseif (!isset($_SERVER['HTTP_HOST'])) {
+    // Command line / Local default
     $host = 'localhost';
     $db_name = 'chess_club_db';
     $username = 'root';

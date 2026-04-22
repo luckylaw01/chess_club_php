@@ -1,7 +1,44 @@
 <?php
 session_start();
+require_once "includes/db_connect.php";
 $pageTitle = "Chess Academy";
 include 'includes/header.php';
+
+// Fetch dynamic courses from database
+$courses = [];
+$res = $conn->query("SELECT c.*, u.full_name as coach_name FROM academy_courses c LEFT JOIN users u ON c.coach_id = u.id ORDER BY c.created_at DESC");
+if ($res) {
+    while ($row = $res->fetch_assoc()) {
+        $courses[] = $row;
+    }
+}
+
+// Check enrollment status if user is logged in
+$enrolled_courses = [];
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    $user_id = $_SESSION['id'];
+    $en_res = $conn->query("SELECT course_id FROM course_enrollments WHERE user_id = $user_id");
+    while ($en_row = $en_res->fetch_assoc()) {
+        $enrolled_courses[] = $en_row['course_id'];
+    }
+}
+
+// Handle Enrollment Request
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['enroll_course'])) {
+    if (!isset($_SESSION['loggedin'])) {
+        header("location: login.php");
+        exit;
+    }
+    $c_id = intval($_POST['course_id']);
+    $u_id = $_SESSION['id'];
+    
+    // Check if already enrolled
+    $check = $conn->query("SELECT id FROM course_enrollments WHERE user_id = $u_id AND course_id = $c_id");
+    if ($check->num_rows === 0) {
+        $conn->query("INSERT INTO course_enrollments (user_id, course_id) VALUES ($u_id, $c_id)");
+        echo "<script>alert('Enrollment successful!'); window.location.href='academy.php';</script>";
+    }
+}
 ?>
 
     <section class="pt-32 pb-20 lg:pt-48 lg:pb-32 px-6">
@@ -20,66 +57,49 @@ include 'includes/header.php';
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Level 1: Foundations -->
+                <?php foreach ($courses as $course): ?>
                 <div
-                    class="group p-10 rounded-[40px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brandGreen transition-all shadow-xl hover:shadow-brandGreen/10 relative overflow-hidden">
+                    class="group p-10 rounded-[40px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brandGreen transition-all shadow-xl hover:shadow-brandGreen/10 relative overflow-hidden flex flex-col">
                     <div
                         class="absolute top-0 right-0 w-32 h-32 bg-brandGreen/5 blur-[40px] rounded-full -mr-10 -mt-10 transition-all group-hover:bg-brandGreen/10">
                     </div>
                     <div
                         class="w-16 h-16 rounded-2xl bg-brandGreen/10 flex items-center justify-center text-brandGreen text-2xl mb-8">
-                        <i class="fas fa-chess-pawn"></i>
+                        <i class="fas fa-chess-knight"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4 text-slate-900 dark:text-white">Foundations Program</h3>
-                    <p class="text-slate-500 dark:text-slate-400 mb-8 font-medium leading-relaxed">
-                        For absolute beginners. Master the rules, movement, and fundamental principles of the Royal Game.
+                    <h3 class="text-2xl font-bold mb-2 text-slate-900 dark:text-white"><?php echo htmlspecialchars($course['title']); ?></h3>
+                    <p class="text-xs font-black uppercase tracking-widest text-brandGreen mb-4">Coach: <?php echo htmlspecialchars($course['coach_name']); ?></p>
+                    <p class="text-slate-500 dark:text-slate-400 mb-8 font-medium leading-relaxed flex-1 line-clamp-3">
+                        <?php echo htmlspecialchars($course['description']); ?>
                     </p>
-                    <button onclick="openModal('foundations')"
-                        class="w-full py-4 rounded-2xl border-2 border-slate-900 dark:border-white font-bold uppercase tracking-widest text-[11px] hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 transition-all active:scale-95">
-                        View Syllabus
-                    </button>
-                </div>
+                    
+                    <div class="flex items-center justify-between mb-8 pb-8 border-b border-slate-100 dark:border-slate-800">
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-400">Level: <?php echo ucfirst($course['level']); ?></span>
+                        <span class="text-xl font-black text-slate-900 dark:text-white"><?php echo $course['price'] > 0 ? "KES " . number_format($course['price']) : "FREE"; ?></span>
+                    </div>
 
-                <!-- Level 2: Tactics & Strategy -->
-                <div
-                    class="group p-10 rounded-[40px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brandGreen transition-all shadow-xl hover:shadow-brandGreen/10 relative overflow-hidden">
-                    <div
-                        class="absolute top-0 right-0 w-32 h-32 bg-brandOrange/5 blur-[40px] rounded-full -mr-10 -mt-10 transition-all group-hover:bg-brandOrange/10">
-                    </div>
-                    <div
-                        class="w-16 h-16 rounded-2xl bg-brandOrange/10 flex items-center justify-center text-brandOrange text-2xl mb-8">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4 text-slate-900 dark:text-white">Tactics & Strategy</h3>
-                    <p class="text-slate-500 dark:text-slate-400 mb-8 font-medium leading-relaxed">
-                        Intermediate level. Explore tactical motifs, positional play, and essential opening concepts.
-                    </p>
-                    <button onclick="openModal('tactics')"
-                        class="w-full py-4 rounded-2xl border-2 border-slate-900 dark:border-white font-bold uppercase tracking-widest text-[11px] hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 transition-all active:scale-95">
-                        View Syllabus
-                    </button>
+                    <?php if (in_array($course['id'], $enrolled_courses)): ?>
+                        <a href="course_view.php?id=<?php echo $course['id']; ?>"
+                            class="w-full py-4 text-center rounded-2xl bg-brandGreen text-white font-bold uppercase tracking-widest text-[11px] shadow-lg shadow-brandGreen/20 hover:bg-brandGreen/90 transition-all active:scale-95">
+                            Continue Learning
+                        </a>
+                    <?php else: ?>
+                        <form method="POST">
+                            <input type="hidden" name="course_id" value="<?php echo $course['id']; ?>">
+                            <button type="submit" name="enroll_course"
+                                class="w-full py-4 rounded-2xl border-2 border-slate-900 dark:border-white font-bold uppercase tracking-widest text-[11px] hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 transition-all active:scale-95">
+                                Enroll Now
+                            </button>
+                        </form>
+                    <?php endif; ?>
                 </div>
-
-                <!-- Level 3: Competitive Mastery -->
-                <div
-                    class="group p-10 rounded-[40px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brandGreen transition-all shadow-xl hover:shadow-brandGreen/10 relative overflow-hidden">
-                    <div
-                        class="absolute top-0 right-0 w-32 h-32 bg-brandGold/5 blur-[40px] rounded-full -mr-10 -mt-10 transition-all group-hover:bg-brandGold/10">
+                <?php endforeach; ?>
+                
+                <?php if (empty($courses)): ?>
+                    <div class="col-span-full py-20 text-center text-slate-500 font-bold uppercase tracking-widest">
+                        New Courses Coming Soon!
                     </div>
-                    <div
-                        class="w-16 h-16 rounded-2xl bg-brandGold/10 flex items-center justify-center text-brandGold text-2xl mb-8">
-                        <i class="fas fa-chess-king"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4 text-slate-900 dark:text-white">Competitive Mastery</h3>
-                    <p class="text-slate-500 dark:text-slate-400 mb-8 font-medium leading-relaxed">
-                        Advanced program. Prepare for high-level tournaments with professional analysis and endgame
-                        technique.
-                    </p>
-                    <button onclick="openModal('mastery')"
-                        class="w-full py-4 rounded-2xl border-2 border-slate-900 dark:border-white font-bold uppercase tracking-widest text-[11px] hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 transition-all active:scale-95">
-                        View Syllabus
-                    </button>
-                </div>
+                <?php endif; ?>
             </div>
         </div>
     </section>

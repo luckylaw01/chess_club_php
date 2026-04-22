@@ -130,7 +130,7 @@ include "includes/header.php";
                     </div>
 
                     <div class="flex justify-end">
-                        <a href="#"
+                        <a href="forgot_password.php"
                             class="text-xs font-bold text-brandGreen hover:underline uppercase tracking-wide">Forgot
                             Password?</a>
                     </div>

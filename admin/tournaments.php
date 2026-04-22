@@ -106,7 +106,7 @@ $tournaments = $conn->query("SELECT * FROM tournaments ORDER BY event_date DESC"
                             <span class="text-sm font-medium text-slate-500"><?php echo htmlspecialchars($t['location']); ?></span>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="text-sm font-black text-brandGreen uppercase">Ksh <?php echo number_format($t['prize_pool']); ?></span>
+                            <span class="text-sm font-black text-brandGreen uppercase">KES <?php echo number_format($t['prize_pool']); ?></span>
                         </td>
                         <td class="px-6 py-4">
                             <?php 
@@ -170,11 +170,11 @@ $tournaments = $conn->query("SELECT * FROM tournaments ORDER BY event_date DESC"
                     <input type="datetime-local" name="event_date" required class="w-full px-6 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border-none font-sans">
                 </div>
                 <div>
-                    <label class="block text-[10px] font-black uppercase mt-4 text-slate-400 mb-2">Prize Pool (Ksh)</label>
+                    <label class="block text-[10px] font-black uppercase mt-4 text-slate-400 mb-2">Prize Pool (KES)</label>
                     <input type="number" name="prize_pool" required class="w-full px-6 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border-none font-sans">
                 </div>
                 <div>
-                    <label class="block text-[10px] font-black uppercase mt-4 text-slate-400 mb-2">Entry Fee (Ksh)</label>
+                    <label class="block text-[10px] font-black uppercase mt-4 text-slate-400 mb-2">Entry Fee (KES)</label>
                     <input type="number" name="entry_fee" required class="w-full px-6 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border-none font-sans">
                 </div>
                 <div>
@@ -225,11 +225,11 @@ $tournaments = $conn->query("SELECT * FROM tournaments ORDER BY event_date DESC"
                     <input type="datetime-local" name="event_date" id="edit_event_date" required class="w-full px-6 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border-none font-sans">
                 </div>
                 <div>
-                    <label class="block text-[10px] font-black uppercase mt-4 text-slate-400 mb-2">Prize Pool (Ksh)</label>
+                    <label class="block text-[10px] font-black uppercase mt-4 text-slate-400 mb-2">Prize Pool (KES)</label>
                     <input type="number" name="prize_pool" id="edit_prize_pool" required class="w-full px-6 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border-none font-sans">
                 </div>
                 <div>
-                    <label class="block text-[10px] font-black uppercase mt-4 text-slate-400 mb-2">Entry Fee (Ksh)</label>
+                    <label class="block text-[10px] font-black uppercase mt-4 text-slate-400 mb-2">Entry Fee (KES)</label>
                     <input type="number" name="entry_fee" id="edit_entry_fee" required class="w-full px-6 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border-none font-sans">
                 </div>
                 <div>
