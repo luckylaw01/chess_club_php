@@ -75,24 +75,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $headers = "From: Ascending Pawn Chess Club <$from>\r\n";
                     $headers .= "Reply-To: $from\r\n";
                     $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+                    $headers .= "MIME-Version: 1.0\r\n";
                     $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 
                     $emailBody = "
-                    <div style='font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;'>
-                        <h2 style='color: #1a202c;'>$subject</h2>
-                        <div style='color: #4a5568; line-height: 1.6;'>
-                            $content
+                    <html>
+                    <body style='font-family: sans-serif; background-color: #f7fafc; padding: 40px;'>
+                        <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 40px; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);'>
+                            <div style='text-align: center; margin-bottom: 30px;'>
+                                <h1 style='color: #80D200; margin: 0; font-size: 24px;'>Ascending Pawn</h1>
+                            </div>
+                            <h2 style='color: #1a202c; border-bottom: 2px solid #80D200; padding-bottom: 10px;'>$subject</h2>
+                            <div style='color: #4a5568; line-height: 1.8; font-size: 16px;'>
+                                $content
+                            </div>
+                            <div style='margin-top: 40px; padding-top: 20px; border-top: 1px solid #e2e8f0; text-align: center;'>
+                                <p style='font-size: 12px; color: #718096;'>
+                                    You are receiving this email as a member of Ascending Pawn Chess Club.<br>
+                                    &copy; " . date('Y') . " Ascending Pawn Chess Club. All rights reserved.
+                                </p>
+                            </div>
                         </div>
-                        <hr style='margin: 20px 0; border: none; border-top: 1px solid #e2e8f0;'>
-                        <p style='font-size: 12px; color: #718096;'>You are receiving this email as a member of Ascending Pawn Chess Club.</p>
-                    </div>";
+                    </body>
+                    </html>";
 
+                    $sentCount = 0;
+                    $failCount = 0;
                     while ($row = $emailResult->fetch_assoc()) {
-                        mail($row['email'], $subject, $emailBody, $headers);
+                        // Using -f parameter for envelope-from (helps SPF/DKIM verification)
+                        if (mail($row['email'], $subject, $emailBody, $headers, "-f $from")) {
+                            $sentCount++;
+                        } else {
+                            $failCount++;
+                        }
                     }
+                    
+                    if ($failCount > 0) {
+                        $message = "Communication processed: In-app sent. Emails: $sentCount successful, $failCount failed. Check server mail logs.";
+                    } else {
+                        $message = "Communication sent successfully to " . count($userIds) . " users via selected channels.";
+                    }
+                } else {
+                    $message = "In-app communication sent successfully to " . count($userIds) . " users.";
                 }
-
-                $message = "Communication sent successfully to " . count($userIds) . " users.";
             } else {
                 $error = "Failed to save message: " . $conn->error;
             }
