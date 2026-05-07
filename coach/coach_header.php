@@ -55,9 +55,9 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["role"] !== 'coach') {
         <header class="h-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-8 sticky top-0 z-40">
             <h2 class="text-lg font-bold text-slate-400 uppercase tracking-widest"><?php echo isset($pageTitle) ? $pageTitle : "Overview"; ?></h2>
             <div class="flex items-center gap-4">
-                <button class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-brandGreen transition-colors">
+                <a href="../notifications.php" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-brandGreen transition-colors">
                     <i class="fas fa-bell"></i>
-                </button>
+                </a>
                 <div class="flex items-center gap-3 pl-4 border-l border-slate-200 dark:border-slate-800">
                     <div class="text-right">
                         <p class="text-sm font-black"><?php echo $_SESSION["first_name"] . " " . $_SESSION["last_name"]; ?></p>

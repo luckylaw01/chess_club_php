@@ -50,10 +50,13 @@ if($result_plans = $conn->query($sql_plans)){
                 <div class="relative z-10 flex flex-col md:flex-row items-center gap-8">
                     <!-- Profile Avatar Area -->
                     <div class="relative">
-                        <div
-                            class="w-24 h-24 rounded-3xl bg-gradient-to-br from-brandGreen to-brandGold flex items-center justify-center text-white text-3xl font-black shadow-lg shadow-brandGreen/20">
-                            <?php echo strtoupper(substr($user["first_name"], 0, 1)); ?>
-                        </div>
+                        <?php if (!empty($user["profile_picture"])): ?>
+                            <img src="<?php echo htmlspecialchars($user["profile_picture"]); ?>" alt="Profile Picture" class="w-24 h-24 rounded-3xl object-cover shadow-lg shadow-brandGreen/20">
+                        <?php else: ?>
+                            <div class="w-24 h-24 rounded-3xl bg-gradient-to-br from-brandGreen to-brandGold flex items-center justify-center text-white text-3xl font-black shadow-lg shadow-brandGreen/20">
+                                <?php echo strtoupper(substr($user["first_name"], 0, 1)); ?>
+                            </div>
+                        <?php endif; ?>
                         <div class="absolute -bottom-1 -right-1 bg-green-500 w-6 h-6 rounded-full border-4 border-white dark:border-slate-900 shadow-sm"
                             title="Active Status"></div>
                     </div>

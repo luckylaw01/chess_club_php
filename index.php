@@ -2,12 +2,13 @@
 session_start();
 $pageTitle = "Home";
 include 'includes/header.php';
+require_once 'includes/home_images.php';
 ?>
     <!-- Hero Section -->
     <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-6 overflow-hidden min-h-[90vh] flex items-center">
         <!-- Background Image with Blending Overlays -->
         <div class="absolute inset-0 -z-20">
-            <img src="assets/images/chess_background.webp" class="w-full h-full object-cover object-center"
+            <img src="<?php echo htmlspecialchars(get_home_image('hero_background')); ?>" class="w-full h-full object-cover object-center<?php if(is_admin_user()) echo ' admin-editable'; ?>" data-image-key="hero_background"
                 alt="Chess Background">
             <!-- Main Dark Overlay -->
             <div class="absolute inset-0 bg-slate-50/90 dark:bg-darkBg/95 transition-colors duration-500"></div>
@@ -31,7 +32,7 @@ include 'includes/header.php';
             <div class="space-y-8 animate-slide-up">
                 <div
                     class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brandGreen/10 dark:bg-brandGreen/20 text-brandGreen dark:text-brandGreen text-xs font-bold uppercase tracking-widest">
-                    <i class="fas fa-chess-pawn text-[10px]"></i> Kenya's Premier Chess Club
+                    <i class="fas fa-chess-pawn text-[10px]"></i> Home to the chess champions of Kenya
                 </div>
                 <h1
                     class="text-5xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight text-slate-900 dark:text-white">
@@ -41,7 +42,7 @@ include 'includes/header.php';
                     </span>
                 </h1>
                 <p class="text-lg text-slate-600 dark:text-slate-400 max-w-xl leading-relaxed">
-                    Welcome to the Ascending Pawn Chess Club. From our elite Academy to high-stakes Tournaments, we
+                    Welcome to Ascending Pawn Chess. From our elite Academy to high-stakes Tournaments, we
                     provide the ultimate ecosystem for chess enthusiasts of all levels.
                 </p>
 
@@ -53,8 +54,8 @@ include 'includes/header.php';
                             <i class="fas fa-calendar-alt text-brandGreen text-xl"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-sm">Join the 2024 Club Membership</h4>
-                            <p class="text-xs text-slate-500">Get exclusive access to club nights and rating
+                            <h4 class="font-bold text-sm">Join the 2024 Membership</h4>
+                            <p class="text-xs text-slate-500">Get exclusive access to chess nights and rating
                                 tournaments.</p>
                         </div>
                     </div>
@@ -83,8 +84,8 @@ include 'includes/header.php';
                     <!-- Main Vertical Card -->
                     <div
                         class="relative w-2/3 lg:w-3/5 h-[90%] sm:h-full rounded-[40px] sm:rounded-[60px] overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)] border-8 border-white dark:border-slate-900 group">
-                        <img src="assets/images/black_chess_coach.webp"
-                            class="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700"
+                        <img src="<?php echo htmlspecialchars(get_home_image('hero_main')); ?>"
+                            class="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700<?php if(is_admin_user()) echo ' admin-editable'; ?>" data-image-key="hero_main"
                             alt="Chess Session">
                         <div
                             class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 sm:p-10">
@@ -149,7 +150,7 @@ include 'includes/header.php';
                         <i class="fas fa-globe text-2xl"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Hybrid Academy</h3>
-                    <p class="text-white/80 text-sm leading-relaxed mb-6">Attend in-person sessions at our Nairobi hub
+                    <p class="text-white/80 text-sm leading-relaxed mb-6">Attend in-person sessions at our Nyeri hub
                         or join global interactive online classes.</p>
                     <div class="text-white font-bold text-sm cursor-pointer">See Schedule <i
                             class="fas fa-arrow-right ml-1"></i></div>
@@ -190,7 +191,7 @@ include 'includes/header.php';
                     <div class="bg-white dark:bg-slate-900/50 p-6 rounded-[32px] border border-slate-200 dark:border-slate-800 hover:border-brandGreen/40 transition-all group glass">
                         <div class="relative w-20 h-20 mb-6 mx-auto">
                             <div class="w-full h-full rounded-2xl bg-brandGreen/20 flex items-center justify-center text-brandGreen text-3xl font-black">M</div>
-                            <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-brandOrange rounded-full border-4 border-white dark:border-slate-900 flex items-center justify-center" title="Club Champion">
+                            <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-brandOrange rounded-full border-4 border-white dark:border-slate-900 flex items-center justify-center" title="Chess Champion">
                                 <i class="fas fa-crown text-[10px] text-white"></i>
                             </div>
                         </div>
@@ -270,7 +271,7 @@ include 'includes/header.php';
                             </div>
                             <div class="flex-grow">
                                 <h4 class="font-bold text-sm uppercase tracking-tight">Spring Blitz Championship</h4>
-                                <p class="text-xs text-slate-500 mt-0.5"><i class="far fa-clock mr-1"></i> 6:00 PM â€¢ Nairobi Hub</p>
+                                <p class="text-xs text-slate-500 mt-0.5"><i class="far fa-clock mr-1"></i> 6:00 PM â€¢ Nyeri Hub</p>
                             </div>
                             <button class="px-4 py-2 border border-brandGreen/20 text-brandGreen text-[10px] font-bold rounded-xl hover:bg-brandGreen hover:text-white transition-all uppercase tracking-widest">Register</button>
                         </div>
@@ -296,7 +297,7 @@ include 'includes/header.php';
                             </div>
                             <div class="flex-grow">
                                 <h4 class="font-bold text-sm uppercase tracking-tight">Casual Friday Meetup</h4>
-                                <p class="text-xs text-slate-500 mt-0.5"><i class="fas fa-map-marker-alt mr-1"></i> Club Lounge</p>
+                                <p class="text-xs text-slate-500 mt-0.5"><i class="fas fa-map-marker-alt mr-1"></i> Player Lounge</p>
                             </div>
                             <span class="px-4 py-2 text-slate-400 text-[10px] font-bold uppercase tracking-widest">Free Entry</span>
                         </div>
@@ -335,7 +336,7 @@ include 'includes/header.php';
                     <!-- News Widget -->
                     <div class="p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[32px] glass">
                         <div class="flex items-center justify-between mb-4">
-                            <h4 class="font-bold text-[11px] uppercase tracking-widest opacity-60">Club News</h4>
+                            <h4 class="font-bold text-[11px] uppercase tracking-widest opacity-60">Chess News</h4>
                             <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
                         </div>
                         <h3 class="font-bold text-sm mb-3">Ascending Pawn Welcomes 1000th Member!</h3>
@@ -362,7 +363,7 @@ include 'includes/header.php';
                             <img src="https://images.unsplash.com/photo-1529699211952-734e80c4d42b?auto=format&fit=crop&q=80&w=1200" class="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 scale-105 group-hover:scale-100" alt="Outreach">
                             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent p-10 flex flex-col justify-end">
                                 <span class="text-brandGreen font-black text-xs uppercase tracking-widest mb-2">Community Outreach</span>
-                                <h3 class="text-white text-2xl font-bold uppercase tracking-tight mb-4">Chess in the Park: Nairobi Edition</h3>
+                                <h3 class="text-white text-2xl font-bold uppercase tracking-tight mb-4">Chess in the Park: Nyeri Edition</h3>
                                 <p class="text-white/70 text-sm max-w-xl mb-6">Every first Sunday of the month, we bring the game to the heart of the city, teaching kids and hosting casual blitz matches for everyone.</p>
                                 <button class="self-start px-6 py-3 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-brandGreen hover:text-white transition-all">Support Initiative</button>
                             </div>
@@ -421,7 +422,7 @@ include 'includes/header.php';
                         <i class="fas fa-camera text-[10px]"></i> Moments in Action
                     </div>
                     <h2 class="text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                        Club <br>
+                        Our <br>
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandGreen to-brandOrange">Gallery</span>
                     </h2>
                 </div>
@@ -434,8 +435,8 @@ include 'includes/header.php';
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 animate-fade-in delay-200">
                 <!-- Large Feature -->
                 <div class="col-span-2 row-span-2 group relative overflow-hidden rounded-[40px] shadow-2xl">
-                    <img src="assets/images/gallery-1.jpeg" alt="Chess Tournament Scene"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <img src="<?php echo htmlspecialchars(get_home_image('gallery1')); ?>" alt="Chess Tournament Scene"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700<?php if(is_admin_user()) echo ' admin-editable'; ?>" data-image-key="gallery1">
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
                         <span class="text-white font-bold uppercase tracking-widest text-sm">Major Championships</span>
                     </div>
@@ -443,8 +444,8 @@ include 'includes/header.php';
 
                 <!-- Tall Image -->
                 <div class="col-span-1 row-span-2 group relative overflow-hidden rounded-[40px] shadow-xl">
-                    <img src="assets/images/gallery-2.jpeg" alt="Player Focus"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <img src="<?php echo htmlspecialchars(get_home_image('gallery2')); ?>" alt="Player Focus"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700<?php if(is_admin_user()) echo ' admin-editable'; ?>" data-image-key="gallery2">
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
                         <span class="text-white font-bold uppercase tracking-widest text-xs">Deep Concentration</span>
                     </div>
@@ -452,16 +453,16 @@ include 'includes/header.php';
 
                 <!-- Small Images -->
                 <div class="col-span-1 group relative overflow-hidden rounded-[32px] shadow-xl aspect-square">
-                    <img src="assets/images/gallery-3.jpeg" alt="Academy Session"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <img src="<?php echo htmlspecialchars(get_home_image('gallery3')); ?>" alt="Academy Session"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700<?php if(is_admin_user()) echo ' admin-editable'; ?>" data-image-key="gallery3">
                     <div class="absolute inset-0 bg-brandGreen/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
                         <i class="fas fa-eye text-white text-xl"></i>
                     </div>
                 </div>
 
                 <div class="col-span-1 group relative overflow-hidden rounded-[32px] shadow-xl aspect-square">
-                    <img src="assets/images/gallery-4.jpeg" alt="Chess Pieces Close-up"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <img src="<?php echo htmlspecialchars(get_home_image('gallery4')); ?>" alt="Chess Pieces Close-up"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700<?php if(is_admin_user()) echo ' admin-editable'; ?>" data-image-key="gallery4">
                     <div class="absolute inset-0 bg-brandOrange/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
                         <i class="fas fa-eye text-white text-xl"></i>
                     </div>
@@ -469,24 +470,24 @@ include 'includes/header.php';
 
                 <!-- Second Row (Bottom) -->
                 <div class="col-span-1 group relative overflow-hidden rounded-[32px] shadow-xl aspect-square">
-                    <img src="assets/images/gallery-5.jpeg" alt="Winning Moments"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <img src="<?php echo htmlspecialchars(get_home_image('gallery5')); ?>" alt="Winning Moments"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700<?php if(is_admin_user()) echo ' admin-editable'; ?>" data-image-key="gallery5">
                     <div class="absolute inset-0 bg-brandGold/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
                         <i class="fas fa-eye text-white text-xl"></i>
                     </div>
                 </div>
 
                 <div class="col-span-1 group relative overflow-hidden rounded-[32px] shadow-xl aspect-square">
-                    <img src="assets/images/gallery-6.jpeg" alt="Community Gathering"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <img src="<?php echo htmlspecialchars(get_home_image('gallery6')); ?>" alt="Community Gathering"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700<?php if(is_admin_user()) echo ' admin-editable'; ?>" data-image-key="gallery6">
                     <div class="absolute inset-0 bg-brandGreen/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
                         <i class="fas fa-eye text-white text-xl"></i>
                     </div>
                 </div>
 
                 <div class="col-span-2 group relative overflow-hidden rounded-[40px] shadow-xl h-48 md:h-auto">
-                    <img src="assets/images/gallery-7.jpeg" alt="Future Grandmasters"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <img src="<?php echo htmlspecialchars(get_home_image('gallery7')); ?>" alt="Future Grandmasters"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700<?php if(is_admin_user()) echo ' admin-editable'; ?>" data-image-key="gallery7">
                     <div class="absolute inset-0 bg-gradient-to-r from-brandGreen/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center px-8">
                         <span class="text-white font-black uppercase tracking-[0.2em] text-sm">Our Rising Stars</span>
                     </div>
@@ -495,101 +496,141 @@ include 'includes/header.php';
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="pt-24 pb-12 px-6 bg-slate-50 dark:bg-black border-t border-slate-200 dark:border-slate-800">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid md:grid-cols-4 gap-12 mb-16">
-                <div class="col-span-2 space-y-6">
-                    <div class="flex items-center gap-2">
-                        <span class="text-2xl font-bold tracking-tight uppercase">Ascending<span
-                                class="text-brandGreen">Pawn</span></span>
-                    </div>
-                    <p class="max-w-xs text-slate-500 text-sm leading-relaxed">
-                        The ultimate destination for chess players in Kenya. Home to the Ascending Pawn Club, Academy,
-                        and national-level tournaments.
-                    </p>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-6 text-sm uppercase text-brandGreen">Explore</h4>
-                    <ul class="space-y-4 text-sm text-slate-500 font-medium">
-                        <li class="hover:text-brandGreen cursor-pointer transition-colors">Club Membership</li>
-                        <li class="hover:text-brandGreen cursor-pointer transition-colors">Academy Programs</li>
-                        <li class="hover:text-brandGreen cursor-pointer transition-colors">Tournaments</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-6 text-sm uppercase text-brandGreen">Contact</h4>
-                    <p class="text-sm text-slate-500 font-medium leading-relaxed">Nairobi,
-                        Kenya<br>info@ascendingpawn.co.ke</p>
-                </div>
-            </div>
-            <div
-                class="pt-8 border-t border-slate-200 dark:border-slate-800 text-[10px] uppercase font-bold text-slate-400 tracking-widest">
-                Â© 2024 Ascending Pawn Chess Club. All Rights Reserved.
-            </div>
-        </div>
-    </footer>
-
+    <!-- Admin image uploader (only for admins) -->
+    <?php if (function_exists('is_admin_user') && is_admin_user()): ?>
     <script>
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 20) {
-                nav.classList.add('bg-white/80', 'dark:bg-black/80', 'backdrop-blur-md', 'shadow-lg', 'py-3');
-                nav.classList.remove('py-5');
-            } else {
-                nav.classList.remove('bg-white/80', 'dark:bg-black/80', 'backdrop-blur-md', 'shadow-lg', 'py-3');
-                nav.classList.add('py-5');
-            }
-        });
+        (function() {
+            const style = document.createElement('style');
+            style.textContent = [
+                '.admin-image-wrapper .admin-upload-btn {',
+                'position:absolute;',
+                'top:12px;',
+                'right:12px;',
+                'z-index:60;',
+                'background:rgba(0,0,0,0.75);',
+                'color:#fff;',
+                'border:1px solid rgba(255,255,255,0.35);',
+                'border-radius:9999px;',
+                'padding:8px 12px;',
+                'font-size:11px;',
+                'font-weight:700;',
+                'letter-spacing:0.04em;',
+                'text-transform:uppercase;',
+                'cursor:pointer;',
+                'opacity:0;',
+                'transform:translateY(-6px);',
+                'transition:all 0.18s ease;',
+                'pointer-events:none;',
+                'backdrop-filter:blur(6px);',
+                '-webkit-backdrop-filter:blur(6px);',
+                '}',
+                '.admin-image-wrapper:hover .admin-upload-btn {',
+                'opacity:1;',
+                'transform:translateY(0);',
+                'pointer-events:auto;',
+                '}',
+                '.admin-image-wrapper {',
+                'outline:2px dashed rgba(128,210,0,0);',
+                'outline-offset:-2px;',
+                'transition:outline-color 0.18s ease;',
+                '}',
+                '.admin-image-wrapper:hover {',
+                'outline-color:rgba(128,210,0,0.75);',
+                '}'
+            ].join('');
+            document.head.appendChild(style);
 
-        // Theme Logic
-        (function () {
-            const themeBtn = document.getElementById('theme-toggle');
-            const themeIcon = document.getElementById('theme-icon');
-            const html = document.documentElement;
+            const uploaderInput = document.createElement('input');
+            uploaderInput.type = 'file';
+            uploaderInput.accept = 'image/*';
+            uploaderInput.style.display = 'none';
+            document.body.appendChild(uploaderInput);
 
-            function updateThemeElements(isDark) {
-                if (isDark) {
-                    html.classList.add('dark');
-                    if (themeIcon) themeIcon.classList.replace('fa-moon', 'fa-sun');
-                } else {
-                    html.classList.remove('dark');
-                    if (themeIcon) themeIcon.classList.replace('fa-sun', 'fa-moon');
+            let activeImg = null;
+            let activeButton = null;
+
+            document.querySelectorAll('img.admin-editable[data-image-key]').forEach(function(img) {
+                const imageKey = img.getAttribute('data-image-key');
+                let wrapper = img.parentElement;
+                if (imageKey === 'hero_background') {
+                    const heroSection = img.closest('section');
+                    if (heroSection) wrapper = heroSection;
                 }
-            }
+                if (!wrapper) return;
 
-            // Apply theme immediately using the existing state (set in <head>)
-            const isDarkMode = html.classList.contains('dark');
-            updateThemeElements(isDarkMode);
+                const wrapperStyle = window.getComputedStyle(wrapper);
+                if (wrapperStyle.position === 'static') {
+                    wrapper.style.position = 'relative';
+                }
 
-            if (themeBtn) {
-                themeBtn.addEventListener('click', () => {
-                    const isDark = html.classList.toggle('dark');
-                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                    updateThemeElements(isDark);
+                wrapper.classList.add('admin-image-wrapper');
+
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'admin-upload-btn';
+                button.textContent = 'Update photo';
+                button.title = 'Upload a new image';
+
+                button.addEventListener('click', function(ev) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    activeImg = img;
+                    activeButton = button;
+                    uploaderInput.value = null;
+                    uploaderInput.click();
                 });
-            }
 
-            // Mobile Menu Toggle Logic
-            const mobileBtn = document.getElementById('mobile-menu-btn');
-            const closeBtn = document.getElementById('close-menu');
-            const mobileMenu = document.getElementById('mobile-menu');
+                wrapper.appendChild(button);
+            });
 
-            if (mobileBtn && mobileMenu) {
-                mobileBtn.addEventListener('click', () => {
-                    mobileMenu.classList.remove('translate-x-full');
-                });
-            }
+            uploaderInput.addEventListener('change', async function() {
+                if (!activeImg) return;
+                const file = uploaderInput.files[0];
+                if (!file) return;
 
-            if (closeBtn && mobileMenu) {
-                closeBtn.addEventListener('click', () => {
-                    mobileMenu.classList.add('translate-x-full');
-                });
-            }
+                const key = activeImg.getAttribute('data-image-key');
+                const fd = new FormData();
+                fd.append('image', file);
+                fd.append('key', key);
+
+                try {
+                    if (activeButton) {
+                        activeButton.disabled = true;
+                        activeButton.textContent = 'Uploading...';
+                    }
+
+                    const res = await fetch('upload_home_image.php', { method: 'POST', body: fd });
+                    const json = await res.json();
+                    if (json.success) {
+                        // update image src (cache-bust)
+                        activeImg.src = json.path + '?t=' + Date.now();
+                        // small flash
+                        activeImg.style.transition = 'filter 0.3s ease';
+                        activeImg.style.filter = 'grayscale(100%)';
+                        setTimeout(function() { activeImg.style.filter = ''; }, 300);
+                        if (activeButton) {
+                            activeButton.textContent = 'Updated';
+                            setTimeout(function() {
+                                if (activeButton) activeButton.textContent = 'Update photo';
+                            }, 800);
+                        }
+                        activeImg = null;
+                    } else {
+                        alert('Upload failed: ' + (json.message || 'unknown'));
+                    }
+                } catch (err) {
+                    alert('Upload error');
+                } finally {
+                    if (activeButton) {
+                        activeButton.disabled = false;
+                    }
+                    activeButton = null;
+                }
+            });
         })();
     </script>
-</body>
+    <?php endif; ?>
 
-</html>
+    <!-- Footer -->
+    <?php include 'includes/footer.php'; ?>
 

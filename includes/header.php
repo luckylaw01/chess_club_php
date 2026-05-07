@@ -62,7 +62,7 @@
                 <div class="bg-white p-2.5 rounded-2xl shadow-lg ring-1 ring-slate-200/50 group-hover:scale-110 transition-transform duration-300">
                     <img src="assets/images/logo1.png" alt="Ascending Pawn Logo" class="w-6 h-6 object-contain">
                 </div>
-                <span class="text-2xl font-black tracking-tighter uppercase text-slate-900 dark:text-white">Ascending<span class="text-brandGreen">Pawn</span></span>
+                <span class="text-2xl font-black tracking-tighter uppercase text-slate-900 dark:text-white">Ascending Pawn <span class="text-brandGreen">Chess</span></span>
             </a>
             <div class="hidden lg:flex items-center gap-10 text-slate-900 dark:text-slate-100">
                 <?php $current_page = basename($_SERVER['PHP_SELF']); ?>
@@ -98,14 +98,14 @@
                             }
                         ?>
                         <div class="relative group">
-                            <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-brandGreen transition-all duration-300 shadow-sm border border-slate-200 dark:border-slate-700">
+                            <a href="notifications.php" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-brandGreen transition-all duration-300 shadow-sm border border-slate-200 dark:border-slate-700">
                                 <i class="fas fa-bell"></i>
                                 <?php if ($unreadCount > 0): ?>
                                     <span class="absolute -top-1 -right-1 w-4 h-4 bg-rose-500 text-white text-[8px] font-black flex items-center justify-center rounded-full animate-pulse">
                                         <?php echo $unreadCount; ?>
                                     </span>
                                 <?php endif; ?>
-                            </button>
+                            </a>
                             <!-- Dropdown pointer -->
                             <div class="absolute right-0 mt-2 w-80 bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 py-4 hidden group-hover:block z-[60] glass">
                                 <div class="px-6 py-2 border-b border-slate-50 dark:border-slate-800 flex justify-between items-center mb-2">
@@ -135,7 +135,7 @@
                                                 if ($n['type'] == 'announcement') { $icon = 'fa-bullhorn'; $color = 'text-brandGreen'; }
                                                 
                                                 echo "
-                                                <div class='p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-2xl transition-colors cursor-pointer border-b border-slate-50/50 dark:border-slate-800/50 last:border-0'>
+                                                <div class='p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-2xl transition-colors cursor-pointer border-b border-slate-50/50 dark:border-slate-800/50 last:border-0' onclick=\"window.location.href='notifications.php'\">
                                                     <div class='flex gap-3'>
                                                         <div class='mt-1 $color'><i class='fas $icon text-xs'></i></div>
                                                         <div>
@@ -152,6 +152,13 @@
                                 </div>
                             </div>
                         </div>
+                        <?php if (isset($_SESSION["profile_picture"]) && !empty($_SESSION["profile_picture"]) && file_exists(__DIR__ . '/../' . $_SESSION["profile_picture"])): ?>
+                            <img src="<?php echo htmlspecialchars($_SESSION["profile_picture"]); ?>" alt="Profile Picture" class="w-8 h-8 rounded-full object-cover border-2 border-brandGreen">
+                        <?php else: ?>
+                            <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center border-2 border-slate-300 dark:border-slate-600">
+                                <i class="fas fa-user text-slate-400 dark:text-slate-500 text-xs"></i>
+                            </div>
+                        <?php endif; ?>
                         <span class="text-[13px] font-bold text-slate-600 dark:text-slate-400">Welcome, <?php echo htmlspecialchars($_SESSION["first_name"]); ?></span>
                         <a href="logout.php" class="text-[13px] font-bold uppercase tracking-widest hover:text-red-500 transition-colors">Logout</a>
                     <?php else: ?>
@@ -174,8 +181,31 @@
                 <a href="shop.php" class="text-xl font-bold text-slate-900 dark:text-white hover:text-brandGreen transition-colors uppercase tracking-widest">Shop</a>
                 <div class="h-px bg-slate-100 dark:bg-slate-800 my-4"></div>
                 <?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true): ?>
-                    <div class="text-lg font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest mb-4">Welcome, <?php echo htmlspecialchars($_SESSION["first_name"]); ?></div>
-                    <a href="logout.php" class="text-lg font-bold text-red-500 uppercase tracking-widest">Logout</a>
+                    <div class="flex items-center gap-4 mb-4">
+                        <?php if (isset($_SESSION["profile_picture"]) && !empty($_SESSION["profile_picture"]) && file_exists(__DIR__ . '/../' . $_SESSION["profile_picture"])): ?>
+                            <img src="<?php echo htmlspecialchars($_SESSION["profile_picture"]); ?>" alt="Profile Picture" class="w-10 h-10 rounded-full object-cover border-2 border-brandGreen">
+                        <?php else: ?>
+                            <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center border-2 border-slate-300 dark:border-slate-600">
+                                <i class="fas fa-user text-slate-400 dark:text-slate-500"></i>
+                            </div>
+                        <?php endif; ?>
+                        <div class="text-lg font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest">Welcome, <?php echo htmlspecialchars($_SESSION["first_name"]); ?></div>
+                    </div>
+                    
+                    <a href="notifications.php" class="flex items-center gap-3 text-lg font-bold text-slate-900 dark:text-white hover:text-brandGreen transition-colors uppercase tracking-widest">
+                        <div class="relative">
+                            <i class="fas fa-bell"></i>
+                            <?php if (isset($unreadCount) && $unreadCount > 0): ?>
+                                <span class="absolute -top-1 -right-2 w-3 h-3 bg-rose-500 rounded-full border-2 border-white dark:border-slate-900 animate-pulse"></span>
+                            <?php endif; ?>
+                        </div>
+                        Notifications
+                        <?php if (isset($unreadCount) && $unreadCount > 0): ?>
+                            <span class="bg-rose-500 text-white text-xs px-2 py-0.5 rounded-full ml-auto"><?php echo $unreadCount; ?> New</span>
+                        <?php endif; ?>
+                    </a>
+                    
+                    <a href="logout.php" class="text-lg font-bold text-red-500 uppercase tracking-widest mt-4">Logout</a>
                 <?php else: ?>
                     <a href="login.php" class="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-widest">Login</a>
                     <a href="register.php" class="bg-brandGreen text-white text-center py-5 rounded-3xl font-bold uppercase tracking-widest shadow-lg shadow-brandGreen/20">Join Now</a>

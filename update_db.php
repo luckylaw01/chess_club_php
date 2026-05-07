@@ -12,6 +12,14 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Add profile_picture column to users table
+$sql_add_photo = "ALTER TABLE users ADD COLUMN IF NOT EXISTS profile_picture VARCHAR(255) DEFAULT NULL;";
+if ($conn->query($sql_add_photo) === TRUE) {
+    echo "Column 'profile_picture' checked/added successfully.\n";
+} else {
+    echo "Error adding column: " . $conn->error . "\n";
+}
+
 $sql = "CREATE TABLE IF NOT EXISTS payments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,

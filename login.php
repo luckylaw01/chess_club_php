@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check input errors before querying the database
     if (empty($email_err) && empty($password_err)) {
         // Prepare a select statement
-        $sql = "SELECT id, username, email, password, first_name, last_name, role FROM users WHERE email = ?";
+        $sql = "SELECT id, username, email, password, first_name, last_name, role, profile_picture FROM users WHERE email = ?";
 
         if ($stmt = $conn->prepare($sql)) {
             // Bind variables to the prepared statement as parameters
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Check if email exists, if yes then verify password
                 if ($stmt->num_rows == 1) {
                     // Bind result variables
-                    $stmt->bind_result($id, $username, $db_email, $hashed_password, $first_name, $last_name, $role);
+                    $stmt->bind_result($id, $username, $db_email, $hashed_password, $first_name, $last_name, $role, $profile_picture);
                     if ($stmt->fetch()) {
                         if (password_verify($password, $hashed_password)) {
                             // Password is correct, so start a new session
@@ -58,6 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $_SESSION["first_name"] = $first_name;
                             $_SESSION["last_name"] = $last_name;
                             $_SESSION["role"] = $role;
+                            $_SESSION["profile_picture"] = $profile_picture;
 
                             // Redirect user based on role
                             if ($_SESSION["role"] === 'admin') {

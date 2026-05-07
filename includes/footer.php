@@ -4,12 +4,10 @@
             <div class="grid md:grid-cols-4 gap-12 mb-16">
                 <div class="col-span-2 space-y-6">
                     <div class="flex items-center gap-2">
-                        <span class="text-2xl font-bold tracking-tight uppercase">Ascending<span
-                                class="text-brandGreen">Pawn</span></span>
+                        <span class="text-2xl font-bold tracking-tight uppercase">Ascending Pawn <span class="text-brandGreen">Chess</span></span>
                     </div>
                     <p class="max-w-xs text-slate-500 text-sm leading-relaxed">
-                        The ultimate destination for chess players in Kenya. Home to the Ascending Pawn Club, Academy,
-                        and national-level tournaments.
+                        The ultimate destination for chess players in Kenya. Home to the chess champions of Kenya.
                     </p>
                     <div class="flex gap-4">
                         <a href="#" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 hover:text-brandGreen hover:scale-110 transition-all duration-300">
@@ -26,20 +24,21 @@
                 <div>
                     <h4 class="font-bold mb-6 text-sm uppercase text-brandGreen">Explore</h4>
                     <ul class="space-y-4 text-sm text-slate-500 font-medium">
-                        <li class="hover:text-brandGreen cursor-pointer transition-colors"><a href="club.php">Club Membership</a></li>
+                        <li class="hover:text-brandGreen cursor-pointer transition-colors"><a href="club.php">Membership</a></li>
                         <li class="hover:text-brandGreen cursor-pointer transition-colors"><a href="academy.php">Academy Programs</a></li>
                         <li class="hover:text-brandGreen cursor-pointer transition-colors"><a href="tournaments.php">Tournaments</a></li>
                         <li class="hover:text-brandGreen cursor-pointer transition-colors"><a href="shop.php">Shop</a></li>
+                        <li class="hover:text-brandGreen cursor-pointer transition-colors"><a href="contact_us.php">Contact Us</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="font-bold mb-6 text-sm uppercase text-brandGreen">Contact</h4>
-                    <p class="text-sm text-slate-500 font-medium leading-relaxed">Nairobi, Kenya<br>info@ascendingpawn.co.ke</p>
+                    <p class="text-sm text-slate-500 font-medium leading-relaxed">Nyeri, Kenya<br>info@ascendingpawnchess.com<br>+254721510393</p>
                 </div>
             </div>
             <div
                 class="pt-8 border-t border-slate-200 dark:border-slate-800 text-[10px] uppercase font-bold text-slate-400 tracking-widest flex justify-between items-center">
-                <span>© <?php echo date("Y"); ?> Ascending Pawn Chess Club. All Rights Reserved.</span>
+                <span>© <?php echo date("Y"); ?> Ascending Pawn Chess. All Rights Reserved.</span>
                 <span class="text-slate-300 dark:text-slate-700">Master the Board</span>
             </div>
         </div>

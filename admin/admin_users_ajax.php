@@ -12,12 +12,35 @@ require_once "../includes/db_connect.php";
 
 $action = $_GET['action'] ?? null;
 
+function handleProfilePictureUpload($userId) {
+    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = '../uploads/profile_pictures/';
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+        
+        $fileInfo = pathinfo($_FILES['profile_picture']['name']);
+        $ext = strtolower($fileInfo['extension']);
+        $allowedExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        
+        if (in_array($ext, $allowedExts)) {
+            $newFileName = 'profile_' . $userId . '_' . time() . '.' . $ext;
+            $destination = $uploadDir . $newFileName;
+            
+            if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $destination)) {
+                return 'uploads/profile_pictures/' . $newFileName;
+            }
+        }
+    }
+    return false;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "GET" && $action == "list") {
     $search = $conn->real_escape_string($_GET['search'] ?? '');
     $role = $conn->real_escape_string($_GET['role'] ?? '');
     $edit_id = (int)($_GET['edit_id'] ?? 0);
 
-    $sql = "SELECT id, username, email, first_name, last_name, role, elo_rating, created_at FROM users WHERE 1=1";
+    $sql = "SELECT id, username, email, first_name, last_name, role, elo_rating, created_at, profile_picture FROM users WHERE 1=1";
 
     if ($edit_id > 0) {
         $sql .= " AND id = $edit_id";
@@ -42,18 +65,35 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && $action == "list") {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "update") {
     $id = (int)$_POST['id'];
+    $username = $conn->real_escape_string($_POST['username']);
+    $email = $conn->real_escape_string($_POST['email']);
     $first_name = $conn->real_escape_string($_POST['first_name']);
     $last_name = $conn->real_escape_string($_POST['last_name']);
     $role = $conn->real_escape_string($_POST['role']);
     $elo_rating = (int)$_POST['elo_rating'];
     $password = $_POST['password'] ?? '';
 
-    $sql = "UPDATE users SET first_name = '$first_name', last_name = '$last_name', role = '$role', elo_rating = $elo_rating";
+    // Check if new username or email is taken by another user
+    $check = $conn->query("SELECT id FROM users WHERE (username = '$username' OR email = '$email') AND id != $id");
+    if ($check->num_rows > 0) {
+        echo json_encode(['status' => 'error', 'message' => 'Username or Email already exists for another user.']);
+        exit;
+    }
+
+    $sql = "UPDATE users SET username = '$username', email = '$email', first_name = '$first_name', last_name = '$last_name', role = '$role', elo_rating = $elo_rating";
     
     // Only update password if provided
     if (!empty($password)) {
         $hashed = password_hash($password, PASSWORD_DEFAULT);
         $sql .= ", password = '$hashed'";
+    }
+
+    $uploadedPic = handleProfilePictureUpload($id);
+    if ($uploadedPic) {
+        $sql .= ", profile_picture = '$uploadedPic'";
+        if ($id == $_SESSION["id"]) {
+            $_SESSION["profile_picture"] = $uploadedPic;
+        }
     }
     
     $sql .= " WHERE id = $id";
@@ -86,6 +126,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "create") {
             VALUES ('$username', '$email', '$password', '$first_name', '$last_name', '$role', $elo_rating, 'active')";
 
     if ($conn->query($sql)) {
+        $newId = $conn->insert_id;
+        $uploadedPic = handleProfilePictureUpload($newId);
+        if ($uploadedPic) {
+            $conn->query("UPDATE users SET profile_picture = '$uploadedPic' WHERE id = $newId");
+        }
         echo json_encode(['status' => 'success', 'message' => 'User created successfully.']);
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $conn->error]);

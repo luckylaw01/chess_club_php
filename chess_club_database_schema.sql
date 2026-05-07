@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2026 at 04:53 PM
+-- Generation Time: May 05, 2026 at 10:51 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -84,6 +84,19 @@ CREATE TABLE `course_topics` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `mailing_list`
+--
+
+CREATE TABLE `mailing_list` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `subscribed_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `membership_plans`
 --
 
@@ -94,6 +107,36 @@ CREATE TABLE `membership_plans` (
   `price` decimal(10,2) NOT NULL,
   `duration_months` int(11) DEFAULT 1,
   `features` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `content_id` int(11) NOT NULL,
+  `is_read` tinyint(1) DEFAULT 0,
+  `read_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notification_content`
+--
+
+CREATE TABLE `notification_content` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `type` enum('system','announcement','promotion','alert') DEFAULT 'system',
+  `created_by` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -254,10 +297,32 @@ ALTER TABLE `course_topics`
   ADD KEY `course_id` (`course_id`);
 
 --
+-- Indexes for table `mailing_list`
+--
+ALTER TABLE `mailing_list`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
 -- Indexes for table `membership_plans`
 --
 ALTER TABLE `membership_plans`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_notification_user` (`user_id`),
+  ADD KEY `fk_notification_content` (`content_id`);
+
+--
+-- Indexes for table `notification_content`
+--
+ALTER TABLE `notification_content`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_notification_content_author` (`created_by`);
 
 --
 -- Indexes for table `orders`
@@ -339,9 +404,27 @@ ALTER TABLE `course_topics`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `mailing_list`
+--
+ALTER TABLE `mailing_list`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `membership_plans`
 --
 ALTER TABLE `membership_plans`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `notification_content`
+--
+ALTER TABLE `notification_content`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -414,6 +497,19 @@ ALTER TABLE `course_subtopics`
 --
 ALTER TABLE `course_topics`
   ADD CONSTRAINT `course_topics_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `academy_courses` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD CONSTRAINT `fk_notification_content` FOREIGN KEY (`content_id`) REFERENCES `notification_content` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_notification_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `notification_content`
+--
+ALTER TABLE `notification_content`
+  ADD CONSTRAINT `fk_notification_content_author` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `orders`

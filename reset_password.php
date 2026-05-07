@@ -7,18 +7,22 @@ include 'includes/header.php';
 $token = $_GET['token'] ?? '';
 $email = $_GET['email'] ?? '';
 
+// Escape strings for DB
+$token_escaped = mysqli_real_escape_string($conn, $token);
+$email_escaped = mysqli_real_escape_string($conn, $email);
+
 $message = '';
 $messageType = '';
 $showForm = false;
 
-// Token validation (Simulated for this demo using session)
-if (isset($_SESSION['reset_token']) && 
-    $_SESSION['reset_token']['token'] === $token && 
-    $_SESSION['reset_token']['email'] === $email && 
-    $_SESSION['reset_token']['expiry'] > time()) {
+// Token validation from DB
+$validationQuery = "SELECT id FROM users WHERE email = '$email_escaped' AND reset_token = '$token_escaped' AND reset_expires > NOW()";
+$validationResult = mysqli_query($conn, $validationQuery);
+
+if (mysqli_num_rows($validationResult) > 0) {
     $showForm = true;
-} else {
-    $message = "Your reset token is invalid or has expired.";
+} else if ($email) {
+    $message = "Your reset token is invalid or has expired. Please request a new one.";
     $messageType = 'error';
 }
 
@@ -31,14 +35,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $showForm) {
         $messageType = 'error';
     } else {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $email_escaped = mysqli_real_escape_string($conn, $email);
         
-        $query = "UPDATE users SET password = '$hashed_password' WHERE email = '$email_escaped'";
+        // Update password and invalidate the token
+        $query = "UPDATE users SET password = '$hashed_password', reset_token = NULL, reset_expires = NULL WHERE email = '$email_escaped'";
         if (mysqli_query($conn, $query)) {
             $message = "Password updated successfully!";
             $messageType = 'success';
             $showForm = false; // Hide form after success
-            unset($_SESSION['reset_token']); // Invalidate session token
         } else {
             $message = "Database error. Please try again.";
             $messageType = 'error';

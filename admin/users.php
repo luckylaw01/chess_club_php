@@ -60,26 +60,36 @@ include "admin_header.php";
     </div>
 </div>
 
-<div id="userModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
-    <div class="bg-white dark:bg-slate-900 w-full max-w-lg rounded-[40px] shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-slide-up">
+<div id="userModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm overflow-y-auto pt-24 pb-12">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-lg rounded-[40px] shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-slide-up my-auto">
         <div class="p-8 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
             <h3 class="text-xl font-black uppercase tracking-tight" id="modalTitle">Edit Member</h3>
             <button onclick="closeModal()" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 hover:text-red-500 transition-colors">
                 <i class="fas fa-times"></i>
             </button>
         </div>
-        <form id="editUserForm" class="p-8 space-y-6">
+        <form id="editUserForm" class="p-8 space-y-6" enctype="multipart/form-data">
             <input type="hidden" name="id" id="edit_id">
             
-            <div id="addOnlyFields" class="space-y-6 hidden">
+            <div class="flex justify-center mb-6">
+                <div class="relative group">
+                    <img id="profile_preview" src="../assets/images/default-avatar.png" alt="Profile" class="w-24 h-24 rounded-full object-cover border-4 border-slate-100 dark:border-slate-800 shadow-lg">
+                    <label for="profile_picture" class="absolute bottom-0 right-0 w-8 h-8 bg-brandGreen text-white rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:scale-110 transition-transform">
+                        <i class="fas fa-camera text-xs"></i>
+                    </label>
+                    <input type="file" name="profile_picture" id="profile_picture" class="hidden" accept="image/*" onchange="previewImage(this)">
+                </div>
+            </div>
+            
+            <div class="space-y-6">
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-1">Username</label>
-                    <input type="text" name="username" id="edit_username"
+                    <input type="text" name="username" id="edit_username" required
                         class="w-full px-5 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-brandGreen outline-none transition-all">
                 </div>
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-1">Email Address</label>
-                    <input type="email" name="email" id="edit_email"
+                    <input type="email" name="email" id="edit_email" required
                         class="w-full px-5 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-brandGreen outline-none transition-all">
                 </div>
             </div>
@@ -145,9 +155,15 @@ include "admin_header.php";
             if (data.status === 'success') {
                 tbody.innerHTML = data.users.length ? data.users.map(user => `
                     <tr class="text-sm hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
-                        <td class="px-8 py-5">
-                            <p class="font-bold text-slate-900 dark:text-white">${user.first_name || ''} ${user.last_name || ''}</p>
-                            <p class="text-xs text-slate-400 font-medium">@${user.username}</p>
+                        <td class="px-8 py-5 flex items-center gap-3">
+                            ${user.profile_picture ? 
+                                `<img src="../${user.profile_picture}" alt="Profile" class="w-10 h-10 rounded-full object-cover border-2 border-brandGreen">` : 
+                                `<div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center border-2 border-slate-300 dark:border-slate-600"><i class="fas fa-user text-slate-400"></i></div>`
+                            }
+                            <div>
+                                <p class="font-bold text-slate-900 dark:text-white">${user.first_name || ''} ${user.last_name || ''}</p>
+                                <p class="text-xs text-slate-400 font-medium">@${user.username}</p>
+                            </div>
                         </td>
                         <td class="px-8 py-5">
                             <p class="font-medium truncate max-w-[200px]">${user.email}</p>
@@ -177,6 +193,8 @@ include "admin_header.php";
 
     function openEditModal(user) {
         document.getElementById('edit_id').value = user.id;
+        document.getElementById('edit_username').value = user.username || '';
+        document.getElementById('edit_email').value = user.email || '';
         document.getElementById('edit_first_name').value = user.first_name || '';
         document.getElementById('edit_last_name').value = user.last_name || '';
         document.getElementById('edit_role').value = user.role;
@@ -184,9 +202,15 @@ include "admin_header.php";
         document.getElementById('edit_password').value = '';
         document.getElementById('edit_password').placeholder = '••••••••';
         
+        let previewImg = document.getElementById('profile_preview');
+        if (user.profile_picture) {
+            previewImg.src = "../" + user.profile_picture;
+        } else {
+            previewImg.src = "../assets/images/default-avatar.png"; // Fallback or clear
+        }
+
         document.getElementById('modalTitle').innerText = 'Edit Member';
         document.getElementById('passLabel').innerText = 'Password (Leave empty to keep)';
-        document.getElementById('addOnlyFields').classList.add('hidden');
         document.getElementById('deleteBtn').classList.remove('hidden');
         document.getElementById('submitBtn').innerText = 'Save Changes';
         
@@ -203,12 +227,22 @@ include "admin_header.php";
         document.getElementById('edit_password').placeholder = 'Enter password';
         document.getElementById('edit_password').required = true;
         
-        document.getElementById('addOnlyFields').classList.remove('hidden');
         document.getElementById('deleteBtn').classList.add('hidden');
         document.getElementById('submitBtn').innerText = 'Create Member';
+        document.getElementById('profile_preview').src = "../assets/images/default-avatar.png";
         
         document.getElementById('userModal').classList.remove('hidden');
         document.getElementById('userModal').classList.add('flex');
+    }
+
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profile_preview').src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
     }
 
     function closeModal() {
@@ -241,11 +275,10 @@ include "admin_header.php";
         const action = id ? 'update' : 'create';
         
         const formData = new FormData(e.target);
-        const searchParams = new URLSearchParams(formData);
         
         const response = await fetch(`admin_users_ajax.php?action=${action}`, {
             method: 'POST',
-            body: searchParams
+            body: formData
         });
         const res = await response.json();
         if (res.status === 'success') {

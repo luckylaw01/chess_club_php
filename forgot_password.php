@@ -17,22 +17,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
         
-        // Simulating a token generation
+        // Generate a real token and expiry
         $token = bin2hex(random_bytes(16));
-        $reset_link = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/reset_password.php?token=$token&email=" . urlencode($email);
+        $expiry = date("Y-m-d H:i:s", time() + 3600); // 1 hour
+        $reset_link = "https://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/reset_password.php?token=$token&email=" . urlencode($email);
         
-        // Storing simulated token in session for this demo
-        $_SESSION['reset_token'] = [
-            'token' => $token,
-            'email' => $email,
-            'expiry' => time() + 3600 // 1 hour
-        ];
+        // Store the token in the database
+        $updateQuery = "UPDATE users SET reset_token = '$token', reset_expires = '$expiry' WHERE email = '$email'";
+        mysqli_query($conn, $updateQuery);
         
-        $message = "A reset link has been (simulated) sent to your email: <strong>" . htmlspecialchars($email) . "</strong>. <br><br><a href='$reset_link' class='text-brandGreen font-bold underline'>Click here to reset your password (Demo Link)</a>";
+        // Email headers and body
+        $from = "admin@ascendingpawnchess.com";
+        $subject = "Password Reset Request";
+        $headers = "From: Ascending Pawn Chess Club <$from>\r\n";
+        $headers .= "Reply-To: $from\r\n";
+        $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+        $headers .= "MIME-Version: 1.0\r\n";
+        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+        $emailBody = "
+        <html>
+        <body style='font-family: sans-serif; background-color: #f7fafc; padding: 40px;'>
+            <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 40px; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);'>
+                <div style='text-align: center; margin-bottom: 30px;'>
+                    <h1 style='color: #80D200; margin: 0; font-size: 24px;'>Ascending Pawn</h1>
+                </div>
+                <h2 style='color: #1a202c; border-bottom: 2px solid #80D200; padding-bottom: 10px;'>Password Reset</h2>
+                <div style='color: #4a5568; line-height: 1.8; font-size: 16px;'>
+                    <p>Hello,</p>
+                    <p>We received a request to reset the password for the account associated with this email. If you did not make this request, please ignore this email.</p>
+                    <p>To reset your password, please click the button below:</p>
+                    <div style='text-align: center; margin: 30px 0;'>
+                        <a href='$reset_link' style='background-color: #80D200; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;'>Reset Password</a>
+                    </div>
+                    <p>Or paste this link into your browser:<br>
+                    <a href='$reset_link' style='color: #80D200;'>$reset_link</a></p>
+                    <p>This link will expire in 1 hour.</p>
+                </div>
+                <div style='margin-top: 40px; padding-top: 20px; border-top: 1px solid #e2e8f0; text-align: center;'>
+                    <p style='font-size: 12px; color: #718096;'>
+                        &copy; " . date('Y') . " Ascending Pawn Chess Club. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </body>
+        </html>";
+
+        // Send the email
+        mail($email, $subject, $emailBody, $headers, "-f $from");
+        
+        $message = "If an account with that email exists, a password reset link has been sent to it. Please check your inbox and spam folder.";
         $messageType = 'success';
     } else {
-        $message = "We couldn't find an account with that email address.";
-        $messageType = 'error';
+        // Prevent user enumeration by displaying a generic success message
+        $message = "If an account with that email exists, a password reset link has been sent to it. Please check your inbox and spam folder.";
+        $messageType = 'success';
     }
 }
 ?>
