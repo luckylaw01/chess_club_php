@@ -72,8 +72,9 @@ if ($conn->query($sql_settings) === TRUE) {
     echo "Error creating app_settings table: " . $conn->error . "\n";
 }
 
-$paystackSecret = 'YOUR_SECRET_KEY_HERE';
-$paystackPublic = 'pk_live_b4f0c19885752db1a1b96d1d587343ec49626f1b';
+// Load Paystack keys from environment variables or configuration file
+$paystackSecret = getenv('PAYSTACK_SECRET_KEY') ?: 'YOUR_SECRET_KEY_HERE';
+$paystackPublic = getenv('PAYSTACK_PUBLIC_KEY') ?: 'YOUR_PUBLIC_KEY_HERE';
 $stmt = $conn->prepare("INSERT INTO app_settings (setting_key, setting_value) VALUES (?, ?) ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value)");
 if ($stmt) {
     $key = 'paystack_secret_key';

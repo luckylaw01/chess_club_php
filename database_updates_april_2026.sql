@@ -126,9 +126,11 @@ CREATE TABLE IF NOT EXISTS `app_settings` (
   PRIMARY KEY (`setting_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Add your Paystack keys using app configuration or environment variables
+-- Do not commit actual API keys to version control
 INSERT INTO `app_settings` (`setting_key`, `setting_value`) VALUES
 ('paystack_secret_key', 'YOUR_SECRET_KEY_HERE'),
-('paystack_public_key', 'pk_live_b4f0c19885752db1a1b96d1d587343ec49626f1b')
+('paystack_public_key', 'YOUR_PUBLIC_KEY_HERE')
 ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value);
 
 

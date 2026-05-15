@@ -1,0 +1,25 @@
+# Environment variables and configuration
+.env
+.env.local
+settings.txt
+
+# Sensitive files
+*.key
+*.pem
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
