@@ -39,6 +39,10 @@
                 <i class="fas fa-envelope-open-text w-5"></i>
                 <span>Marketing</span>
             </a>
+            <a href="paystack_settings.php" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors <?php echo basename($_SERVER['PHP_SELF']) == 'paystack_settings.php' ? 'bg-brandGreen/10 text-brandGreen font-bold' : ''; ?>">
+                <i class="fas fa-credit-card w-5"></i>
+                <span>Paystack Keys</span>
+            </a>
             <a href="../notifications.php" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                 <i class="fas fa-bell w-5"></i>
                 <span>Notifications</span>

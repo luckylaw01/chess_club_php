@@ -176,10 +176,10 @@ if($result_plans = $conn->query($sql_plans)){
                             <?php endforeach; ?>
                         </ul>
                         <button
-                            onclick="openMpesaModal(<?php echo $plan['id']; ?>, '<?php echo $plan['name']; ?>', <?php echo $plan['price']; ?>)"
+                            onclick="openPaystackModal(<?php echo $plan['id']; ?>, '<?php echo htmlspecialchars($plan['name'], ENT_QUOTES); ?>', <?php echo $plan['price']; ?>)"
                             class="w-full py-4 <?php echo $user['membership_plan_id'] == $plan['id'] ? 'bg-slate-200 text-slate-500' : 'bg-brandGreen text-white'; ?> rounded-2xl font-bold uppercase tracking-widest transition-all hover:scale-105"
                             <?php echo $user['membership_plan_id'] == $plan['id'] ? 'disabled' : ''; ?>>
-                            <?php echo $user['membership_plan_id'] == $plan['id'] ? 'Current Plan' : 'Select Plan'; ?>
+                            <?php echo $user['membership_plan_id'] == $plan['id'] ? 'Current Plan' : 'Pay with Paystack'; ?>
                         </button>
                     </div>
                 <?php endforeach; ?>
@@ -187,28 +187,28 @@ if($result_plans = $conn->query($sql_plans)){
         </div>
     </section>
 
-    <!-- M-Pesa Payment Simulation Modal -->
-    <div id="mpesaModal" class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-slate-900/80 backdrop-blur-sm hidden">
+    <!-- Paystack Subscription Modal -->
+    <div id="paystackModal" class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-slate-900/80 backdrop-blur-sm hidden">
         <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-[40px] p-10 relative shadow-2xl animate-scale-up">
-            <button onclick="closeMpesaModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-900 dark:hover:text-white">
+            <button onclick="closePaystackModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-900 dark:hover:text-white">
                 <i class="fas fa-times text-xl"></i>
             </button>
             
             <div class="text-center mb-8">
                 <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/M-PESA_LOGO-01.svg" class="w-10 h-10" alt="M-Pesa">
+                    <i class="fas fa-credit-card text-brandGreen text-2xl"></i>
                 </div>
-                <h3 class="text-2xl font-black">Plan Upgrade</h3>
+                <h3 class="text-2xl font-black">Paystack Subscription</h3>
                 <p id="modalPlanName" class="text-slate-500 font-bold uppercase text-[10px] tracking-widest mt-1">PRO PAWN</p>
             </div>
 
-            <form id="paymentForm" onsubmit="simulatePayment(event)">
+            <form id="paymentForm" onsubmit="startPaystackSubscription(event)">
+                <input type="hidden" name="action" value="initialize_subscription">
                 <input type="hidden" id="planId" name="plan_id">
-                <input type="hidden" id="planPrice" name="amount">
                 
                 <div class="mb-6">
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-4">Phone Number (M-Pesa)</label>
-                    <input type="text" id="phoneNumber" name="phone_number" placeholder="2547XXXXXXXX" required
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-4">Phone Number</label>
+                    <input type="text" id="phoneNumber" name="phone_number" placeholder="0712345678" required
                         class="w-full px-6 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border-none focus:ring-2 focus:ring-brandGreen text-lg font-bold">
                 </div>
 
@@ -217,38 +217,46 @@ if($result_plans = $conn->query($sql_plans)){
                         <span class="text-sm font-bold opacity-60">Total Amount</span>
                         <span id="displayPrice" class="text-xl font-black text-brandGreen">KES 0.00</span>
                     </div>
-                    <p class="text-[10px] leading-relaxed opacity-50">Enter your M-Pesa number above. A simulated STK push will be triggered for verification.</p>
+                    <p class="text-[10px] leading-relaxed opacity-50">Paystack will open securely after you submit this form.</p>
                 </div>
 
                 <button type="submit" id="submitBtn"
                     class="w-full py-5 bg-brandGreen text-white rounded-3xl font-bold uppercase tracking-[0.2em] shadow-xl shadow-brandGreen/20 hover:scale-105 active:scale-95 transition-all">
-                    Pay via M-Pesa
+                    Pay with Paystack
                 </button>
             </form>
 
             <div id="paymentStatus" class="hidden mt-6 text-center">
                 <div class="animate-spin inline-block w-8 h-8 border-4 border-brandGreen border-t-transparent rounded-full mb-4"></div>
-                <p class="text-sm font-bold">Processing payment simulation...</p>
+                <p class="text-sm font-bold">Initializing Paystack checkout...</p>
             </div>
         </div>
     </div>
 
     <script>
-    function openMpesaModal(id, name, price) {
+    const callbackReference = new URLSearchParams(window.location.search).get('reference');
+    const callbackStatus = new URLSearchParams(window.location.search).get('status');
+
+    function openPaystackModal(id, name, price) {
         document.getElementById('planId').value = id;
-        document.getElementById('planPrice').value = price;
         document.getElementById('modalPlanName').innerText = name.toUpperCase();
         document.getElementById('displayPrice').innerText = 'KES ' + new Intl.NumberFormat().format(price);
-        document.getElementById('mpesaModal').classList.remove('hidden');
+        document.getElementById('paystackModal').classList.remove('hidden');
     }
 
-    function closeMpesaModal() {
-        document.getElementById('mpesaModal').classList.add('hidden');
+    function closePaystackModal() {
+        document.getElementById('paystackModal').classList.add('hidden');
         document.getElementById('paymentForm').classList.remove('hidden');
         document.getElementById('paymentStatus').classList.add('hidden');
     }
 
-    async function simulatePayment(event) {
+    function showStatusMarkup(html) {
+        const status = document.getElementById('paymentStatus');
+        status.classList.remove('hidden');
+        status.innerHTML = html;
+    }
+
+    async function startPaystackSubscription(event) {
         event.preventDefault();
         
         const form = document.getElementById('paymentForm');
@@ -261,38 +269,65 @@ if($result_plans = $conn->query($sql_plans)){
         const formData = new FormData(form);
         
         try {
-            const response = await fetch('simulate_mpesa.php', {
+            const response = await fetch('paystack_payment_ajax.php', {
                 method: 'POST',
                 body: formData
             });
             const result = await response.json();
             
             if(result.success) {
-                status.innerHTML = `
-                    <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl animate-bounce">
-                        <i class="fas fa-check"></i>
-                    </div>
-                    <p class="text-lg font-black uppercase tracking-tight">Payment Successful!</p>
-                    <p class="text-sm text-slate-500 mt-2">Ref: ${result.reference}</p>
-                    <p class="text-[10px] text-slate-400 mt-1">Updating membership...</p>
-                `;
-                setTimeout(() => {
-                    location.reload();
-                }, 3000);
+                window.location.href = result.authorization_url;
             } else {
-                status.innerHTML = `
+                showStatusMarkup(`
                     <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
                         <i class="fas fa-exclamation"></i>
                     </div>
                     <p class="text-lg font-black text-red-600">Payment Failed</p>
                     <p class="text-sm text-slate-500 mt-2">${result.message}</p>
-                    <button onclick="closeMpesaModal()" class="mt-4 text-brandGreen font-bold">Try Again</button>
-                `;
+                    <button onclick="closePaystackModal()" class="mt-4 text-brandGreen font-bold">Try Again</button>
+                `);
             }
         } catch (error) {
             console.error('Error:', error);
-            status.innerHTML = `<p class="text-red-500">System error occurred. Please try again.</p>`;
+            showStatusMarkup(`<p class="text-red-500">System error occurred. Please try again.</p>`);
         }
+    }
+
+    if (callbackReference && callbackStatus === 'callback') {
+        showStatusMarkup('<p class="text-sm font-bold text-slate-500">Verifying payment...</p>');
+
+        fetch('paystack_payment_ajax.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                action: 'verify',
+                reference: callbackReference
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                showStatusMarkup(`
+                    <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl animate-bounce">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <p class="text-lg font-black uppercase tracking-tight">Payment Successful!</p>
+                    <p class="text-sm text-slate-500 mt-2">Your membership has been updated.</p>
+                    <p class="text-[10px] text-slate-400 mt-1">Reloading your plan status...</p>
+                `);
+                setTimeout(() => location.reload(), 2500);
+            } else {
+                showStatusMarkup(`
+                    <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                        <i class="fas fa-exclamation"></i>
+                    </div>
+                    <p class="text-lg font-black text-red-600">Verification Failed</p>
+                    <p class="text-sm text-slate-500 mt-2">${result.message}</p>
+                `);
+            }
+        });
     }
     </script>
         </div>

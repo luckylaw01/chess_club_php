@@ -187,58 +187,62 @@ require_once 'includes/home_images.php';
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Featured Member 1 -->
-                    <div class="bg-white dark:bg-slate-900/50 p-6 rounded-[32px] border border-slate-200 dark:border-slate-800 hover:border-brandGreen/40 transition-all group glass">
-                        <div class="relative w-20 h-20 mb-6 mx-auto">
-                            <div class="w-full h-full rounded-2xl bg-brandGreen/20 flex items-center justify-center text-brandGreen text-3xl font-black">M</div>
-                            <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-brandOrange rounded-full border-4 border-white dark:border-slate-900 flex items-center justify-center" title="Chess Champion">
-                                <i class="fas fa-crown text-[10px] text-white"></i>
-                            </div>
-                        </div>
-                        <div class="text-center">
-                            <h3 class="font-black text-lg uppercase tracking-tight">Munya</h3>
-                            <p class="text-[10px] font-bold text-brandGreen uppercase tracking-widest mb-4">Rating: 1850</p>
-                            <p class="text-xs text-slate-500 italic mb-6">"Favorite Opening: Sicilian Defense. Always looking for the master stroke."</p>
-                            <div class="flex justify-center gap-2">
-                                <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-[9px] font-bold text-slate-500 uppercase">Strategist</span>
-                                <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-[9px] font-bold text-slate-500 uppercase">Top 10</span>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                    // Fetch top 3 members by elo_rating
+                    require_once 'includes/db_connect.php';
+                    $topMembers = [];
+                    if (isset($conn)) {
+                        $sql = "SELECT id, username, full_name, elo_rating, profile_picture FROM users WHERE role IN ('user','coach') AND membership_status = 'active' AND elo_rating IS NOT NULL ORDER BY elo_rating DESC LIMIT 3";
+                        if ($stmt = $conn->prepare($sql)) {
+                            $stmt->execute();
+                            $res = $stmt->get_result();
+                            $topMembers = $res->fetch_all(MYSQLI_ASSOC);
+                            $stmt->close();
+                        }
+                    }
 
-                    <!-- Featured Member 2 -->
+                    $accentClasses = ['brandGreen', 'brandGold', 'brandBrown'];
+                    if (!empty($topMembers)):
+                        $i = 0;
+                        foreach ($topMembers as $m):
+                            $initial = '';
+                            $name = !empty($m['full_name']) ? $m['full_name'] : $m['username'];
+                            if (!empty($m['full_name'])) {
+                                $initial = mb_strtoupper(mb_substr($m['full_name'], 0, 1));
+                            } else {
+                                $initial = mb_strtoupper(mb_substr($m['username'], 0, 1));
+                            }
+                            $rating = !empty($m['elo_rating']) ? intval($m['elo_rating']) : 1200;
+                            $profile = !empty($m['profile_picture']) ? $m['profile_picture'] : '';
+                            $hasPic = $profile && file_exists(__DIR__ . '/' . $profile);
+                            $accent = $accentClasses[$i % count($accentClasses)];
+                    ?>
                     <div class="bg-white dark:bg-slate-900/50 p-6 rounded-[32px] border border-slate-200 dark:border-slate-800 hover:border-brandGreen/40 transition-all group glass">
                         <div class="relative w-20 h-20 mb-6 mx-auto">
-                            <div class="w-full h-full rounded-2xl bg-brandGold/20 flex items-center justify-center text-brandGold text-3xl font-black">S</div>
-                            <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-brandOrange rounded-full border-4 border-white dark:border-slate-900 flex items-center justify-center" title="Active Player">
-                                <i class="fas fa-bolt text-[10px] text-white"></i>
-                            </div>
+                            <?php if ($hasPic): ?>
+                                <img src="<?php echo htmlspecialchars($profile); ?>" alt="<?php echo htmlspecialchars($name); ?>" class="w-full h-full object-cover rounded-2xl">
+                            <?php else: ?>
+                                <div class="w-full h-full rounded-2xl bg-<?php echo $accent; ?>/20 flex items-center justify-center text-<?php echo $accent; ?> text-3xl font-black"><?php echo htmlspecialchars($initial); ?></div>
+                            <?php endif; ?>
                         </div>
                         <div class="text-center">
-                            <h3 class="font-black text-lg uppercase tracking-tight">Sarah K.</h3>
-                            <p class="text-[10px] font-bold text-brandGold uppercase tracking-widest mb-4">Rating: 1620</p>
-                            <p class="text-xs text-slate-500 italic mb-6">"Chess is the gymnasium of the mind. I love complex endgames."</p>
+                            <h3 class="font-black text-lg uppercase tracking-tight"><?php echo htmlspecialchars($name); ?></h3>
+                            <p class="text-[10px] font-bold text-<?php echo $accent; ?> uppercase tracking-widest mb-4">Rating: <?php echo $rating; ?></p>
+                            <p class="text-xs text-slate-500 italic mb-6">Top player in our community.</p>
                             <div class="flex justify-center gap-2">
-                                <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-[9px] font-bold text-slate-500 uppercase">Tactician</span>
-                                <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-[9px] font-bold text-slate-500 uppercase">Rising Star</span>
+                                <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-[9px] font-bold text-slate-500 uppercase">Top Player</span>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Featured Member 3 -->
-                    <div class="bg-white dark:bg-slate-900/50 p-6 rounded-[32px] border border-slate-200 dark:border-slate-800 hover:border-brandGreen/40 transition-all group glass">
-                        <div class="relative w-20 h-20 mb-6 mx-auto">
-                            <div class="w-full h-full rounded-2xl bg-brandBrown/20 flex items-center justify-center text-brandBrown text-3xl font-black">J</div>
-                        </div>
-                        <div class="text-center">
-                            <h3 class="font-black text-lg uppercase tracking-tight">James O.</h3>
-                            <p class="text-[10px] font-bold text-brandBrown uppercase tracking-widest mb-4">Rating: 1740</p>
-                            <p class="text-xs text-slate-500 italic mb-6">"Patience is the greatest equalizer on the board."</p>
-                            <div class="flex justify-center gap-2">
-                                <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-[9px] font-bold text-slate-500 uppercase">Endgame Pro</span>
-                            </div>
-                        </div>
+                    <?php
+                            $i++;
+                        endforeach;
+                    else:
+                    ?>
+                    <div class="col-span-3 text-center p-8 bg-white dark:bg-slate-900/50 rounded-[32px] border border-slate-200 dark:border-slate-800">
+                        <p class="font-bold text-slate-600 dark:text-slate-300">No members found yet. Be the first to join!</p>
                     </div>
+                    <?php endif; ?>
 
                     <!-- Add Personal Profile Link -->
                     <a href="register.php" class="bg-brandGreen/5 border-2 border-dashed border-brandGreen/30 p-6 rounded-[32px] flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-brandGreen/10 transition-all">

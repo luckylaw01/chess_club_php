@@ -34,6 +34,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 $error = '';
 $success = false;
+$callbackReference = $_GET['reference'] ?? '';
+$callbackStatus = $_GET['status'] ?? '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone = mysqli_real_escape_string($conn, $_POST['phone']);
@@ -102,25 +104,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="space-y-8 animate-slide-up">
                     <h1 class="text-4xl font-black uppercase tracking-tight">Complete <span class="text-brandGreen">Order</span></h1>
                     
-                    <form method="POST" class="space-y-6">
+                    <div id="checkoutStatus" class="hidden rounded-[32px] p-6 mb-6 border font-bold"></div>
+
+                    <form id="checkoutForm" method="POST" onsubmit="startPaystackCheckout(event)" class="space-y-6">
+                        <input type="hidden" name="action" value="initialize_checkout">
                         <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-[40px] shadow-lg">
-                            <h3 class="text-xl font-bold mb-6 uppercase tracking-widest text-slate-400 text-xs">Payment Method: M-Pesa</h3>
+                            <h3 class="text-xl font-bold mb-6 uppercase tracking-widest text-slate-400 text-xs">Payment Method: Paystack</h3>
                             
                             <div class="space-y-6">
                                 <div>
-                                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-1">M-Pesa Phone Number</label>
+                                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-1">Phone Number</label>
                                     <div class="relative">
                                         <i class="fas fa-phone absolute left-5 top-1/2 -translate-y-1/2 text-slate-400"></i>
                                         <input type="text" name="phone" required placeholder="0712345678"
                                             class="w-full pl-12 pr-6 py-4 rounded-3xl bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-brandGreen outline-none transition-all font-bold">
                                     </div>
-                                    <p class="text-[10px] text-slate-500 mt-3 ml-1 font-bold">You will receive an STK push on this number to authorize KES <?php echo number_format($total, 2); ?></p>
+                                    <p class="text-[10px] text-slate-500 mt-3 ml-1 font-bold">You will be redirected to Paystack to authorize KES <?php echo number_format($total, 2); ?></p>
                                 </div>
                             </div>
                         </div>
 
                         <button type="submit" class="w-full py-6 bg-brandGreen text-white font-black uppercase tracking-widest rounded-[32px] hover:bg-brandNeonGreen hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-brandGreen/30 flex items-center justify-center gap-4">
-                            Pay Now
+                            Pay with Paystack
                             <i class="fas fa-lock text-xs opacity-50"></i>
                         </button>
                     </form>
@@ -170,5 +175,91 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 .custom-scroll::-webkit-scrollbar-track { background: transparent; }
 .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
 </style>
+
+<script>
+const checkoutReference = <?php echo json_encode($callbackReference); ?>;
+const checkoutStatus = <?php echo json_encode($callbackStatus); ?>;
+
+function setCheckoutStatus(type, message, html = '') {
+    const statusBox = document.getElementById('checkoutStatus');
+    statusBox.classList.remove('hidden');
+    statusBox.textContent = message || '';
+    statusBox.innerHTML = html || statusBox.innerHTML;
+    statusBox.className = 'rounded-[32px] p-6 mb-6 border font-bold';
+
+    if (type === 'success') {
+        statusBox.classList.add('bg-emerald-500/10', 'border-emerald-500/20', 'text-emerald-600');
+    } else if (type === 'error') {
+        statusBox.classList.add('bg-red-500/10', 'border-red-500/20', 'text-red-600');
+    } else {
+        statusBox.classList.add('bg-slate-500/10', 'border-slate-400/20', 'text-slate-600');
+    }
+}
+
+async function startPaystackCheckout(event) {
+    event.preventDefault();
+
+    const form = document.getElementById('checkoutForm');
+    const submitButton = form.querySelector('button[type="submit"]');
+
+    submitButton.disabled = true;
+    submitButton.innerHTML = 'Initializing...';
+
+    try {
+        const response = await fetch('paystack_payment_ajax.php', {
+            method: 'POST',
+            body: new FormData(form)
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error(result.message || 'Unable to start checkout.');
+        }
+
+        window.location.href = result.authorization_url;
+    } catch (error) {
+        setCheckoutStatus('error', error.message);
+        submitButton.disabled = false;
+        submitButton.innerHTML = 'Pay with Paystack <i class="fas fa-lock text-xs opacity-50"></i>';
+    }
+}
+
+if (checkoutReference && checkoutStatus === 'callback') {
+    setCheckoutStatus('info', 'Verifying payment...');
+
+    fetch('paystack_payment_ajax.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            action: 'verify',
+            reference: checkoutReference
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            setCheckoutStatus('success', '', `
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-emerald-500/10 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl animate-bounce">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <p class="text-lg font-black uppercase tracking-tight">Payment Successful!</p>
+                    <p class="text-sm text-slate-500 mt-2">Your order has been placed and your cart was cleared.</p>
+                    <p class="text-[10px] text-slate-400 mt-1">Redirecting to the shop...</p>
+                </div>
+            `);
+            setTimeout(() => {
+                window.location.href = 'shop.php';
+            }, 2500);
+        } else {
+            setCheckoutStatus('error', result.message || 'Payment verification failed.');
+        }
+    })
+    .catch(() => setCheckoutStatus('error', 'Unable to verify the payment right now.'));
+}
+</script>
 
 <?php include 'includes/footer.php'; ?>

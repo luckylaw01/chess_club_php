@@ -177,7 +177,8 @@ CREATE TABLE `order_items` (
 CREATE TABLE `payments` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `plan_id` int(11) NOT NULL,
+  `plan_id` int(11) DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL,
   `amount` decimal(10,2) NOT NULL,
   `phone_number` varchar(15) NOT NULL,
   `transaction_reference` varchar(100) NOT NULL,
@@ -345,7 +346,8 @@ ALTER TABLE `order_items`
 ALTER TABLE `payments`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`),
-  ADD KEY `plan_id` (`plan_id`);
+  ADD KEY `plan_id` (`plan_id`),
+  ADD KEY `order_id` (`order_id`);
 
 --
 -- Indexes for table `products`
@@ -529,7 +531,8 @@ ALTER TABLE `order_items`
 --
 ALTER TABLE `payments`
   ADD CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `payments_ibfk_2` FOREIGN KEY (`plan_id`) REFERENCES `membership_plans` (`id`);
+  ADD CONSTRAINT `payments_ibfk_2` FOREIGN KEY (`plan_id`) REFERENCES `membership_plans` (`id`),
+  ADD CONSTRAINT `payments_ibfk_3` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`);
 
 --
 -- Constraints for table `tournament_registrations`
