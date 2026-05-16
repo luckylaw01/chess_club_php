@@ -66,11 +66,12 @@
             </a>
             <div class="hidden lg:flex items-center gap-10 text-slate-900 dark:text-slate-100">
                 <?php $current_page = basename($_SERVER['PHP_SELF']); ?>
-                <div class="flex items-center gap-8 text-[13px] font-bold uppercase tracking-[0.15em]">
+                <div class="flex items-center gap-8 text-[12px] font-bold uppercase tracking-[0.14em]">
                     <a href="club.php" class="<?php echo $current_page == 'club.php' ? 'text-brandGreen' : 'hover:text-brandGreen text-slate-900 dark:text-slate-100'; ?> transition-all">Club</a>
                     <a href="academy.php" class="<?php echo $current_page == 'academy.php' ? 'text-brandGreen' : 'hover:text-brandGreen text-slate-900 dark:text-slate-100'; ?> transition-all">Academy</a>
                     <a href="tournaments.php" class="<?php echo $current_page == 'tournaments.php' ? 'text-brandGreen' : 'hover:text-brandGreen text-slate-900 dark:text-slate-100'; ?> transition-all">Tournaments</a>
                     <a href="shop.php" class="<?php echo $current_page == 'shop.php' ? 'text-brandGreen' : 'hover:text-brandGreen text-slate-900 dark:text-slate-100'; ?> transition-all">Shop</a>
+                    <a href="donate.php" class="<?php echo $current_page == 'donate.php' ? 'text-brandGreen' : 'hover:text-brandGreen text-slate-900 dark:text-slate-100'; ?> transition-all">Donate</a>
                 </div>
                 <div class="h-8 w-px bg-slate-200 dark:bg-slate-800 mx-2"></div>
                 <div class="flex items-center gap-6">
@@ -162,8 +163,8 @@
                         <span class="text-[13px] font-bold text-slate-600 dark:text-slate-400">Welcome, <?php echo htmlspecialchars($_SESSION["first_name"]); ?></span>
                         <a href="logout.php" class="text-[13px] font-bold uppercase tracking-widest hover:text-red-500 transition-colors">Logout</a>
                     <?php else: ?>
-                        <a href="login.php" class="text-[13px] font-bold uppercase tracking-widest hover:text-brandGreen transition-colors">Login</a>
-                        <a href="register.php" class="bg-brandGreen text-white px-8 py-3.5 rounded-2xl text-[13px] font-bold uppercase tracking-widest hover:bg-brandNeonGreen hover:scale-105 transition-all duration-300 shadow-lg shadow-brandGreen/20">Join Club</a>
+                        <a href="login.php" class="text-[12px] font-bold uppercase tracking-widest hover:text-brandGreen transition-colors">Login</a>
+                        <a href="register.php" class="bg-brandGreen text-white px-8 py-3.5 rounded-2xl text-[12px] font-bold uppercase tracking-widest hover:bg-brandNeonGreen hover:scale-105 transition-all duration-300 shadow-lg shadow-brandGreen/20">Join Club</a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -175,10 +176,11 @@
         <div class="relative w-80 h-full bg-white dark:bg-slate-900 ml-auto shadow-2xl flex flex-col p-8">
             <div class="flex justify-between items-center mb-12"><span class="text-xl font-bold uppercase tracking-tight text-slate-900 dark:text-white">Menu</span><button id="close-menu-btn" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-brandGreen rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700"><i class="fas fa-times"></i></button></div>
             <div class="flex flex-col gap-6">
-                <a href="club.php" class="text-xl font-bold text-slate-900 dark:text-white hover:text-brandGreen transition-colors uppercase tracking-widest">Club</a>
-                <a href="academy.php" class="text-xl font-bold text-slate-900 dark:text-white hover:text-brandGreen transition-colors uppercase tracking-widest">Academy</a>
-                <a href="tournaments.php" class="text-xl font-bold text-slate-900 dark:text-white hover:text-brandGreen transition-colors uppercase tracking-widest">Tournaments</a>
-                <a href="shop.php" class="text-xl font-bold text-slate-900 dark:text-white hover:text-brandGreen transition-colors uppercase tracking-widest">Shop</a>
+                <a href="club.php" class="text-lg font-bold text-slate-900 dark:text-white hover:text-brandGreen transition-colors uppercase tracking-widest">Club</a>
+                <a href="academy.php" class="text-lg font-bold text-slate-900 dark:text-white hover:text-brandGreen transition-colors uppercase tracking-widest">Academy</a>
+                <a href="tournaments.php" class="text-lg font-bold text-slate-900 dark:text-white hover:text-brandGreen transition-colors uppercase tracking-widest">Tournaments</a>
+                <a href="shop.php" class="text-lg font-bold text-slate-900 dark:text-white hover:text-brandGreen transition-colors uppercase tracking-widest">Shop</a>
+                <a href="donate.php" class="text-lg font-bold text-slate-900 dark:text-white hover:text-brandGreen transition-colors uppercase tracking-widest">Donate</a>
                 <div class="h-px bg-slate-100 dark:bg-slate-800 my-4"></div>
                 <?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true): ?>
                     <div class="flex items-center gap-4 mb-4">
@@ -207,8 +209,8 @@
                     
                     <a href="logout.php" class="text-lg font-bold text-red-500 uppercase tracking-widest mt-4">Logout</a>
                 <?php else: ?>
-                    <a href="login.php" class="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-widest">Login</a>
-                    <a href="register.php" class="bg-brandGreen text-white text-center py-5 rounded-3xl font-bold uppercase tracking-widest shadow-lg shadow-brandGreen/20">Join Now</a>
+                    <a href="login.php" class="text-base font-bold text-slate-900 dark:text-white uppercase tracking-widest">Login</a>
+                    <a href="register.php" class="bg-brandGreen text-white text-center py-5 rounded-3xl text-sm font-bold uppercase tracking-widest shadow-lg shadow-brandGreen/20">Join Now</a>
                 <?php endif; ?>
             </div>
         </div>
