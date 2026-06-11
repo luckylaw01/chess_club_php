@@ -92,6 +92,16 @@ function paystack_mark_order_paid(mysqli $conn, int $orderId): void
     }
 }
 
+function paystack_mark_tournament_registration_paid(mysqli $conn, int $registrationId): void
+{
+    $stmt = $conn->prepare("UPDATE tournament_registrations SET payment_status = 'paid', status = 'confirmed' WHERE id = ? LIMIT 1");
+    if ($stmt) {
+        $stmt->bind_param('i', $registrationId);
+        $stmt->execute();
+        $stmt->close();
+    }
+}
+
 $action = $_POST['action'] ?? '';
 $userId = (int)$_SESSION['id'];
 $user = paystack_get_user_details($conn, $userId);
@@ -365,6 +375,10 @@ if ($action === 'verify') {
                 if (isset($_SESSION['cart'])) {
                     $_SESSION['cart'] = [];
                 }
+            }
+
+            if (!empty($payment['tournament_registration_id'])) {
+                paystack_mark_tournament_registration_paid($conn, (int)$payment['tournament_registration_id']);
             }
         }
 

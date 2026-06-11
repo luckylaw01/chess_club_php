@@ -228,7 +228,7 @@ function markEmailAsRead($uid) {
             return false;
         }
 
-        $success = imap_setflag_full($imap, $uid, "\\Seen");
+        $success = imap_setflag_full($imap, (string)$uid, "\\Seen", ST_UID);
         imap_close($imap);
         return (bool)$success;
     } catch (Exception $e) {

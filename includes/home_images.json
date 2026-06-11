@@ -7,5 +7,47 @@
     "gallery4": "assets\/images\/gallery-4.jpeg",
     "gallery5": "assets\/images\/gallery-5.jpeg",
     "gallery6": "assets\/images\/gallery-6.jpeg",
-    "gallery7": "assets\/images\/gallery-7.jpeg"
+    "gallery7": "assets\/images\/gallery-7.jpeg",
+    "gallery": [
+        {
+            "image": "assets\/images\/gallery-1.jpeg",
+            "alt": "Chess Tournament Scene",
+            "caption": "Major Championships"
+        },
+        {
+            "image": "assets\/images\/gallery-2.jpeg",
+            "alt": "Player Focus",
+            "caption": "Deep Concentration"
+        },
+        {
+            "image": "assets\/images\/gallery-3.jpeg",
+            "alt": "Academy Session",
+            "caption": "Academy Training"
+        },
+        {
+            "image": "assets\/images\/gallery-4.jpeg",
+            "alt": "Chess Pieces Close-up",
+            "caption": "The Royal Game"
+        },
+        {
+            "image": "assets\/images\/gallery-5.jpeg",
+            "alt": "Winning Moments",
+            "caption": "Winning Moments"
+        },
+        {
+            "image": "assets\/images\/gallery-6.jpeg",
+            "alt": "Community Gathering",
+            "caption": "Community Spirit"
+        },
+        {
+            "image": "assets\/images\/gallery-7.jpeg",
+            "alt": "Future Grandmasters",
+            "caption": "Our Rising Stars"
+        },
+        {
+            "image": "uploads\/gallery\/gallery_1781189992_25299850.jpeg",
+            "caption": "Nairobi Chess Club",
+            "alt": "Nairobi"
+        }
+    ]
 }

@@ -124,10 +124,12 @@ include "admin_header.php";
                 </div>
             </div>
 
-            <div>
-                <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-1" id="passLabel">Password (Leave empty to keep)</label>
-                <input type="password" name="password" id="edit_password" placeholder="••••••••"
-                    class="w-full px-5 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-brandGreen outline-none transition-all">
+            <div id="sendPasswordContainer">
+                <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-1">Password Management</label>
+                <button type="button" id="sendPasswordBtn" onclick="sendNewPassword()" class="w-full py-4 bg-brandOrange/10 text-brandOrange hover:bg-brandOrange hover:text-white font-bold rounded-2xl transition-all uppercase text-[11px] tracking-widest flex items-center justify-center gap-2">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>Send new password to user</span>
+                </button>
             </div>
 
             <div class="pt-4 flex gap-3">
@@ -199,8 +201,6 @@ include "admin_header.php";
         document.getElementById('edit_last_name').value = user.last_name || '';
         document.getElementById('edit_role').value = user.role;
         document.getElementById('edit_elo_rating').value = user.elo_rating;
-        document.getElementById('edit_password').value = '';
-        document.getElementById('edit_password').placeholder = '••••••••';
         
         let previewImg = document.getElementById('profile_preview');
         if (user.profile_picture) {
@@ -210,8 +210,15 @@ include "admin_header.php";
         }
 
         document.getElementById('modalTitle').innerText = 'Edit Member';
-        document.getElementById('passLabel').innerText = 'Password (Leave empty to keep)';
-        document.getElementById('deleteBtn').classList.remove('hidden');
+        
+        if (parseInt(user.id) === <?php echo (int)$_SESSION['id']; ?>) {
+            document.getElementById('deleteBtn').classList.add('hidden');
+            document.getElementById('sendPasswordContainer').classList.add('hidden');
+        } else {
+            document.getElementById('deleteBtn').classList.remove('hidden');
+            document.getElementById('sendPasswordContainer').classList.remove('hidden');
+        }
+        
         document.getElementById('submitBtn').innerText = 'Save Changes';
         
         document.getElementById('userModal').classList.remove('hidden');
@@ -223,11 +230,9 @@ include "admin_header.php";
         document.getElementById('edit_id').value = '';
         
         document.getElementById('modalTitle').innerText = 'Add New Member';
-        document.getElementById('passLabel').innerText = 'Password';
-        document.getElementById('edit_password').placeholder = 'Enter password';
-        document.getElementById('edit_password').required = true;
         
         document.getElementById('deleteBtn').classList.add('hidden');
+        document.getElementById('sendPasswordContainer').classList.add('hidden');
         document.getElementById('submitBtn').innerText = 'Create Member';
         document.getElementById('profile_preview').src = "../assets/images/default-avatar.png";
         
@@ -248,11 +253,40 @@ include "admin_header.php";
     function closeModal() {
         document.getElementById('userModal').classList.add('hidden');
         document.getElementById('userModal').classList.remove('flex');
-        document.getElementById('edit_password').required = false;
+    }
+
+    async function sendNewPassword() {
+        const id = document.getElementById('edit_id').value;
+        const btn = document.getElementById('sendPasswordBtn');
+        if (!confirm('Are you sure you want to generate a new password and email it to this user?')) return;
+        
+        btn.disabled = true;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Sending...';
+        
+        try {
+            const response = await fetch('admin_users_ajax.php?action=send_password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `id=${id}`
+            });
+            const res = await response.json();
+            alert(res.message);
+        } catch (error) {
+            console.error(error);
+            alert('Failed to send password. Please try again.');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        }
     }
 
     async function deleteUser() {
         const id = document.getElementById('edit_id').value;
+        if (parseInt(id) === <?php echo (int)$_SESSION['id']; ?>) {
+            alert('You cannot delete your own account.');
+            return;
+        }
         if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) return;
         
         const response = await fetch('admin_users_ajax.php?action=delete', {

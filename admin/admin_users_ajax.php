@@ -12,6 +12,73 @@ require_once "../includes/db_connect.php";
 
 $action = $_GET['action'] ?? null;
 
+function generateRandomPassword($length = 12) {
+    $lowercase = 'abcdefghijklmnopqrstuvwxyz';
+    $uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $numbers = '0123456789';
+    $special = '!@#$%&*';
+    
+    $password = '';
+    $password .= $lowercase[rand(0, strlen($lowercase) - 1)];
+    $password .= $uppercase[rand(0, strlen($uppercase) - 1)];
+    $password .= $numbers[rand(0, strlen($numbers) - 1)];
+    $password .= $special[rand(0, strlen($special) - 1)];
+    
+    $allChars = $lowercase . $uppercase . $numbers . $special;
+    for ($i = 0; $i < $length - 4; $i++) {
+        $password .= $allChars[rand(0, strlen($allChars) - 1)];
+    }
+    
+    return str_shuffle($password);
+}
+
+function sendPasswordEmail($email, $name, $password, $isNewAccount = false) {
+    $from = "admin@ascendingpawnchess.com";
+    $subject = $isNewAccount ? "Welcome to Ascending Pawn Chess Club!" : "Your New Account Password";
+    $headers = "From: Ascending Pawn Chess Club <$from>\r\n";
+    $headers .= "Reply-To: $from\r\n";
+    $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+    $title = $isNewAccount ? "Welcome to the Club!" : "Password Reset";
+    $intro = $isNewAccount 
+        ? "Your account has been created by the administrator. Welcome to Ascending Pawn Chess Club!" 
+        : "The administrator has generated a new password for your account.";
+
+    $emailBody = "
+    <html>
+    <body style='font-family: sans-serif; background-color: #f7fafc; padding: 40px;'>
+        <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 40px; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);'>
+            <div style='text-align: center; margin-bottom: 30px;'>
+                <h1 style='color: #80D200; margin: 0; font-size: 24px;'>Ascending Pawn</h1>
+            </div>
+            <h2 style='color: #1a202c; border-bottom: 2px solid #80D200; padding-bottom: 10px;'>$title</h2>
+            <div style='color: #4a5568; line-height: 1.8; font-size: 16px;'>
+                <p>Hello " . htmlspecialchars($name) . ",</p>
+                <p>$intro</p>
+                <p>Here are your login details:</p>
+                <div style='background-color: #f7fafc; padding: 20px; border-radius: 10px; border: 1px solid #edf2f7; margin: 20px 0;'>
+                    <p style='margin: 5px 0;'><strong>Email:</strong> " . htmlspecialchars($email) . "</p>
+                    <p style='margin: 5px 0;'><strong>Password:</strong> <code style='font-size: 18px; color: #e53e3e; background-color: #fffaf0; padding: 2px 6px; border-radius: 4px; border: 1px dashed #fbd38d;'>" . htmlspecialchars($password) . "</code></p>
+                </div>
+                <p>We recommend logging in and changing your password in your settings as soon as possible.</p>
+                <div style='text-align: center; margin: 30px 0;'>
+                    <a href='https://ascendingpawnchess.com/login.php' style='background-color: #80D200; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;'>Login to Your Dashboard</a>
+                </div>
+            </div>
+            <div style='margin-top: 40px; padding-top: 20px; border-top: 1px solid #e2e8f0; text-align: center;'>
+                <p style='font-size: 12px; color: #718096;'>
+                    &copy; " . date('Y') . " Ascending Pawn Chess Club. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </body>
+    </html>";
+
+    return mail($email, $subject, $emailBody, $headers, "-f $from");
+}
+
 function handleProfilePictureUpload($userId) {
     if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
         $uploadDir = '../uploads/profile_pictures/';
@@ -71,7 +138,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "update") {
     $last_name = $conn->real_escape_string($_POST['last_name']);
     $role = $conn->real_escape_string($_POST['role']);
     $elo_rating = (int)$_POST['elo_rating'];
-    $password = $_POST['password'] ?? '';
 
     // Check if new username or email is taken by another user
     $check = $conn->query("SELECT id FROM users WHERE (username = '$username' OR email = '$email') AND id != $id");
@@ -81,12 +147,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "update") {
     }
 
     $sql = "UPDATE users SET username = '$username', email = '$email', first_name = '$first_name', last_name = '$last_name', role = '$role', elo_rating = $elo_rating";
-    
-    // Only update password if provided
-    if (!empty($password)) {
-        $hashed = password_hash($password, PASSWORD_DEFAULT);
-        $sql .= ", password = '$hashed'";
-    }
 
     $uploadedPic = handleProfilePictureUpload($id);
     if ($uploadedPic) {
@@ -113,7 +173,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "create") {
     $last_name = $conn->real_escape_string($_POST['last_name']);
     $role = $conn->real_escape_string($_POST['role']);
     $elo_rating = (int)$_POST['elo_rating'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    
+    // Automate password creation and emailing
+    $generatedPassword = generateRandomPassword();
+    $password = password_hash($generatedPassword, PASSWORD_DEFAULT);
 
     // Check if user already exists
     $check = $conn->query("SELECT id FROM users WHERE username = '$username' OR email = '$email'");
@@ -131,9 +194,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "create") {
         if ($uploadedPic) {
             $conn->query("UPDATE users SET profile_picture = '$uploadedPic' WHERE id = $newId");
         }
-        echo json_encode(['status' => 'success', 'message' => 'User created successfully.']);
+        
+        $name = trim($first_name . ' ' . $last_name);
+        if (empty($name)) {
+            $name = $username;
+        }
+        
+        sendPasswordEmail($email, $name, $generatedPassword, true);
+        echo json_encode(['status' => 'success', 'message' => 'User created and password emailed successfully.']);
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $conn->error]);
+    }
+    exit;
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "send_password") {
+    $id = (int)$_POST['id'];
+    
+    // Security check: cannot reset own password from user list
+    if ($id == $_SESSION['id']) {
+        echo json_encode(['status' => 'error', 'message' => 'You cannot reset your own password here.']);
+        exit;
+    }
+    
+    // Fetch user details
+    $userQuery = $conn->query("SELECT first_name, last_name, email FROM users WHERE id = $id");
+    if ($userQuery && $userQuery->num_rows > 0) {
+        $user = $userQuery->fetch_assoc();
+        $name = trim($user['first_name'] . ' ' . $user['last_name']);
+        if (empty($name)) {
+            $name = 'Chess Member';
+        }
+        $email = $user['email'];
+        
+        // Generate new password
+        $newPassword = generateRandomPassword();
+        $hashed = password_hash($newPassword, PASSWORD_DEFAULT);
+        
+        // Update user password in DB
+        $updateSql = "UPDATE users SET password = '$hashed' WHERE id = $id";
+        if ($conn->query($updateSql)) {
+            // Send email
+            if (sendPasswordEmail($email, $name, $newPassword, false)) {
+                echo json_encode(['status' => 'success', 'message' => 'New password sent to user successfully.']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Password updated in database, but sending email failed.']);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $conn->error]);
+        }
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'User not found.']);
     }
     exit;
 }

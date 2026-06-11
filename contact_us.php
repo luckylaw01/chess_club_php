@@ -49,7 +49,7 @@ include 'includes/header.php';
 ?>
 
 <div class="bg-slate-50 dark:bg-darkBg min-h-screen py-32 px-6">
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-7xl mx-auto">
         <div class="text-center mb-16">
             <h1 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-6">Get in Touch</h1>
             <p class="text-lg text-slate-600 dark:text-slate-400">Have a question or want to join the club? Fill out the form below or contact us directly.</p>
@@ -85,7 +85,7 @@ include 'includes/header.php';
 
             <!-- Contact Form -->
             <div class="md:col-span-2">
-                <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-slate-800">
+                <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-slate-800 h-full flex flex-col">
                     <?php if ($message_sent): ?>
                         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-xl mb-6 relative">
                             <span class="block sm:inline">Thank you! Your message has been sent successfully. We will get back to you shortly.</span>
@@ -96,7 +96,7 @@ include 'includes/header.php';
                         </div>
                     <?php endif; ?>
 
-                    <form action="contact_us.php" method="POST" class="space-y-6">
+                    <form action="contact_us.php" method="POST" class="space-y-6 flex-grow flex flex-col">
                         <div class="grid grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Your Name</label>
@@ -113,9 +113,9 @@ include 'includes/header.php';
                             <input type="text" name="subject" required placeholder="How can we help?" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brandGreen focus:border-transparent transition-all">
                         </div>
 
-                        <div>
+                        <div class="flex-grow flex flex-col">
                             <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Message</label>
-                            <textarea name="message" required rows="5" placeholder="Your message here..." class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brandGreen focus:border-transparent transition-all resize-none"></textarea>
+                            <textarea name="message" required rows="5" placeholder="Your message here..." class="flex-grow w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brandGreen focus:border-transparent transition-all resize-none"></textarea>
                         </div>
 
                         <button type="submit" class="w-full bg-brandGreen hover:bg-brandGreen/90 text-white font-bold rounded-xl px-6 py-4 transition-all">

@@ -27,6 +27,15 @@ if (isset($_GET['ajax_search'])) {
     exit();
 }
 
+// Handle AJAX Mark Email as Read
+if (isset($_POST['mark_email_read_uid'])) {
+    header('Content-Type: application/json');
+    $uid = (int)$_POST['mark_email_read_uid'];
+    $success = markEmailAsRead($uid);
+    echo json_encode(['success' => $success]);
+    exit();
+}
+
 $admin_id = $_SESSION['id'];
 $pageTitle = "Communications Hub";
 include "admin_header.php";
@@ -188,11 +197,17 @@ $inboxEmailCount = is_array($inboxEmails) ? count($inboxEmails) : 0;
     </div>
     
     <!-- Tabs Header -->
-    <div class="flex gap-4 border-b border-slate-200 dark:border-slate-800 mb-8">
-        <button id="tab-inbox" onclick="switchTab('inbox')" class="px-6 py-3 font-bold text-slate-500 uppercase tracking-widest text-sm hover:text-brandGreen transition-colors border-b-2 border-transparent">
-            <i class="fas fa-inbox mr-2"></i> Inbox & History
+    <div class="flex flex-wrap gap-2 md:gap-4 border-b border-slate-200 dark:border-slate-800 mb-8">
+        <button id="tab-inbox" onclick="switchTab('inbox')" class="px-4 md:px-6 py-3 font-bold text-slate-500 uppercase tracking-widest text-xs md:text-sm hover:text-brandGreen transition-colors border-b-2 border-transparent">
+            <i class="fas fa-envelope mr-2"></i> Email Inbox
         </button>
-        <button id="tab-compose" onclick="switchTab('compose')" class="px-6 py-3 font-bold text-slate-500 uppercase tracking-widest text-sm hover:text-brandGreen transition-colors border-b-2 border-transparent">
+        <button id="tab-notifications" onclick="switchTab('notifications')" class="px-4 md:px-6 py-3 font-bold text-slate-500 uppercase tracking-widest text-xs md:text-sm hover:text-brandGreen transition-colors border-b-2 border-transparent">
+            <i class="fas fa-bell mr-2"></i> Notifications
+        </button>
+        <button id="tab-sent" onclick="switchTab('sent')" class="px-4 md:px-6 py-3 font-bold text-slate-500 uppercase tracking-widest text-xs md:text-sm hover:text-brandGreen transition-colors border-b-2 border-transparent">
+            <i class="fas fa-paper-plane mr-2"></i> Recently Sent
+        </button>
+        <button id="tab-compose" onclick="switchTab('compose')" class="px-4 md:px-6 py-3 font-bold text-slate-500 uppercase tracking-widest text-xs md:text-sm hover:text-brandGreen transition-colors border-b-2 border-transparent">
             <i class="fas fa-pen mr-2"></i> Compose
         </button>
     </div>
@@ -310,42 +325,106 @@ $inboxEmailCount = is_array($inboxEmails) ? count($inboxEmails) : 0;
         </div>
     </div>
 
-    <!-- Inbox Tab Content -->
+    <!-- Email Inbox Tab Content -->
     <div id="content-inbox" class="hidden">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Sent History -->
-        <div class="bg-white dark:bg-slate-900 rounded-[32px] border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden p-6">
-            <h3 class="font-black text-lg mb-6 flex items-center justify-between">
-                <span class="flex items-center gap-2"><i class="fas fa-paper-plane text-brandGreen"></i> Recently Sent</span>
-            </h3>
-            <div class="space-y-4">
-                <?php if (empty($sentNotifications)): ?>
-                    <p class="text-sm text-slate-500 italic p-4 text-center">No messages sent yet.</p>
-                <?php else: ?>
-                    <?php foreach ($sentNotifications as $notif): ?>
-                        <div class="flex flex-col gap-1 p-3 rounded-xl border border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
-                            <div class="flex justify-between items-start">
-                                <h4 class="font-bold text-sm truncate pr-2 max-w-[70%]"><?php echo htmlspecialchars($notif['title']); ?></h4>
-                                <span class="bg-brandGreen/10 text-brandGreen text-[9px] px-2 py-0.5 rounded-full uppercase font-bold"><?php echo htmlspecialchars($notif['type']); ?></span>
-                            </div>
-                            <span class="text-xs text-slate-400"><i class="far fa-clock mr-1"></i> <?php echo date('M d, Y H:i', strtotime($notif['created_at'])); ?></span>
+        <!-- Email Inbox from info@ascendingpawnchess.com -->
+        <div class="relative overflow-hidden rounded-[34px] border border-slate-200/80 dark:border-slate-800 bg-gradient-to-br from-white via-slate-50 to-slate-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950 shadow-[0_18px_50px_-24px_rgba(15,23,42,0.35)]">
+            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brandGreen via-brandGold to-brandOrange"></div>
+            <div class="p-8">
+                <div class="flex items-start justify-between gap-4 mb-6">
+                    <div class="flex items-start gap-4 min-w-0">
+                        <div class="w-12 h-12 rounded-2xl bg-brandGreen/10 text-brandGreen flex items-center justify-center ring-1 ring-brandGreen/15 shrink-0">
+                            <i class="fas fa-envelope"></i>
                         </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                        <div class="min-w-0">
+                            <h3 class="font-black text-xl leading-tight tracking-tight text-slate-900 dark:text-white">Email Inbox</h3>
+                            <p class="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mt-1 truncate">info@ascendingpawnchess.com</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <span class="px-3 py-1 rounded-full bg-brandGreen/10 text-brandGreen text-[9px] font-black uppercase tracking-[0.2em]">IMAP</span>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <?php if (empty($inboxPreviewEmails)): ?>
+                        <div class="rounded-[28px] border border-dashed border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-950/40 p-5 text-center shadow-inner">
+                            <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
+                                <i class="fas fa-inbox"></i>
+                            </div>
+                            <p class="text-sm text-slate-500 leading-relaxed">
+                                <?php if (!empty($inboxError)): ?>
+                                    <span class="font-bold text-rose-600 dark:text-rose-300">Mailbox Error:</span> <?php echo htmlspecialchars($inboxError); ?>
+                                <?php elseif ($inboxEmails === false || (is_array($inboxEmails) && count($inboxEmails) === 0)): ?>
+                                    No emails received yet or unable to connect to mailbox.
+                                <?php else: ?>
+                                    Mailbox is empty.
+                                <?php endif; ?>
+                            </p>
+                        </div>
+                        <?php if (!empty($inboxDebug)): ?>
+                            <div class="mt-4 p-4 rounded-3xl border border-rose-200/70 bg-rose-50/80 dark:bg-rose-900/10 dark:border-rose-900/30 text-xs text-rose-700 dark:text-rose-200 overflow-auto shadow-sm">
+                                <div class="font-black uppercase tracking-[0.2em] mb-2 flex items-center gap-2">
+                                    <i class="fas fa-triangle-exclamation"></i> IMAP Debug
+                                </div>
+                                <pre class="whitespace-pre-wrap break-words leading-relaxed"><?php echo htmlspecialchars(print_r($inboxDebug, true)); ?></pre>
+                            </div>
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <?php foreach ($inboxPreviewEmails as $index => $email): ?>
+                            <button type="button" onclick="toggleEmailPreview(<?php echo (int)$index; ?>, <?php echo (int)$email['uid']; ?>, this)" class="email-preview-card group w-full text-left flex flex-col gap-3 p-4 rounded-[24px] border <?php echo !$email['is_read'] ? 'border-brandGreen/25 bg-brandGreen/5' : 'border-slate-200/70 dark:border-slate-800'; ?> bg-white/90 dark:bg-slate-900/70 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-200/50 dark:hover:shadow-black/20 transition-all duration-300">
+                                <div class="flex justify-between items-start gap-3">
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <h4 class="font-extrabold text-sm truncate tracking-tight <?php echo !$email['is_read'] ? 'text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-200'; ?>">
+                                                <?php echo htmlspecialchars($email['subject']); ?>
+                                            </h4>
+                                            <?php if (!$email['is_read']): ?>
+                                                <span class="bg-brandGreen text-white text-[9px] px-2.5 py-1 rounded-full uppercase font-black tracking-widest shrink-0 shadow-sm">New</span>
+                                            <?php endif; ?>
+                                        </div>
+                                        <p class="text-xs text-slate-500 truncate"><?php echo htmlspecialchars($email['from_name'] ? $email['from_name'] . ' <' . $email['from'] . '>' : $email['from']); ?></p>
+                                    </div>
+                                    <span class="shrink-0 text-slate-400 transition-transform duration-300 email-chevron" data-chevron-for="<?php echo (int)$index; ?>">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </span>
+                                </div>
+                                <div class="flex items-center gap-2 text-[11px] text-slate-400 font-semibold">
+                                    <i class="far fa-clock"></i>
+                                    <span><?php echo date('M d, Y H:i', strtotime($email['date'])); ?></span>
+                                </div>
+                                <div class="email-preview-body hidden text-xs text-slate-500 leading-relaxed border-t border-slate-200/70 dark:border-slate-800 pt-3 mt-1">
+                                    <?php echo nl2br(htmlspecialchars($email['body'])); ?>
+                                </div>
+                            </button>
+                        <?php endforeach; ?>
+
+                        <div class="flex items-center justify-between gap-3 pt-2">
+                            <p class="text-[11px] text-slate-400 font-semibold uppercase tracking-[0.2em]">
+                                Showing latest <?php echo count($inboxPreviewEmails); ?> of <?php echo (int)$inboxEmailCount; ?> emails
+                            </p>
+                            <button type="button" onclick="openInboxModal()" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all">
+                                See All <i class="fas fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
+    </div>
 
-        <!-- Received In-App Notifications -->
-        <div class="bg-white dark:bg-slate-900 rounded-[32px] border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden p-6 relative">
+    <!-- Notifications Tab Content -->
+    <div id="content-notifications" class="hidden">
+        <div class="bg-white dark:bg-slate-900 rounded-[32px] border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden p-8 relative">
             <h3 class="font-black text-lg mb-6 flex items-center justify-between">
-                <span class="flex items-center gap-2"><i class="fas fa-bell text-brandGreen"></i> Notifications</span>
+                <span class="flex items-center gap-2"><i class="fas fa-bell text-brandGreen"></i> Received Notifications</span>
             </h3>
             <div class="space-y-4">
                 <?php if (empty($receivedNotifications)): ?>
                     <p class="text-sm text-slate-500 italic p-4 text-center">Your inbox is empty.</p>
                 <?php else: ?>
                     <?php foreach ($receivedNotifications as $notif): ?>
-                        <div class="flex flex-col gap-1 p-3 rounded-xl border <?php echo !$notif['is_read'] ? 'border-brandGreen/30 bg-brandGreen/5' : 'border-slate-100 dark:border-slate-800'; ?> hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                        <div class="flex flex-col gap-1 p-4 rounded-2xl border <?php echo !$notif['is_read'] ? 'border-brandGreen/30 bg-brandGreen/5' : 'border-slate-100 dark:border-slate-800'; ?> hover:bg-slate-50 dark:hover:bg-slate-800/50 transition animate-slide-up">
                             <div class="flex justify-between items-start">
                                 <h4 class="font-bold text-sm truncate pr-2 max-w-[70%] <?php echo !$notif['is_read'] ? 'text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-300'; ?>">
                                     <?php echo htmlspecialchars($notif['title']); ?>
@@ -362,91 +441,29 @@ $inboxEmailCount = is_array($inboxEmails) ? count($inboxEmails) : 0;
             
             <a href="../notifications.php" class="block text-center mt-6 text-xs font-bold text-brandGreen hover:underline uppercase tracking-widest">View All <i class="fas fa-arrow-right ml-1"></i></a>
         </div>
+    </div>
 
-        <!-- Email Inbox from info@ascendingpawnchess.com -->
-        <div class="relative overflow-hidden rounded-[34px] border border-slate-200/80 dark:border-slate-800 bg-gradient-to-br from-white via-slate-50 to-slate-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950 shadow-[0_18px_50px_-24px_rgba(15,23,42,0.35)]">
-            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brandGreen via-brandGold to-brandOrange"></div>
-            <div class="p-6">
-                <div class="flex items-start justify-between gap-4 mb-6">
-                    <div class="flex items-start gap-4 min-w-0">
-                        <div class="w-12 h-12 rounded-2xl bg-brandGreen/10 text-brandGreen flex items-center justify-center ring-1 ring-brandGreen/15 shrink-0">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="min-w-0">
-                            <h3 class="font-black text-xl leading-tight tracking-tight text-slate-900 dark:text-white">Email Inbox</h3>
-                            <p class="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mt-1 truncate">info@ascendingpawnchess.com</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2 shrink-0">
-                        <span class="px-3 py-1 rounded-full bg-brandGreen/10 text-brandGreen text-[9px] font-black uppercase tracking-[0.2em]">IMAP</span>
-                    </div>
-                </div>
-
+    <!-- Recently Sent Tab Content -->
+    <div id="content-sent" class="hidden">
+        <div class="bg-white dark:bg-slate-900 rounded-[32px] border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden p-8">
+            <h3 class="font-black text-lg mb-6 flex items-center justify-between">
+                <span class="flex items-center gap-2"><i class="fas fa-paper-plane text-brandGreen"></i> Recently Sent Communications</span>
+            </h3>
             <div class="space-y-4">
-                <?php if (empty($inboxPreviewEmails)): ?>
-                    <div class="rounded-[28px] border border-dashed border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-950/40 p-5 text-center shadow-inner">
-                        <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
-                            <i class="fas fa-inbox"></i>
-                        </div>
-                        <p class="text-sm text-slate-500 leading-relaxed">
-                            <?php if (!empty($inboxError)): ?>
-                                <span class="font-bold text-rose-600 dark:text-rose-300">Mailbox Error:</span> <?php echo htmlspecialchars($inboxError); ?>
-                            <?php elseif ($inboxEmails === false || (is_array($inboxEmails) && count($inboxEmails) === 0)): ?>
-                                No emails received yet or unable to connect to mailbox.
-                            <?php else: ?>
-                                Mailbox is empty.
-                            <?php endif; ?>
-                        </p>
-                    </div>
-                    <?php if (!empty($inboxDebug)): ?>
-                        <div class="mt-4 p-4 rounded-3xl border border-rose-200/70 bg-rose-50/80 dark:bg-rose-900/10 dark:border-rose-900/30 text-xs text-rose-700 dark:text-rose-200 overflow-auto shadow-sm">
-                            <div class="font-black uppercase tracking-[0.2em] mb-2 flex items-center gap-2">
-                                <i class="fas fa-triangle-exclamation"></i> IMAP Debug
-                            </div>
-                            <pre class="whitespace-pre-wrap break-words leading-relaxed"><?php echo htmlspecialchars(print_r($inboxDebug, true)); ?></pre>
-                        </div>
-                    <?php endif; ?>
+                <?php if (empty($sentNotifications)): ?>
+                    <p class="text-sm text-slate-500 italic p-4 text-center">No messages sent yet.</p>
                 <?php else: ?>
-                    <?php foreach ($inboxPreviewEmails as $index => $email): ?>
-                        <button type="button" onclick="toggleEmailPreview(<?php echo (int)$index; ?>)" class="email-preview-card group w-full text-left flex flex-col gap-3 p-4 rounded-[24px] border <?php echo !$email['is_read'] ? 'border-brandGreen/25 bg-brandGreen/5' : 'border-slate-200/70 dark:border-slate-800'; ?> bg-white/90 dark:bg-slate-900/70 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-200/50 dark:hover:shadow-black/20 transition-all duration-300">
-                            <div class="flex justify-between items-start gap-3">
-                                <div class="flex-1 min-w-0">
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h4 class="font-extrabold text-sm truncate tracking-tight <?php echo !$email['is_read'] ? 'text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-200'; ?>">
-                                            <?php echo htmlspecialchars($email['subject']); ?>
-                                        </h4>
-                                        <?php if (!$email['is_read']): ?>
-                                            <span class="bg-brandGreen text-white text-[9px] px-2.5 py-1 rounded-full uppercase font-black tracking-widest shrink-0 shadow-sm">New</span>
-                                        <?php endif; ?>
-                                    </div>
-                                    <p class="text-xs text-slate-500 truncate"><?php echo htmlspecialchars($email['from_name'] ? $email['from_name'] . ' <' . $email['from'] . '>' : $email['from']); ?></p>
-                                </div>
-                                <span class="shrink-0 text-slate-400 transition-transform duration-300 email-chevron" data-chevron-for="<?php echo (int)$index; ?>">
-                                    <i class="fas fa-chevron-down"></i>
-                                </span>
+                    <?php foreach ($sentNotifications as $notif): ?>
+                        <div class="flex flex-col gap-1 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition animate-slide-up">
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-bold text-sm truncate pr-2 max-w-[70%]"><?php echo htmlspecialchars($notif['title']); ?></h4>
+                                <span class="bg-brandGreen/10 text-brandGreen text-[9px] px-2 py-0.5 rounded-full uppercase font-bold"><?php echo htmlspecialchars($notif['type']); ?></span>
                             </div>
-                            <div class="flex items-center gap-2 text-[11px] text-slate-400 font-semibold">
-                                <i class="far fa-clock"></i>
-                                <span><?php echo date('M d, Y H:i', strtotime($email['date'])); ?></span>
-                            </div>
-                            <div class="email-preview-body hidden text-xs text-slate-500 leading-relaxed border-t border-slate-200/70 dark:border-slate-800 pt-3 mt-1">
-                                <?php echo nl2br(htmlspecialchars($email['body'])); ?>
-                            </div>
-                        </button>
+                            <span class="text-xs text-slate-400"><i class="far fa-clock mr-1"></i> <?php echo date('M d, Y H:i', strtotime($notif['created_at'])); ?></span>
+                        </div>
                     <?php endforeach; ?>
-
-                    <div class="flex items-center justify-between gap-3 pt-2">
-                        <p class="text-[11px] text-slate-400 font-semibold uppercase tracking-[0.2em]">
-                            Showing latest <?php echo count($inboxPreviewEmails); ?> of <?php echo (int)$inboxEmailCount; ?> emails
-                        </p>
-                        <button type="button" onclick="openInboxModal()" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all">
-                            See All <i class="fas fa-arrow-right text-[10px]"></i>
-                        </button>
-                    </div>
                 <?php endif; ?>
             </div>
-            </div>
-        </div>
         </div>
     </div>
 </div>
@@ -467,7 +484,7 @@ $inboxEmailCount = is_array($inboxEmails) ? count($inboxEmails) : 0;
         <div class="max-h-[calc(100vh-10rem)] overflow-y-auto p-6 space-y-4">
             <?php if (!empty($inboxEmails)): ?>
                 <?php foreach ($inboxEmails as $email): ?>
-                    <div class="rounded-[24px] border <?php echo !$email['is_read'] ? 'border-brandGreen/25 bg-brandGreen/5' : 'border-slate-200/70 dark:border-slate-800'; ?> bg-white/90 dark:bg-slate-900/70 p-4">
+                    <div onclick="markModalEmailRead(<?php echo (int)$email['uid']; ?>, this)" class="cursor-pointer transition-all rounded-[24px] border <?php echo !$email['is_read'] ? 'border-brandGreen/25 bg-brandGreen/5' : 'border-slate-200/70 dark:border-slate-800'; ?> bg-white/90 dark:bg-slate-900/70 p-4">
                         <div class="flex items-start justify-between gap-3 mb-2">
                             <div class="min-w-0 flex-1">
                                 <h4 class="font-extrabold text-sm tracking-tight text-slate-900 dark:text-white truncate"><?php echo htmlspecialchars($email['subject']); ?></h4>
@@ -492,14 +509,45 @@ $inboxEmailCount = is_array($inboxEmails) ? count($inboxEmails) : 0;
 </div>
 
 <script>
-function toggleEmailPreview(index) {
-    const card = document.querySelector('.email-preview-card[onclick="toggleEmailPreview(' + index + ')"]');
+function markEmailAsReadUI(uid, card) {
+    if (uid && card.classList.contains('bg-brandGreen/5')) {
+        card.classList.remove('border-brandGreen/25', 'bg-brandGreen/5');
+        card.classList.add('border-slate-200/70', 'dark:border-slate-800');
+        
+        const title = card.querySelector('h4');
+        if (title) {
+            title.classList.remove('text-slate-900', 'dark:text-white');
+            title.classList.add('text-slate-700', 'dark:text-slate-200');
+        }
+        
+        const badge = card.querySelector('span.bg-brandGreen');
+        if (badge && badge.textContent.trim() === 'New') {
+            badge.remove();
+        }
+
+        let formData = new FormData();
+        formData.append('mark_email_read_uid', uid);
+        fetch('communications.php', {
+            method: 'POST',
+            body: formData
+        }).catch(err => console.error(err));
+    }
+}
+
+function toggleEmailPreview(index, uid, btn) {
+    const card = btn || document.querySelector('.email-preview-card[onclick*="toggleEmailPreview(' + index + '"]');
     if (!card) return;
     const body = card.querySelector('.email-preview-body');
     const chevron = card.querySelector('.email-chevron');
     if (!body || !chevron) return;
     body.classList.toggle('hidden');
     chevron.classList.toggle('rotate-180');
+    
+    markEmailAsReadUI(uid, card);
+}
+
+function markModalEmailRead(uid, card) {
+    markEmailAsReadUI(uid, card);
 }
 
 function openInboxModal() {
@@ -516,32 +564,27 @@ function closeInboxModal() {
 
 // Tab Switching Logic
 function switchTab(tabId) {
-    const tabInboxBtn = document.getElementById('tab-inbox');
-    const tabComposeBtn = document.getElementById('tab-compose');
-    const contentInbox = document.getElementById('content-inbox');
-    const contentCompose = document.getElementById('content-compose');
-
-    // Reset styles
-    tabInboxBtn.classList.remove('text-brandGreen', 'border-brandGreen');
-    tabInboxBtn.classList.add('text-slate-500', 'border-transparent');
-    tabComposeBtn.classList.remove('text-brandGreen', 'border-brandGreen');
-    tabComposeBtn.classList.add('text-slate-500', 'border-transparent');
+    const tabs = ['inbox', 'notifications', 'sent', 'compose'];
     
-    contentInbox.classList.add('hidden');
-    contentCompose.classList.add('hidden');
-
-    // Apply active styles
-    if (tabId === 'inbox') {
-        tabInboxBtn.classList.add('text-brandGreen', 'border-brandGreen');
-        tabInboxBtn.classList.remove('text-slate-500', 'border-transparent');
-        contentInbox.classList.remove('hidden');
-        localStorage.setItem('adminCommTab', 'inbox');
-    } else {
-        tabComposeBtn.classList.add('text-brandGreen', 'border-brandGreen');
-        tabComposeBtn.classList.remove('text-slate-500', 'border-transparent');
-        contentCompose.classList.remove('hidden');
-        localStorage.setItem('adminCommTab', 'compose');
-    }
+    tabs.forEach(t => {
+        const btn = document.getElementById('tab-' + t);
+        const content = document.getElementById('content-' + t);
+        
+        if (btn && content) {
+            // Reset styles
+            btn.classList.remove('text-brandGreen', 'border-brandGreen');
+            btn.classList.add('text-slate-500', 'border-transparent');
+            content.classList.add('hidden');
+            
+            // Apply active styles if matching
+            if (t === tabId) {
+                btn.classList.add('text-brandGreen', 'border-brandGreen');
+                btn.classList.remove('text-slate-500', 'border-transparent');
+                content.classList.remove('hidden');
+                localStorage.setItem('adminCommTab', tabId);
+            }
+        }
+    });
 }
 
 // Restore tab from local storage or set default

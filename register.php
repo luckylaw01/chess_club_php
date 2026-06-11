@@ -5,7 +5,9 @@ ini_set('display_errors', 1);
 
 // Initialize variables
 $first_name = $last_name = $email = $password = $confirm_password = $program = "";
+$phone_number = $date_of_birth = $gender = $club_type = $club_name = "";
 $first_name_err = $last_name_err = $email_err = $password_err = $confirm_password_err = $program_err = "";
+$phone_number_err = $date_of_birth_err = $gender_err = $club_type_err = $club_name_err = "";
 
 // Process form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -67,6 +69,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $program = trim($_POST["program"]);
     }
 
+    // Validate phone number
+    if (empty(trim($_POST["phone_number"]))) {
+        $phone_number_err = "Please enter your phone number.";
+    } else {
+        $phone_number = trim($_POST["phone_number"]);
+    }
+
+    // Validate date of birth
+    if (empty(trim($_POST["date_of_birth"]))) {
+        $date_of_birth_err = "Please enter your date of birth.";
+    } else {
+        $date_of_birth = trim($_POST["date_of_birth"]);
+    }
+
+    // Validate gender
+    if (empty(trim($_POST["gender"]))) {
+        $gender_err = "Please select a gender.";
+    } else {
+        $gender = trim($_POST["gender"]);
+    }
+
+    // Validate club type
+    if (empty(trim($_POST["club_type"]))) {
+        $club_type_err = "Please select a club type.";
+    } else {
+        $club_type = trim($_POST["club_type"]);
+    }
+
+    // Validate club name
+    if (empty(trim($_POST["club_name"]))) {
+        $club_name_err = "Please enter your club name.";
+    } else {
+        $club_name = trim($_POST["club_name"]);
+    }
+
     // Validate password
     if (empty(trim($_POST["password"]))) {
         $password_err = "Please enter a password.";
@@ -87,14 +124,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Check input errors before inserting in database
-    if (empty($first_name_err) && empty($last_name_err) && empty($email_err) && empty($program_err) && empty($password_err) && empty($confirm_password_err)) {
+    if (empty($first_name_err) && empty($last_name_err) && empty($email_err) && empty($program_err) && empty($password_err) && empty($confirm_password_err) && empty($phone_number_err) && empty($date_of_birth_err) && empty($gender_err) && empty($club_type_err) && empty($club_name_err)) {
 
         // Prepare an insert statement
-        $sql = "INSERT INTO users (username, email, password, first_name, last_name, full_name, elo_rating, role) VALUES (?, ?, ?, ?, ?, ?, 1200, 'user')";
+        $sql = "INSERT INTO users (username, email, password, first_name, last_name, full_name, phone_number, date_of_birth, gender, club_type, club_name, elo_rating, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1200, 'user')";
 
         if ($stmt = $conn->prepare($sql)) {
             // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("ssssss", $param_username, $param_email, $param_password, $param_first_name, $param_last_name, $param_full_name);
+            $stmt->bind_param("sssssssssss", $param_username, $param_email, $param_password, $param_first_name, $param_last_name, $param_full_name, $param_phone_number, $param_date_of_birth, $param_gender, $param_club_type, $param_club_name);
 
             // Set parameters
             $param_username = strtolower($first_name . "." . $last_name);
@@ -103,6 +140,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $param_first_name = $first_name;
             $param_last_name = $last_name;
             $param_full_name = $first_name . " " . $last_name;
+            $param_phone_number = $phone_number;
+            $param_date_of_birth = $date_of_birth;
+            $param_gender = $gender;
+            $param_club_type = $club_type;
+            $param_club_name = $club_name;
 
             // Attempt to execute the prepared statement
             if ($stmt->execute()) {
@@ -173,6 +215,52 @@ include "includes/header.php";
                                 class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none outline-none focus:ring-2 focus:ring-brandGreen transition-all font-medium <?php echo (!empty($email_err)) ? 'ring-2 ring-red-500' : ''; ?>"
                                 placeholder="magnus@chess.com" value="<?php echo $email; ?>" required>
                             <span class="text-red-500 text-xs"><?php echo $email_err; ?></span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Phone Number</label>
+                                <input type="text" name="phone_number"
+                                    class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none outline-none focus:ring-2 focus:ring-brandGreen transition-all font-medium <?php echo (!empty($phone_number_err)) ? 'ring-2 ring-red-500' : ''; ?>"
+                                    placeholder="0712345678" value="<?php echo htmlspecialchars($phone_number); ?>" required>
+                                <span class="text-red-500 text-xs"><?php echo $phone_number_err; ?></span>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Date of Birth</label>
+                                <input type="date" name="date_of_birth"
+                                    class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none outline-none focus:ring-2 focus:ring-brandGreen transition-all font-medium <?php echo (!empty($date_of_birth_err)) ? 'ring-2 ring-red-500' : ''; ?>"
+                                    value="<?php echo htmlspecialchars($date_of_birth); ?>" required>
+                                <span class="text-red-500 text-xs"><?php echo $date_of_birth_err; ?></span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Gender</label>
+                                <select name="gender" class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none outline-none focus:ring-2 focus:ring-brandGreen transition-all font-medium appearance-none <?php echo (!empty($gender_err)) ? 'ring-2 ring-red-500' : ''; ?>" required>
+                                    <option value="">Select gender</option>
+                                    <option value="male" <?php echo ($gender === 'male') ? 'selected' : ''; ?>>Male</option>
+                                    <option value="female" <?php echo ($gender === 'female') ? 'selected' : ''; ?>>Female</option>
+                                    <option value="other" <?php echo ($gender === 'other') ? 'selected' : ''; ?>>Other</option>
+                                </select>
+                                <span class="text-red-500 text-xs"><?php echo $gender_err; ?></span>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Club Type</label>
+                                <select name="club_type" class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none outline-none focus:ring-2 focus:ring-brandGreen transition-all font-medium appearance-none <?php echo (!empty($club_type_err)) ? 'ring-2 ring-red-500' : ''; ?>" required>
+                                    <option value="">Select club type</option>
+                                    <option value="chess" <?php echo ($club_type === 'chess') ? 'selected' : ''; ?>>Chess Club</option>
+                                    <option value="school" <?php echo ($club_type === 'school') ? 'selected' : ''; ?>>School Club</option>
+                                </select>
+                                <span class="text-red-500 text-xs"><?php echo $club_type_err; ?></span>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Club Name</label>
+                                <input type="text" name="club_name"
+                                    class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none outline-none focus:ring-2 focus:ring-brandGreen transition-all font-medium <?php echo (!empty($club_name_err)) ? 'ring-2 ring-red-500' : ''; ?>"
+                                    placeholder="Nairobi Chess Club" value="<?php echo htmlspecialchars($club_name); ?>" required>
+                                <span class="text-red-500 text-xs"><?php echo $club_name_err; ?></span>
+                            </div>
                         </div>
 
                         <div>

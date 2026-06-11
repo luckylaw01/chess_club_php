@@ -267,10 +267,10 @@ $usersCount = $usersCountResult ? $usersCountResult->fetch_assoc()['count'] : 0;
                      <h3 class="font-bold text-lg">Marketing Tips</h3>
                  </div>
                  <ul class="space-y-2 text-sm">
-                     <li>â€¢ Keep subject lines under 60 characters.</li>
-                     <li>â€¢ Use HTML formatting for bold headlines and links.</li>
-                     <li>â€¢ Personalize your campaigns for better engagement.</li>
-                     <li>â€¢ Always test with a 'Custom Email' first!</li>
+                     <li>&bull; Keep subject lines under 60 characters.</li>
+                     <li>&bull; Use HTML formatting for bold headlines and links.</li>
+                     <li>&bull; Personalize your campaigns for better engagement.</li>
+                     <li>&bull; Always test with a 'Custom Email' first!</li>
                  </ul>
             </div>
         </div>

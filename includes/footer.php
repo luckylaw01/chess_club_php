@@ -29,6 +29,9 @@
                         <li class="hover:text-brandGreen cursor-pointer transition-colors"><a href="tournaments.php">Tournaments</a></li>
                         <li class="hover:text-brandGreen cursor-pointer transition-colors"><a href="shop.php">Shop</a></li>
                         <li class="hover:text-brandGreen cursor-pointer transition-colors"><a href="contact_us.php">Contact Us</a></li>
+                        <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                        <li class="hover:text-brandGreen cursor-pointer transition-colors"><a href="admin/index.php">Admin Dashboard</a></li>
+                        <?php endif; ?>
                     </ul>
                 </div>
                 <div>
@@ -49,11 +52,15 @@
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 20) {
-                nav.classList.add('bg-white/80', 'dark:bg-black/80', 'backdrop-blur-md', 'shadow-lg', 'py-3');
-                nav.classList.remove('py-6');
+                nav.classList.add('bg-white/80', 'dark:bg-black/80', 'backdrop-blur-md', 'shadow-lg', 'py-3', 'nav-scrolled');
+                nav.classList.remove('py-6', 'nav-transparent');
             } else {
-                nav.classList.remove('bg-white/80', 'dark:bg-black/80', 'backdrop-blur-md', 'shadow-lg', 'py-3');
+                nav.classList.remove('bg-white/80', 'dark:bg-black/80', 'backdrop-blur-md', 'shadow-lg', 'py-3', 'nav-scrolled');
                 nav.classList.add('py-6');
+                // Re-add nav-transparent only on homepage
+                if (document.querySelector('.hero-slideshow')) {
+                    nav.classList.add('nav-transparent');
+                }
             }
         });
 

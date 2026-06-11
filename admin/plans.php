@@ -89,7 +89,7 @@ $plans = $conn->query("SELECT * FROM membership_plans ORDER BY price ASC");
                             <i class="fas fa-crown"></i>
                         </div>
                         <div class="flex gap-2">
-                            <button onclick='openEditModal(<?php echo json_encode($p); ?>)' class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center justify-center hover:bg-brandGreen hover:text-white transition-all">
+                            <button onclick="openEditModal(<?php echo htmlspecialchars(json_encode($p), ENT_QUOTES, 'UTF-8'); ?>)" class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center justify-center hover:bg-brandGreen hover:text-white transition-all">
                                 <i class="fas fa-edit text-xs"></i>
                             </button>
                             <a href="?delete=<?php echo $p['id']; ?>" onclick="return confirm('Are you sure? This cannot be undone.')" class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all">

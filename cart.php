@@ -43,7 +43,7 @@ if (!empty($cart)) {
                     <?php foreach ($cartItems as $item): ?>
                         <div id="cart-item-<?php echo $item['id']; ?>" class="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 p-6 rounded-[32px] flex flex-col sm:flex-row gap-6 hover:shadow-xl transition-all duration-500 animate-slide-up">
                             <div class="w-full sm:w-32 h-32 bg-slate-100 dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 flex-shrink-0">
-                                <img src="<?php echo htmlspecialchars($item['image_url']); ?>" alt="" class="w-full h-full object-cover">
+                                <img src="<?php echo htmlspecialchars('assets/images/shop/' . $item['image_url']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" onerror="this.src='https://placehold.co/600x600/1e293b/FFFFFF/png?text=Product+Image'; this.onerror=null;" class="w-full h-full object-cover">
                             </div>
                             <div class="flex-1 flex flex-col justify-between py-2">
                                 <div class="flex justify-between items-start">

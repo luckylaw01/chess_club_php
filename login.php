@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -98,7 +98,7 @@ include "includes/header.php";
 ?>
 
     <main class="flex-grow flex items-center justify-center px-6 pt-24 pb-12">
-        <div class="w-full max-w-md">
+        <div class="w-full max-w-md md:max-w-lg">
             <div
                 class="bg-white dark:bg-slate-900 p-10 rounded-[40px] shadow-2xl border border-slate-200 dark:border-slate-800">
                 <div class="text-center mb-10">

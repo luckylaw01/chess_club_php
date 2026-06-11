@@ -13,6 +13,7 @@ include "includes/db_connect.php";
 $user_id = $_SESSION["id"];
 $message = '';
 $error = '';
+$user = [];
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -20,6 +21,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $last_name = trim($_POST["last_name"] ?? '');
     $username = trim($_POST["username"] ?? '');
     $email = trim($_POST["email"] ?? '');
+    $phone_number = trim($_POST["phone_number"] ?? '');
+    $date_of_birth = trim($_POST["date_of_birth"] ?? '');
+    $gender = trim($_POST["gender"] ?? '');
+    $club_type = trim($_POST["club_type"] ?? 'chess');
+    $club_name = trim($_POST["club_name"] ?? '');
     
     $full_name = trim($first_name . ' ' . $last_name);
 
@@ -53,22 +59,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($error)) {
         // Handle password change if provided
         $password_sql = "";
-        $types = "ssssssi";
-        $params = [$first_name, $last_name, $full_name, $username, $email, $profile_picture, $user_id];
+        $types = "sssssssssssi";
+        $params = [$first_name, $last_name, $full_name, $username, $email, $phone_number, $date_of_birth, $gender, $club_type, $club_name, $profile_picture, $user_id];
         
         if (!empty($_POST["new_password"])) {
             if ($_POST["new_password"] === $_POST["confirm_password"]) {
                 $hashed_password = password_hash($_POST["new_password"], PASSWORD_DEFAULT);
                 $password_sql = ", password = ?";
-                $types = "sssssssi";
-                $params = [$first_name, $last_name, $full_name, $username, $email, $profile_picture, $hashed_password, $user_id];
+                $types = "ssssssssssssi";
+                $params = [$first_name, $last_name, $full_name, $username, $email, $phone_number, $date_of_birth, $gender, $club_type, $club_name, $profile_picture, $hashed_password, $user_id];
             } else {
                 $error = "Passwords do not match.";
             }
         }
 
         if (empty($error)) {
-            $sql = "UPDATE users SET first_name = ?, last_name = ?, full_name = ?, username = ?, email = ?, profile_picture = ?" . $password_sql . " WHERE id = ?";
+            $sql = "UPDATE users SET first_name = ?, last_name = ?, full_name = ?, username = ?, email = ?, phone_number = ?, date_of_birth = ?, gender = ?, club_type = ?, club_name = ?, profile_picture = ?" . $password_sql . " WHERE id = ?";
             if ($stmt = $conn->prepare($sql)) {
                 $stmt->bind_param($types, ...$params);
                 if ($stmt->execute()) {
@@ -76,6 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $_SESSION["first_name"] = $first_name;
                     $_SESSION["last_name"] = $last_name;
                     $_SESSION["username"] = $username;
+                    $_SESSION["phone_number"] = $phone_number;
                 } else {
                     $error = "Oops! Something went wrong. Please try again later.";
                 }
@@ -158,6 +165,40 @@ if ($stmt = $conn->prepare($sql)) {
                         <div>
                             <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2 ml-2">Email Address</label>
                             <input type="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-brandGreen text-slate-900 dark:text-white font-bold transition-all">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2 ml-2">Phone Number</label>
+                                <input type="text" name="phone_number" value="<?php echo htmlspecialchars($user['phone_number'] ?? ''); ?>" class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-brandGreen text-slate-900 dark:text-white font-bold transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2 ml-2">Date of Birth</label>
+                                <input type="date" name="date_of_birth" value="<?php echo htmlspecialchars($user['date_of_birth'] ?? ''); ?>" class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-brandGreen text-slate-900 dark:text-white font-bold transition-all">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2 ml-2">Gender</label>
+                                <select name="gender" class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-brandGreen text-slate-900 dark:text-white font-bold transition-all appearance-none">
+                                    <option value="">Select gender</option>
+                                    <option value="male" <?php echo (($user['gender'] ?? '') === 'male') ? 'selected' : ''; ?>>Male</option>
+                                    <option value="female" <?php echo (($user['gender'] ?? '') === 'female') ? 'selected' : ''; ?>>Female</option>
+                                    <option value="other" <?php echo (($user['gender'] ?? '') === 'other') ? 'selected' : ''; ?>>Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2 ml-2">Club Type</label>
+                                <select name="club_type" class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-brandGreen text-slate-900 dark:text-white font-bold transition-all appearance-none">
+                                    <option value="chess" <?php echo (($user['club_type'] ?? 'chess') === 'chess') ? 'selected' : ''; ?>>Chess Club</option>
+                                    <option value="school" <?php echo (($user['club_type'] ?? '') === 'school') ? 'selected' : ''; ?>>School Club</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2 ml-2">Club Name</label>
+                                <input type="text" name="club_name" value="<?php echo htmlspecialchars($user['club_name'] ?? ''); ?>" class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-brandGreen text-slate-900 dark:text-white font-bold transition-all">
+                            </div>
                         </div>
 
                         <div class="pt-6 border-t border-slate-200 dark:border-slate-800">

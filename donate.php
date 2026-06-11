@@ -85,10 +85,16 @@ function formatDonationAmount($kesAmount, $conversionRate) {
 
                 <!-- Custom Amount -->
                 <div class="mb-8">
-                    <label for="customAmount" class="block text-sm font-bold uppercase tracking-widest mb-3">Custom Amount (KES)</label>
-                    <div class="relative">
-                        <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500 font-bold">KES</span>
-                        <input type="number" id="customAmount" name="customAmount" placeholder="Enter amount" min="100" step="100" class="w-full pl-16 pr-4 py-3 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50 dark:bg-slate-900 focus:outline-none focus:border-brandGreen focus:ring-2 focus:ring-brandGreen/50">
+                    <label class="block text-sm font-bold uppercase tracking-widest mb-3">Custom Amount</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500 font-bold">KES</span>
+                            <input type="number" id="customAmount" name="customAmount" placeholder="Amount in KES" min="100" step="100" class="w-full pl-16 pr-4 py-3 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50 dark:bg-slate-900 focus:outline-none focus:border-brandGreen focus:ring-2 focus:ring-brandGreen/50">
+                        </div>
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500 font-bold">USD</span>
+                            <input type="number" id="customAmountUsd" name="customAmountUsd" placeholder="Amount in USD" min="1" step="1" class="w-full pl-16 pr-4 py-3 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50 dark:bg-slate-900 focus:outline-none focus:border-brandGreen focus:ring-2 focus:ring-brandGreen/50">
+                        </div>
                     </div>
                 </div>
 
@@ -186,8 +192,10 @@ function formatDonationAmount($kesAmount, $conversionRate) {
 <script src="https://js.paystack.co/v1/inline.js"></script>
 <script>
 const kesToUsdRate = <?php echo $kesToUsdRate; ?>;
+const usdToKesRate = 1 / kesToUsdRate;
 const presetButtons = document.querySelectorAll('.preset-amount-btn');
 const customAmountInput = document.getElementById('customAmount');
+const customAmountUsdInput = document.getElementById('customAmountUsd');
 const selectedAmountDisplay = document.getElementById('selectedAmountDisplay');
 const displayAmount = document.getElementById('displayAmount');
 const displayAmountUsd = document.getElementById('displayAmountUsd');
@@ -202,14 +210,40 @@ presetButtons.forEach(btn => {
         e.preventDefault();
         selectedAmount = parseInt(btn.dataset.amount);
         customAmountInput.value = '';
+        customAmountUsdInput.value = '';
         updateDisplay();
         updateButtonStates(btn);
     });
 });
 
-// Handle custom amount input
+// Handle custom amount input (KES)
 customAmountInput.addEventListener('input', () => {
-    selectedAmount = customAmountInput.value ? parseInt(customAmountInput.value) : 0;
+    selectedAmount = customAmountInput.value ? parseFloat(customAmountInput.value) : 0;
+    
+    // Update USD input
+    if (selectedAmount > 0) {
+        customAmountUsdInput.value = (selectedAmount * kesToUsdRate).toFixed(2);
+    } else {
+        customAmountUsdInput.value = '';
+    }
+    
+    presetButtons.forEach(btn => btn.classList.remove('border-brandGreen', 'bg-brandGreen/10'));
+    updateDisplay();
+});
+
+// Handle custom amount input (USD)
+customAmountUsdInput.addEventListener('input', () => {
+    const usdVal = customAmountUsdInput.value ? parseFloat(customAmountUsdInput.value) : 0;
+    
+    // Update KES value (which is what we send to backend)
+    if (usdVal > 0) {
+        selectedAmount = Math.round(usdVal * usdToKesRate);
+        customAmountInput.value = selectedAmount;
+    } else {
+        selectedAmount = 0;
+        customAmountInput.value = '';
+    }
+    
     presetButtons.forEach(btn => btn.classList.remove('border-brandGreen', 'bg-brandGreen/10'));
     updateDisplay();
 });

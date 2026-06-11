@@ -62,4 +62,27 @@ function is_admin_user() {
     return false;
 }
 
+function get_gallery_images() {
+    $data = load_home_images();
+    if (isset($data['gallery']) && is_array($data['gallery'])) {
+        return $data['gallery'];
+    }
+    // Return defaults
+    return [
+        ['image' => get_home_image('gallery1'), 'alt' => 'Chess Tournament Scene',   'caption' => 'Major Championships'],
+        ['image' => get_home_image('gallery2'), 'alt' => 'Player Focus',            'caption' => 'Deep Concentration'],
+        ['image' => get_home_image('gallery3'), 'alt' => 'Academy Session',         'caption' => 'Academy Training'],
+        ['image' => get_home_image('gallery4'), 'alt' => 'Chess Pieces Close-up',   'caption' => 'The Royal Game'],
+        ['image' => get_home_image('gallery5'), 'alt' => 'Winning Moments',         'caption' => 'Winning Moments'],
+        ['image' => get_home_image('gallery6'), 'alt' => 'Community Gathering',     'caption' => 'Community Spirit'],
+        ['image' => get_home_image('gallery7'), 'alt' => 'Future Grandmasters',     'caption' => 'Our Rising Stars'],
+    ];
+}
+
+function save_gallery_images($gallery) {
+    $images = load_home_images();
+    $images['gallery'] = $gallery;
+    return save_home_images($images);
+}
+
 ?>

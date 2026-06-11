@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['enroll_course'])) {
                         <form method="POST">
                             <input type="hidden" name="course_id" value="<?php echo $course['id']; ?>">
                             <button type="submit" name="enroll_course"
-                                class="w-full py-4 rounded-2xl border-2 border-slate-900 dark:border-white font-bold uppercase tracking-widest text-[11px] hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 transition-all active:scale-95">
+                                class="w-full py-4 rounded-2xl border-2 border-slate-900 dark:border-white font-bold uppercase tracking-widest text-[11px] hover:bg-brandGreen/80 hover:border-brandGreen/80 hover:scale-105 hover:text-white transition-all duration-300 active:scale-95 hover:shadow-lg hover:shadow-brandGreen/30">
                                 Enroll Now
                             </button>
                         </form>

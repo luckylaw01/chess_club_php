@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($pageTitle) ? $pageTitle . " | Ascending Pawn Chess Club" : "Ascending Pawn Chess Club | Master the Game"; ?></title>
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+    <link rel="shortcut icon" href="assets/images/logo.png">
+    <link rel="apple-touch-icon" href="assets/images/logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script>
@@ -52,36 +55,60 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #80D200; border-radius: 10px; }
         .glass { backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+
+        /* Transparent nav for hero pages */
+        .nav-transparent .nav-brand-text,
+        .nav-transparent .nav-links a,
+        .nav-transparent .nav-auth-links a,
+        .nav-transparent .nav-auth-links span { color: #fff !important; }
+        .nav-transparent .nav-logo-wrap { background: rgba(255,255,255,0.15); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: none; ring: none; border: 1px solid rgba(255,255,255,0.2); }
+        .nav-transparent .nav-icon-btn { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: #fff; }
+        .nav-transparent .nav-divider { background: rgba(255,255,255,0.15); }
+        .nav-transparent .nav-join-btn { background: #80D200; color: #fff; }
+        /* When scrolled, remove transparent overrides */
+        .nav-scrolled .nav-brand-text,
+        .nav-scrolled .nav-links a,
+        .nav-scrolled .nav-auth-links a,
+        .nav-scrolled .nav-auth-links span { color: inherit !important; }
+        .nav-scrolled .nav-logo-wrap { background: #fff; backdrop-filter: none; border: none; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .nav-scrolled .nav-icon-btn { background: inherit; border-color: inherit; color: inherit; }
     </style>
 </head>
 
 <body class="bg-slate-50 dark:bg-darkBg text-slate-900 dark:text-slate-100 transition-colors duration-500 font-sans">
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6">
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6<?php if(basename($_SERVER['PHP_SELF']) === 'index.php') echo ' nav-transparent'; ?>">
         <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-            <a href="index.php" class="flex items-center gap-3 group">
-                <div class="bg-white p-2.5 rounded-2xl shadow-lg ring-1 ring-slate-200/50 group-hover:scale-110 transition-transform duration-300">
-                    <img src="assets/images/logo1.png" alt="Ascending Pawn Logo" class="w-6 h-6 object-contain">
+            <a href="index.php" class="flex items-center gap-3 group shrink-0">
+                <div class="nav-logo-wrap bg-white p-2 md:p-2.5 rounded-2xl shadow-lg ring-1 ring-slate-200/50 group-hover:scale-110 transition-all duration-300">
+                    <img src="assets/images/logo1.png" alt="Ascending Pawn Logo" class="w-5 h-5 md:w-6 md:h-6 object-contain">
                 </div>
-                <span class="text-2xl font-black tracking-tighter uppercase text-slate-900 dark:text-white">Ascending Pawn <span class="text-brandGreen">Chess</span></span>
+                <span class="nav-brand-text text-[15px] sm:text-2xl font-black tracking-tighter uppercase text-slate-900 dark:text-white transition-colors duration-500 leading-[1.1]">Ascending Pawn <br class="sm:hidden"><span class="text-brandGreen">Chess</span></span>
             </a>
-            <div class="hidden lg:flex items-center gap-10 text-slate-900 dark:text-slate-100">
-                <?php $current_page = basename($_SERVER['PHP_SELF']); ?>
-                <div class="flex items-center gap-8 text-[12px] font-bold uppercase tracking-[0.14em]">
-                    <a href="club.php" class="<?php echo $current_page == 'club.php' ? 'text-brandGreen' : 'hover:text-brandGreen text-slate-900 dark:text-slate-100'; ?> transition-all">Club</a>
-                    <a href="academy.php" class="<?php echo $current_page == 'academy.php' ? 'text-brandGreen' : 'hover:text-brandGreen text-slate-900 dark:text-slate-100'; ?> transition-all">Academy</a>
-                    <a href="tournaments.php" class="<?php echo $current_page == 'tournaments.php' ? 'text-brandGreen' : 'hover:text-brandGreen text-slate-900 dark:text-slate-100'; ?> transition-all">Tournaments</a>
-                    <a href="shop.php" class="<?php echo $current_page == 'shop.php' ? 'text-brandGreen' : 'hover:text-brandGreen text-slate-900 dark:text-slate-100'; ?> transition-all">Shop</a>
-                    <a href="donate.php" class="<?php echo $current_page == 'donate.php' ? 'text-brandGreen' : 'hover:text-brandGreen text-slate-900 dark:text-slate-100'; ?> transition-all">Donate</a>
+            <div class="hidden lg:flex items-center gap-6 xl:gap-10 text-slate-900 dark:text-slate-100">
+                <?php
+                    $current_page = basename($_SERVER['PHP_SELF']);
+                    $club_active = in_array($current_page, ['club.php', 'profile.php', 'notifications.php']);
+                    $academy_active = in_array($current_page, ['academy.php', 'course_view.php', 'coaching_schedule.php', 'coaching_trainers.php', 'coaching_levels.php', 'strategy_guides.php', 'daily_puzzles.php']);
+                    $tournaments_active = in_array($current_page, ['tournaments.php', 'register_tournament.php']);
+                    $shop_active = in_array($current_page, ['shop.php', 'cart.php', 'checkout.php']);
+                    $donate_active = ($current_page == 'donate.php');
+                ?>
+                <div class="nav-links flex items-center gap-5 xl:gap-8 text-[12px] font-bold uppercase tracking-[0.14em]">
+                    <a href="club.php" class="<?php echo $club_active ? 'text-brandGreen' : 'hover:text-brandGreen text-slate-900 dark:text-slate-100'; ?> transition-all">Club</a>
+                    <a href="academy.php" class="<?php echo $academy_active ? 'text-brandGreen' : 'hover:text-brandGreen text-slate-900 dark:text-slate-100'; ?> transition-all">Academy</a>
+                    <a href="tournaments.php" class="<?php echo $tournaments_active ? 'text-brandGreen' : 'hover:text-brandGreen text-slate-900 dark:text-slate-100'; ?> transition-all">Tournaments</a>
+                    <a href="shop.php" class="<?php echo $shop_active ? 'text-brandGreen' : 'hover:text-brandGreen text-slate-900 dark:text-slate-100'; ?> transition-all">Shop</a>
+                    <a href="donate.php" class="<?php echo $donate_active ? 'text-brandGreen' : 'hover:text-brandGreen text-slate-900 dark:text-slate-100'; ?> transition-all">Donate</a>
                 </div>
-                <div class="h-8 w-px bg-slate-200 dark:bg-slate-800 mx-2"></div>
-                <div class="flex items-center gap-6">
-                    <a href="cart.php" class="relative w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-brandGreen transition-all duration-300 shadow-sm border border-slate-200 dark:border-slate-700">
+                <div class="nav-divider h-8 w-px bg-slate-200 dark:bg-slate-800 mx-2 transition-colors duration-500"></div>
+                <div class="flex items-center gap-4 xl:gap-6">
+                    <a href="cart.php" class="nav-icon-btn relative w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-brandGreen transition-all duration-300 shadow-sm border border-slate-200 dark:border-slate-700">
                         <i class="fas fa-shopping-cart"></i>
                         <span id="cart-count" class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-brandGreen text-white text-[10px] font-black flex items-center justify-center rounded-full shadow-lg border-2 border-white dark:border-darkBg <?php echo (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) ? 'hidden' : ''; ?>">
                             <?php echo isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : '0'; ?>
                         </span>
                     </a>
-                    <button id="theme-toggle" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-brandGreen transition-all duration-300 shadow-sm border border-slate-200 dark:border-slate-700">
+                    <button id="theme-toggle" class="nav-icon-btn w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-brandGreen transition-all duration-300 shadow-sm border border-slate-200 dark:border-slate-700">
                         <i id="theme-icon" class="fas fa-moon"></i>
                     </button>
                     <?php if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true): ?>
@@ -153,18 +180,41 @@
                                 </div>
                             </div>
                         </div>
-                        <?php if (isset($_SESSION["profile_picture"]) && !empty($_SESSION["profile_picture"]) && file_exists(__DIR__ . '/../' . $_SESSION["profile_picture"])): ?>
-                            <img src="<?php echo htmlspecialchars($_SESSION["profile_picture"]); ?>" alt="Profile Picture" class="w-8 h-8 rounded-full object-cover border-2 border-brandGreen">
-                        <?php else: ?>
-                            <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center border-2 border-slate-300 dark:border-slate-600">
-                                <i class="fas fa-user text-slate-400 dark:text-slate-500 text-xs"></i>
+
+                        <!-- Compact User Profile Dropdown -->
+                        <div class="relative group ml-1 pl-4 border-l border-slate-200 dark:border-slate-800 flex items-center gap-3">
+                            <button class="flex items-center gap-2.5 focus:outline-none py-1">
+                                <?php if (isset($_SESSION["profile_picture"]) && !empty($_SESSION["profile_picture"]) && file_exists(__DIR__ . '/../' . $_SESSION["profile_picture"])): ?>
+                                    <img src="<?php echo htmlspecialchars($_SESSION["profile_picture"]); ?>" alt="Profile Picture" class="w-8 h-8 rounded-full object-cover border-2 border-brandGreen shadow-sm">
+                                <?php else: ?>
+                                    <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center border-2 border-slate-300 dark:border-slate-600 shadow-sm">
+                                        <i class="fas fa-user text-slate-400 dark:text-slate-500 text-[10px]"></i>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="hidden xl:flex flex-col text-left leading-none">
+                                    <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-0.5">Account</span>
+                                    <span class="text-xs font-black text-slate-700 dark:text-slate-200 max-w-[80px] truncate"><?php echo htmlspecialchars($_SESSION["first_name"]); ?></span>
+                                </div>
+                                <i class="fas fa-chevron-down text-[9px] text-slate-400 group-hover:text-brandGreen transition-colors ml-0.5"></i>
+                            </button>
+                            
+                            <!-- Dropdown Menu -->
+                            <div class="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-800 py-2 hidden group-hover:block z-[60] glass animate-fade-in">
+                                <a href="profile.php" class="flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-brandGreen transition-all">
+                                    <i class="fas fa-id-card text-sm opacity-70 w-4 text-center"></i> My Profile
+                                </a>
+                                <a href="club.php" class="flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-brandGreen transition-all">
+                                    <i class="fas fa-chess-knight text-sm opacity-70 w-4 text-center"></i> Club Portal
+                                </a>
+                                <hr class="border-slate-100 dark:border-slate-800 my-1">
+                                <a href="logout.php" class="flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/20 transition-all">
+                                    <i class="fas fa-sign-out-alt text-sm w-4 text-center"></i> Logout
+                                </a>
                             </div>
-                        <?php endif; ?>
-                        <span class="text-[13px] font-bold text-slate-600 dark:text-slate-400">Welcome, <?php echo htmlspecialchars($_SESSION["first_name"]); ?></span>
-                        <a href="logout.php" class="text-[13px] font-bold uppercase tracking-widest hover:text-red-500 transition-colors">Logout</a>
+                        </div>
                     <?php else: ?>
                         <a href="login.php" class="text-[12px] font-bold uppercase tracking-widest hover:text-brandGreen transition-colors">Login</a>
-                        <a href="register.php" class="bg-brandGreen text-white px-8 py-3.5 rounded-2xl text-[12px] font-bold uppercase tracking-widest hover:bg-brandNeonGreen hover:scale-105 transition-all duration-300 shadow-lg shadow-brandGreen/20">Join Club</a>
+                        <a href="register.php" class="bg-brandGreen text-white px-8 py-3.5 rounded-2xl text-[12px] font-bold uppercase tracking-widest hover:bg-brandGreen/80 hover:scale-105 transition-all duration-300 shadow-lg shadow-brandGreen/20">Join Club</a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -207,10 +257,18 @@
                         <?php endif; ?>
                     </a>
                     
+                    <a href="profile.php" class="flex items-center gap-3 text-lg font-bold text-slate-900 dark:text-white hover:text-brandGreen transition-colors uppercase tracking-widest">
+                        <i class="fas fa-id-card"></i> Profile
+                    </a>
+
+                    <a href="club.php" class="flex items-center gap-3 text-lg font-bold text-slate-900 dark:text-white hover:text-brandGreen transition-colors uppercase tracking-widest">
+                        <i class="fas fa-chess-knight"></i> Club Portal
+                    </a>
+                    
                     <a href="logout.php" class="text-lg font-bold text-red-500 uppercase tracking-widest mt-4">Logout</a>
                 <?php else: ?>
                     <a href="login.php" class="text-base font-bold text-slate-900 dark:text-white uppercase tracking-widest">Login</a>
-                    <a href="register.php" class="bg-brandGreen text-white text-center py-5 rounded-3xl text-sm font-bold uppercase tracking-widest shadow-lg shadow-brandGreen/20">Join Now</a>
+                    <a href="register.php" class="bg-brandGreen text-white text-center py-5 rounded-3xl text-sm font-bold uppercase tracking-widest shadow-lg shadow-brandGreen/20 hover:bg-brandGreen/80 hover:scale-[1.02] active:scale-95 transition-all">Join Now</a>
                 <?php endif; ?>
             </div>
         </div>
