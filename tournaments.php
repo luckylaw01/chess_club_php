@@ -113,7 +113,7 @@ foreach($tournaments as $t) {
                     Featured Major Event
                 </h2>
 
-                <div
+                <div id="tournament-card-<?php echo $featured['id']; ?>"
                     class="relative group p-8 md:p-12 rounded-[50px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden shadow-2xl transition-all duration-500">
                     <!-- Dynamic Background -->
                     <div class="absolute inset-0 opacity-20 dark:opacity-40 transition-opacity duration-500">
@@ -226,7 +226,7 @@ foreach($tournaments as $t) {
                             $eventDate = strtotime($t['event_date']);
                             $statusColor = $t['status'] === 'upcoming' ? 'bg-brandGreen' : ($t['status'] === 'ongoing' ? 'bg-amber-500' : 'bg-slate-500');
                         ?>
-                        <div class="p-6 md:p-10 rounded-[32px] md:rounded-[40px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-12 shadow-sm transition-all group relative overflow-hidden card-gradient-pattern">
+                        <div id="tournament-card-<?php echo $t['id']; ?>" class="p-6 md:p-10 rounded-[32px] md:rounded-[40px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-12 shadow-sm transition-all group relative overflow-hidden card-gradient-pattern">
                             <?php if (!empty($t['poster_url'])): ?>
                             <div class="relative z-10 w-full h-48 md:w-28 md:h-28 rounded-3xl overflow-hidden shadow-inner flex-shrink-0 cursor-pointer group/poster" onclick="viewPoster('<?php echo htmlspecialchars($t['poster_url']); ?>')">
                                 <img src="<?php echo htmlspecialchars($t['poster_url']); ?>" class="w-full h-full object-cover transition-transform group-hover/poster:scale-110">
@@ -337,18 +337,6 @@ foreach($tournaments as $t) {
                                 class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-6 py-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-brandGreen/50 transition-all font-semibold">
                         </div>
                         <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest px-1">Email Address</label>
-                            <input type="email" name="email" id="regEmail" required placeholder="john@example.com"
-                                value="<?php echo htmlspecialchars($user_info['email'] ?? ''); ?>"
-                                class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-6 py-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-brandGreen/50 transition-all font-semibold">
-                        </div>
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest px-1">Phone Number</label>
-                            <input type="tel" name="phone" id="regPhone" required placeholder="0712345678"
-                                value="<?php echo htmlspecialchars($user_info['phone_number'] ?? ($user_info['phone'] ?? '')); ?>"
-                                class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-6 py-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-brandGreen/50 transition-all font-semibold">
-                        </div>
-                        <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest px-1">Date of Birth</label>
                             <input type="date" name="date_of_birth" id="regDob" required
                                 value="<?php echo htmlspecialchars($user_info['date_of_birth'] ?? ''); ?>"
@@ -362,19 +350,6 @@ foreach($tournaments as $t) {
                                 <option value="female">Female</option>
                                 <option value="other">Other</option>
                             </select>
-                        </div>
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest px-1">Club Type</label>
-                            <select name="club_type" id="regClubType" required class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-6 py-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-brandGreen/50 transition-all font-semibold appearance-none">
-                                <option value="chess">Chess Club</option>
-                                <option value="school">School Club</option>
-                            </select>
-                        </div>
-                        <div class="space-y-2 md:col-span-2">
-                            <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest px-1">Club Name</label>
-                            <input type="text" name="club_name" id="regClubName" required placeholder="Nairobi Chess Club"
-                                value="<?php echo htmlspecialchars($user_info['club_name'] ?? ''); ?>"
-                                class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-6 py-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-brandGreen/50 transition-all font-semibold">
                         </div>
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest px-1">Category</label>
@@ -403,25 +378,13 @@ foreach($tournaments as $t) {
                             <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest px-1">Team Name</label>
                             <input type="text" name="team_name" placeholder="Team Titans" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-6 py-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-brandGreen/50 transition-all font-semibold">
                         </div>
-                        <div class="space-y-2">
+                        <div class="space-y-2 md:col-span-2">
                             <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest px-1">Contact Name</label>
                             <input type="text" name="team_contact_name" placeholder="Organizer Name" value="<?php echo htmlspecialchars($user_info['full_name'] ?? ''); ?>" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-6 py-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-brandGreen/50 transition-all font-semibold">
                         </div>
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest px-1">Contact Email</label>
-                            <input type="email" name="team_contact_email" placeholder="organizer@example.com" value="<?php echo htmlspecialchars($user_info['email'] ?? ''); ?>" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-6 py-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-brandGreen/50 transition-all font-semibold">
-                        </div>
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest px-1">Contact Phone</label>
-                            <input type="tel" name="team_contact_phone" placeholder="0712345678" value="<?php echo htmlspecialchars($user_info['phone_number'] ?? ($user_info['phone'] ?? '')); ?>" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-6 py-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-brandGreen/50 transition-all font-semibold">
-                        </div>
-                        <div class="space-y-2">
+                        <div class="space-y-2 md:col-span-2">
                             <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest px-1">Declared Participants</label>
                             <input type="number" name="declared_participant_count" min="1" value="1" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-6 py-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-brandGreen/50 transition-all font-semibold">
-                        </div>
-                        <div class="space-y-2 md:col-span-2">
-                            <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest px-1">Supporting Document</label>
-                            <input type="file" name="supporting_document" accept=".pdf,.xls,.xlsx" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-6 py-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-brandGreen/50 transition-all font-semibold">
                         </div>
                     </div>
 
@@ -434,16 +397,12 @@ foreach($tournaments as $t) {
                     </div>
 
                     <div class="overflow-x-auto rounded-[28px] border border-slate-200 dark:border-slate-800">
-                        <table class="w-full min-w-[1200px] text-left border-collapse">
+                        <table class="w-full min-w-[800px] text-left border-collapse">
                             <thead class="bg-slate-50 dark:bg-slate-800/50">
                                 <tr>
                                     <th class="px-4 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Name</th>
-                                    <th class="px-4 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Email</th>
-                                    <th class="px-4 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Phone</th>
                                     <th class="px-4 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">DOB</th>
                                     <th class="px-4 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Gender</th>
-                                    <th class="px-4 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Club Type</th>
-                                    <th class="px-4 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Club Name</th>
                                     <th class="px-4 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Category</th>
                                     <th class="px-4 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Guardian Phone</th>
                                     <th class="px-4 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Action</th>
@@ -576,6 +535,10 @@ foreach($tournaments as $t) {
             const guestCTA = document.getElementById('individualGuestCTA');
             const indFields = document.getElementById('individualFields');
 
+            // Find all input and select elements in both sections
+            const individualInputs = individualSection.querySelectorAll('input, select, textarea');
+            const teamInputs = teamSection.querySelectorAll('input, select, textarea');
+
             if (mode === 'team') {
                 individualSection.classList.add('hidden');
                 teamSection.classList.remove('hidden');
@@ -585,6 +548,10 @@ foreach($tournaments as $t) {
                 teamBtn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-500');
                 submitBtn.classList.remove('hidden');
                 ensureParticipantRow();
+
+                // Disable hidden inputs to prevent HTML validation errors, and enable active ones
+                individualInputs.forEach(input => input.disabled = true);
+                teamInputs.forEach(input => input.disabled = false);
             } else {
                 individualSection.classList.remove('hidden');
                 teamSection.classList.add('hidden');
@@ -602,6 +569,14 @@ foreach($tournaments as $t) {
                     indFields.classList.remove('hidden');
                     submitBtn.classList.remove('hidden');
                 }
+
+                // Enable active individual inputs, and disable team inputs
+                if (!hasLoggedInUser) {
+                    individualInputs.forEach(input => input.disabled = true);
+                } else {
+                    individualInputs.forEach(input => input.disabled = false);
+                }
+                teamInputs.forEach(input => input.disabled = true);
             }
         }
 
@@ -609,8 +584,6 @@ foreach($tournaments as $t) {
             return `
                 <tr class="align-top">
                     <td class="px-3 py-3"><input type="text" name="participants[${index}][full_name]" value="${data.full_name ?? ''}" class="w-full rounded-2xl bg-slate-50 dark:bg-slate-800 border-none px-4 py-3 text-sm font-semibold text-slate-900 dark:text-white" placeholder="Player name"></td>
-                    <td class="px-3 py-3"><input type="email" name="participants[${index}][email]" value="${data.email ?? ''}" class="w-full rounded-2xl bg-slate-50 dark:bg-slate-800 border-none px-4 py-3 text-sm font-semibold text-slate-900 dark:text-white" placeholder="player@example.com"></td>
-                    <td class="px-3 py-3"><input type="tel" name="participants[${index}][phone]" value="${data.phone ?? ''}" class="w-full rounded-2xl bg-slate-50 dark:bg-slate-800 border-none px-4 py-3 text-sm font-semibold text-slate-900 dark:text-white" placeholder="0712345678"></td>
                     <td class="px-3 py-3"><input type="date" name="participants[${index}][date_of_birth]" value="${data.date_of_birth ?? ''}" class="w-full rounded-2xl bg-slate-50 dark:bg-slate-800 border-none px-4 py-3 text-sm font-semibold text-slate-900 dark:text-white"></td>
                     <td class="px-3 py-3">
                         <select name="participants[${index}][gender]" class="w-full rounded-2xl bg-slate-50 dark:bg-slate-800 border-none px-4 py-3 text-sm font-semibold text-slate-900 dark:text-white appearance-none">
@@ -620,13 +593,6 @@ foreach($tournaments as $t) {
                             <option value="other" ${data.gender === 'other' ? 'selected' : ''}>Other</option>
                         </select>
                     </td>
-                    <td class="px-3 py-3">
-                        <select name="participants[${index}][club_type]" class="w-full rounded-2xl bg-slate-50 dark:bg-slate-800 border-none px-4 py-3 text-sm font-semibold text-slate-900 dark:text-white appearance-none">
-                            <option value="chess" ${data.club_type === 'school' ? '' : 'selected'}>Chess Club</option>
-                            <option value="school" ${data.club_type === 'school' ? 'selected' : ''}>School Club</option>
-                        </select>
-                    </td>
-                    <td class="px-3 py-3"><input type="text" name="participants[${index}][club_name]" value="${data.club_name ?? ''}" class="w-full rounded-2xl bg-slate-50 dark:bg-slate-800 border-none px-4 py-3 text-sm font-semibold text-slate-900 dark:text-white" placeholder="Club name"></td>
                     <td class="px-3 py-3">
                         <select name="participants[${index}][category]" class="w-full rounded-2xl bg-slate-50 dark:bg-slate-800 border-none px-4 py-3 text-sm font-semibold text-slate-900 dark:text-white appearance-none">
                             <option value="Under 7" ${data.category === 'Under 7' ? 'selected' : ''}>Under 7</option>
@@ -650,9 +616,7 @@ foreach($tournaments as $t) {
             const body = document.getElementById('participantsBody');
             if (!body.children.length) {
                 body.insertAdjacentHTML('beforeend', participantRowMarkup(0, currentUser ? {
-                    full_name: currentUser.full_name || '',
-                    email: currentUser.email || '',
-                    phone: currentUser.phone_number || currentUser.phone || ''
+                    full_name: currentUser.full_name || ''
                 } : {}));
             }
         }
@@ -688,12 +652,8 @@ foreach($tournaments as $t) {
 
             if (currentUser) {
                 if (document.getElementById('regFullName').value === '') document.getElementById('regFullName').value = currentUser.full_name || '';
-                if (document.getElementById('regEmail').value === '') document.getElementById('regEmail').value = currentUser.email || '';
-                if (document.getElementById('regPhone').value === '') document.getElementById('regPhone').value = currentUser.phone_number || currentUser.phone || '';
                 if (document.getElementById('regDob').value === '') document.getElementById('regDob').value = currentUser.date_of_birth || '';
                 if (document.getElementById('regGender').value === '') document.getElementById('regGender').value = currentUser.gender || '';
-                if (document.getElementById('regClubType').value === '') document.getElementById('regClubType').value = currentUser.club_type || 'chess';
-                if (document.getElementById('regClubName').value === '') document.getElementById('regClubName').value = currentUser.club_name || '';
             }
 
             setRegistrationMode(hasLoggedInUser ? 'individual' : 'team');
@@ -870,12 +830,8 @@ foreach($tournaments as $t) {
 
             // Pre-fill all fields in the Individual registration section
             document.getElementById('regFullName').value = user.full_name || '';
-            document.getElementById('regEmail').value = user.email || '';
-            document.getElementById('regPhone').value = user.phone_number || '';
             document.getElementById('regDob').value = user.date_of_birth || '';
             document.getElementById('regGender').value = user.gender || '';
-            document.getElementById('regClubType').value = user.club_type || 'chess';
-            document.getElementById('regClubName').value = user.club_name || '';
 
             // Transition registration mode to individual
             setRegistrationMode('individual');
@@ -894,6 +850,29 @@ foreach($tournaments as $t) {
             document.getElementById('posterModal').classList.add('hidden');
             document.body.style.overflow = '';
         }
+
+        // Auto-focus and open registration modal if 'id' parameter is passed in URL
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetId = urlParams.get('id');
+            if (targetId) {
+                const card = document.getElementById(`tournament-card-${targetId}`);
+                if (card) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    card.classList.add('ring-4', 'ring-brandGreen/50');
+                    setTimeout(() => {
+                        card.classList.remove('ring-4', 'ring-brandGreen/50');
+                    }, 3000);
+                    
+                    const regBtn = card.querySelector('button[onclick*="openRegistrationModal"]');
+                    if (regBtn) {
+                        setTimeout(() => {
+                            regBtn.click();
+                        }, 800);
+                    }
+                }
+            }
+        });
     </script>
 
     <!-- Poster Lightbox Modal -->

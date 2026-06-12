@@ -39,6 +39,50 @@ if (isset($_POST['mark_email_read_uid'])) {
 $admin_id = $_SESSION['id'];
 $pageTitle = "Communications Hub";
 include "admin_header.php";
+?>
+<!-- Quill Rich Text Editor Styles -->
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+<style>
+    .ql-toolbar.ql-snow {
+        border-color: rgba(226, 232, 240, 1) !important;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        background-color: #f8fafc;
+    }
+    .dark .ql-toolbar.ql-snow {
+        border-color: rgba(51, 65, 85, 1) !important;
+        background-color: #1e293b;
+    }
+    .ql-container.ql-snow {
+        border-color: rgba(226, 232, 240, 1) !important;
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+        font-family: inherit;
+        font-size: 14px;
+        min-height: 200px;
+    }
+    .dark .ql-container.ql-snow {
+        border-color: rgba(51, 65, 85, 1) !important;
+        background-color: rgba(30, 41, 59, 0.5) !important;
+    }
+    .ql-editor {
+        min-height: 200px;
+    }
+    .dark .ql-snow .ql-stroke {
+        stroke: #94a3b8 !important;
+    }
+    .dark .ql-snow .ql-fill {
+        fill: #94a3b8 !important;
+    }
+    .dark .ql-snow .ql-picker {
+        color: #94a3b8 !important;
+    }
+    .dark .ql-snow .ql-picker-options {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+    }
+</style>
+<?php
 
 $message = "";
 $error = "";
@@ -240,9 +284,8 @@ $inboxEmailCount = is_array($inboxEmails) ? count($inboxEmails) : 0;
 
                     <div>
                         <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Message Content</label>
-                        <textarea name="message" rows="6" required
-                            class="w-full px-5 py-3 rounded-2xl border border-slate-200 dark:border-slate-800 dark:bg-slate-800/50 focus:ring-2 focus:ring-brandGreen outline-none transition-all"
-                            placeholder="Write your message here... (HTML supported)"></textarea>
+                        <div id="editor-container" class="w-full bg-slate-50 dark:bg-slate-800/50 rounded-2xl transition-all"></div>
+                        <input type="hidden" name="message" id="message-input" required>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
@@ -688,6 +731,76 @@ function renderSelectedUsers() {
         </div>
     `).join('');
 }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const quill = new Quill('#editor-container', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                [{ 'header': [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'align': [] }],
+                ['link', 'image'],
+                ['clean']
+            ]
+        }
+    });
+
+    const toolbar = quill.getModule('toolbar');
+    toolbar.addHandler('image', () => {
+        const fileInput = document.createElement('input');
+        fileInput.setAttribute('type', 'file');
+        fileInput.setAttribute('accept', 'image/*');
+        fileInput.click();
+        
+        fileInput.addEventListener('change', () => {
+            const file = fileInput.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('image', file);
+                
+                const range = quill.getSelection(true);
+                quill.insertText(range.index, '[Uploading Image...]');
+                
+                fetch('upload_campaign_image.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    quill.deleteText(range.index, '[Uploading Image...]'.length);
+                    if (data.url) {
+                        quill.insertEmbed(range.index, 'image', data.url);
+                    } else {
+                        alert(data.error || 'Failed to upload image.');
+                    }
+                })
+                .catch(err => {
+                    quill.deleteText(range.index, '[Uploading Image...]'.length);
+                    console.error(err);
+                    alert('Upload error. Try again.');
+                });
+            }
+        });
+    });
+
+    const form = document.querySelector('form[action="communications.php"]');
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            const html = quill.root.innerHTML;
+            if (html === '<p><br></p>' || html.trim() === '') {
+                alert('Message content cannot be empty.');
+                e.preventDefault();
+                return;
+            }
+            document.getElementById('message-input').value = html;
+        });
+    }
+});
 </script>
 
 <?php include "admin_footer.php"; ?>

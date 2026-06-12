@@ -94,8 +94,8 @@ $sql_tournament_participants = "CREATE TABLE IF NOT EXISTS tournament_registrati
     registration_id INT NOT NULL,
     user_id INT NULL,
     full_name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    phone VARCHAR(20) NOT NULL,
+    email VARCHAR(255) NULL,
+    phone VARCHAR(20) NULL,
     date_of_birth DATE NULL,
     club_type ENUM('chess', 'school') DEFAULT 'chess',
     club_name VARCHAR(255) DEFAULT NULL,
@@ -243,8 +243,8 @@ $sql_participants = "CREATE TABLE IF NOT EXISTS tournament_registration_particip
     registration_id INT NOT NULL,
     user_id INT NULL,
     full_name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    phone VARCHAR(20) NOT NULL,
+    email VARCHAR(255) NULL,
+    phone VARCHAR(20) NULL,
     date_of_birth DATE NULL,
     club_type ENUM('chess','school') DEFAULT 'chess',
     club_name VARCHAR(255) DEFAULT NULL,
@@ -264,6 +264,21 @@ if ($conn->query($sql_participants) === TRUE) {
     echo "Table 'tournament_registration_participants' created successfully or already exists.\n";
 } else {
     echo "Error creating tournament participants table: " . $conn->error . "\n";
+}
+
+// Alter existing table columns to allow NULL for email and phone
+$sql_alter_email = "ALTER TABLE tournament_registration_participants MODIFY email VARCHAR(255) NULL";
+if ($conn->query($sql_alter_email) === TRUE) {
+    echo "Altered email column in tournament_registration_participants successfully.\n";
+} else {
+    echo "Error altering email column: " . $conn->error . "\n";
+}
+
+$sql_alter_phone = "ALTER TABLE tournament_registration_participants MODIFY phone VARCHAR(20) NULL";
+if ($conn->query($sql_alter_phone) === TRUE) {
+    echo "Altered phone column in tournament_registration_participants successfully.\n";
+} else {
+    echo "Error altering phone column: " . $conn->error . "\n";
 }
 
 $conn->close();

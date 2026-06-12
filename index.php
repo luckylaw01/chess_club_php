@@ -485,12 +485,12 @@ if (isset($conn)) {
                             $dateBg = 'bg-brandOrange text-white';
                             $btnText = 'Join';
                             $btnClass = 'border-brandOrange/20 text-brandOrange hover:bg-brandOrange hover:text-white';
-                            $actionHtml = '<a href="tournaments.php" class="w-full mt-6 py-3 border ' . $btnClass . ' text-xs font-bold rounded-xl transition-all uppercase tracking-widest text-center block">' . $btnText . '</a>';
+                            $actionHtml = '<a href="tournaments.php?id=' . $t['id'] . '" class="w-full mt-6 py-3 border ' . $btnClass . ' text-xs font-bold rounded-xl transition-all uppercase tracking-widest text-center block">' . $btnText . '</a>';
                         } elseif ($t['status'] === 'upcoming') {
                             $dateBg = 'bg-brandGreen text-white';
                             $btnText = 'Register';
                             $btnClass = 'border-brandGreen/20 text-brandGreen hover:bg-brandGreen hover:text-white';
-                            $actionHtml = '<a href="tournaments.php" class="w-full mt-6 py-3 border ' . $btnClass . ' text-xs font-bold rounded-xl transition-all uppercase tracking-widest text-center block">' . $btnText . '</a>';
+                            $actionHtml = '<a href="tournaments.php?id=' . $t['id'] . '" class="w-full mt-6 py-3 border ' . $btnClass . ' text-xs font-bold rounded-xl transition-all uppercase tracking-widest text-center block">' . $btnText . '</a>';
                         } else {
                             $dateBg = 'bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400';
                             $statusLabel = $t['status'] === 'completed' ? 'Finished' : ucfirst($t['status']);

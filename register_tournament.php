@@ -143,14 +143,11 @@ if ($registrationType === 'team') {
         $guardianPhone = trim((string)($participant['guardian_phone'] ?? ''));
         $participantUserId = !empty($participant['user_id']) ? (int)$participant['user_id'] : null;
 
-        if ($fullName === '' || $email === '' || $phone === '' || $dateOfBirth === '' || $clubName === '' || $gender === '' || $category === '') {
-            tournament_json_response(['status' => 'error', 'message' => 'Please complete all participant details for the team registration.']);
+        if ($fullName === '' || $dateOfBirth === '' || $gender === '' || $category === '') {
+            tournament_json_response(['status' => 'error', 'message' => 'Please complete all required participant details for the team registration.']);
         }
 
-        $age = tournament_calculate_age($dateOfBirth, $eventDate);
-        if ($age !== null && $age < 18 && $guardianPhone === '') {
-            tournament_json_response(['status' => 'error', 'message' => 'Guardian phone number is required for participants under 18.']);
-        }
+
 
         $registrationRows[] = [
             'user_id' => $participantUserId,
@@ -200,14 +197,11 @@ if ($registrationType === 'team') {
     $category = trim((string)($_POST['category'] ?? 'Open'));
     $guardianPhone = trim((string)($_POST['guardian_phone'] ?? ''));
 
-    if ($fullName === '' || $email === '' || $phone === '' || $dateOfBirth === '' || $clubName === '' || $gender === '' || $category === '') {
+    if ($fullName === '' || $dateOfBirth === '' || $gender === '' || $category === '') {
         tournament_json_response(['status' => 'error', 'message' => 'Please complete all required fields.']);
     }
 
-    $age = tournament_calculate_age($dateOfBirth, $eventDate);
-    if ($age !== null && $age < 18 && $guardianPhone === '') {
-        tournament_json_response(['status' => 'error', 'message' => 'Guardian phone number is required for participants under 18.']);
-    }
+
 
     $registrationRows[] = [
         'user_id' => $userId,
