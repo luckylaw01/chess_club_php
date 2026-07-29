@@ -253,17 +253,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $action == "delete") {
     $id = (int)$_POST['id'];
 
     // Prevent self-deletion
-    if ($id == $_SESSION['id']) {
+    if (isset($_SESSION['id']) && $id == $_SESSION['id']) {
         echo json_encode(['status' => 'error', 'message' => 'You cannot delete your own account.']);
         exit;
     }
 
-    $sql = "DELETE FROM users WHERE id = $id";
+    $conn->begin_transaction();
 
-    if ($conn->query($sql)) {
+    try {
+        // 1. Unassign user as coach from academy courses
+        $conn->query("UPDATE academy_courses SET coach_id = NULL WHERE coach_id = $id");
+
+        // 2. Disassociate user from orders (ensure column allows NULL if needed)
+        @$conn->query("ALTER TABLE orders MODIFY user_id INT NULL");
+        $conn->query("UPDATE orders SET user_id = NULL WHERE user_id = $id");
+
+        // 3. Disassociate user from tournament registrations & participants
+        $conn->query("UPDATE tournament_registrations SET user_id = NULL WHERE user_id = $id");
+        $conn->query("UPDATE tournament_registration_participants SET user_id = NULL WHERE user_id = $id");
+
+        // 4. Disassociate user from payments & donations
+        $conn->query("UPDATE payments SET user_id = NULL WHERE user_id = $id");
+        $conn->query("UPDATE donations SET user_id = NULL WHERE user_id = $id");
+
+        // 5. Disassociate user from notification content created by them
+        $conn->query("UPDATE notification_content SET created_by = NULL WHERE created_by = $id");
+
+        // 6. Delete user-specific records that should cascade
+        $conn->query("DELETE FROM course_enrollments WHERE user_id = $id");
+        $conn->query("DELETE FROM student_assignments WHERE user_id = $id");
+        $conn->query("DELETE FROM notifications WHERE user_id = $id");
+
+        // 7. Delete the user record
+        $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        if (!$stmt->execute()) {
+            throw new Exception($stmt->error);
+        }
+        $stmt->close();
+
+        $conn->commit();
         echo json_encode(['status' => 'success', 'message' => 'User deleted successfully.']);
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $conn->error]);
+    } catch (Exception $e) {
+        $conn->rollback();
+        echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
     }
     exit;
 }

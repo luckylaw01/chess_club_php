@@ -284,7 +284,7 @@ include "admin_header.php";
     async function deleteUser() {
         const id = document.getElementById('edit_id').value;
         if (parseInt(id) === <?php echo (int)$_SESSION['id']; ?>) {
-            alert('You cannot delete your own account.');
+            showToast('You cannot delete your own account.', 'error');
             return;
         }
         if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) return;
@@ -298,8 +298,9 @@ include "admin_header.php";
         if (res.status === 'success') {
             closeModal();
             loadUsers();
+            showToast(res.message || 'User deleted successfully.');
         } else {
-            alert(res.message);
+            showToast(res.message || 'Failed to delete user.', 'error');
         }
     }
 
@@ -318,8 +319,9 @@ include "admin_header.php";
         if (res.status === 'success') {
             closeModal();
             loadUsers();
+            showToast(res.message);
         } else {
-            alert(res.message);
+            showToast(res.message, 'error');
         }
     });
 

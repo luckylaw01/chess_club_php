@@ -281,5 +281,22 @@ if ($conn->query($sql_alter_phone) === TRUE) {
     echo "Error altering phone column: " . $conn->error . "\n";
 }
 
+// Ensure foreign key constraints on academy_courses and orders allow deleting user parent rows
+@$conn->query("ALTER TABLE academy_courses MODIFY coach_id INT NULL");
+@$conn->query("ALTER TABLE academy_courses DROP FOREIGN KEY academy_courses_ibfk_1");
+if ($conn->query("ALTER TABLE academy_courses ADD CONSTRAINT academy_courses_ibfk_1 FOREIGN KEY (coach_id) REFERENCES users(id) ON DELETE SET NULL")) {
+    echo "Updated academy_courses foreign key constraint successfully.\n";
+} else {
+    echo "Info: academy_courses FK update note: " . $conn->error . "\n";
+}
+
+@$conn->query("ALTER TABLE orders MODIFY user_id INT NULL");
+@$conn->query("ALTER TABLE orders DROP FOREIGN KEY orders_ibfk_1");
+if ($conn->query("ALTER TABLE orders ADD CONSTRAINT orders_ibfk_1 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL")) {
+    echo "Updated orders foreign key constraint successfully.\n";
+} else {
+    echo "Info: orders FK update note: " . $conn->error . "\n";
+}
+
 $conn->close();
 ?>

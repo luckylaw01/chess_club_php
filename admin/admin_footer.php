@@ -5,7 +5,42 @@
         </footer>
     </div>
     
+    <!-- Global Toast Container -->
+    <div id="toastContainer" class="fixed top-6 right-6 z-[100] flex flex-col gap-3 pointer-events-none"></div>
+
     <script>
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-xl border text-sm font-semibold transform -translate-y-2 opacity-0 transition-all duration-300 ${
+                type === 'success' 
+                ? 'bg-slate-900 text-white border-brandGreen/40 dark:bg-slate-800 dark:border-brandGreen/50' 
+                : 'bg-red-900 text-white border-red-500/40 dark:bg-red-950 dark:border-red-500/50'
+            }`;
+
+            const iconClass = type === 'success' 
+                ? 'fa-circle-check text-brandGreen' 
+                : 'fa-circle-exclamation text-red-400';
+
+            toast.innerHTML = `<i class="fa-solid ${iconClass} text-lg"></i><span>${message}</span>`;
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.classList.remove('-translate-y-2', 'opacity-0');
+                toast.classList.add('translate-y-0', 'opacity-100');
+            });
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('-translate-y-2', 'opacity-0');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3500);
+        }
+
         function toggleSidebar() {
             const sidebar = document.getElementById('adminSidebar');
             const overlay = document.getElementById('sidebarOverlay');

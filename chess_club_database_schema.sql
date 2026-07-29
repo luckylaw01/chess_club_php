@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 27, 2026 at 06:29 PM
+-- Generation Time: Jul 29, 2026 at 01:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -65,8 +65,8 @@ CREATE TABLE `app_settings` (
 --
 
 INSERT INTO `app_settings` (`setting_key`, `setting_value`, `updated_at`) VALUES
-('paystack_public_key', 'pk_live_placeholder', '2026-05-13 10:23:04'),
-('paystack_secret_key', 'sk_live_placeholder', '2026-05-13 10:23:04');
+('paystack_public_key', 'YOUR_PUBLIC_KEY_HERE', '2026-06-12 14:22:49'),
+('paystack_secret_key', 'YOUR_SECRET_KEY_HERE', '2026-06-12 14:22:49');
 
 -- --------------------------------------------------------
 
@@ -103,7 +103,8 @@ CREATE TABLE `course_enrollments` (
 --
 
 INSERT INTO `course_enrollments` (`id`, `user_id`, `course_id`, `enrolled_at`, `status`) VALUES
-(2, 2, 2, '2026-05-26 13:01:42', 'active');
+(2, 2, 2, '2026-05-26 13:01:42', 'active'),
+(3, 1, 1, '2026-06-07 15:50:24', 'active');
 
 -- --------------------------------------------------------
 
@@ -273,7 +274,7 @@ INSERT INTO `notifications` (`id`, `user_id`, `content_id`, `is_read`, `read_at`
 (1, 1, 1, 1, '2026-04-22 16:25:45', '2026-04-22 16:24:07'),
 (2, 3, 2, 0, NULL, '2026-04-27 11:21:36'),
 (3, 2, 3, 1, '2026-04-27 11:37:26', '2026-04-27 11:22:37'),
-(4, 1, 4, 0, NULL, '2026-05-27 15:35:21'),
+(4, 1, 4, 1, '2026-06-07 15:49:36', '2026-05-27 15:35:21'),
 (5, 2, 4, 1, '2026-05-27 15:35:32', '2026-05-27 15:35:21'),
 (6, 4, 4, 0, NULL, '2026-05-27 15:35:21'),
 (7, 5, 4, 0, NULL, '2026-05-27 15:35:21'),
@@ -315,7 +316,7 @@ INSERT INTO `notification_content` (`id`, `title`, `message`, `type`, `created_b
 
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `total_amount` decimal(10,2) NOT NULL,
   `status` enum('pending','paid','shipped','delivered','cancelled') DEFAULT 'pending',
   `order_date` timestamp NOT NULL DEFAULT current_timestamp()
@@ -449,7 +450,7 @@ CREATE TABLE `tournaments` (
 --
 
 INSERT INTO `tournaments` (`id`, `title`, `description`, `event_date`, `location`, `entry_fee`, `prize_pool`, `status`, `created_at`, `team_entry_fee`, `poster_url`) VALUES
-(1, 'Tournament 1', 'This is the best chess tournament ever', '2026-03-31 06:32:00', 'Sagana', 150.00, '20000', 'upcoming', '2026-03-27 06:33:27', 4500.00, NULL),
+(1, 'Tournament 1', 'This is the best chess tournament ever', '2026-03-31 06:32:00', 'Sagana', 0.00, '20000', 'upcoming', '2026-03-27 06:33:27', 0.00, NULL),
 (2, 'Adrenaline Rush 101', 'EXIT THE PAWN RACE', '2026-03-26 03:42:00', 'Nairobi', 1200.00, '1200', 'completed', '2026-03-27 06:43:04', 14999.99, 'uploads/tournaments/1779897761_IMG_20260515_110908.jpg'),
 (3, 'Ringgg', 'Enjoyment top', '2026-03-28 10:06:00', 'Nairobi', 500.00, '12000', 'upcoming', '2026-03-27 07:06:40', NULL, NULL),
 (4, 'Jm Kilo', 'ki ki ki', '2026-03-31 07:14:00', 'Nyeri', 1000.00, '12000', 'upcoming', '2026-03-27 07:15:13', 14999.96, 'uploads/tournaments/1779898293_IMG_20260518_132728.jpg'),
@@ -493,7 +494,10 @@ INSERT INTO `tournament_registrations` (`id`, `tournament_id`, `user_id`, `full_
 (3, 4, 1, 'Lawrence Munyaka', 'munyakalawrence01@gmail.com', '0745493943', 'Open', '2026-03-27 07:15:34', 'pending', 'individual', NULL, 1, 1, NULL, 0.00, 0.00, NULL, 'pending', '2026-05-21 10:23:36'),
 (4, 5, 1, 'Salman Khan', 'munyakalawrence01@gmail.com', '0745493943', 'Open', '2026-03-27 07:27:15', 'pending', 'individual', NULL, 1, 1, NULL, 0.00, 0.00, NULL, 'pending', '2026-05-21 10:23:36'),
 (5, 1, 5, 'Calvin Munyao', 'munyaocalvin@gmail.com', '0789546231', 'Open', '2026-05-21 11:57:23', 'pending', 'individual', '', 1, 1, NULL, 1000.00, 1000.00, 'TRN-8737608130FF', 'pending', '2026-05-21 11:57:23'),
-(6, 3, NULL, 'Lucky Law', 'luckylaw95@gmail.com', '0745493943', 'Open', '2026-05-21 12:10:47', 'confirmed', 'individual', NULL, NULL, 1, NULL, 0.00, 0.00, NULL, 'paid', '2026-05-21 12:10:47');
+(6, 3, NULL, 'Lucky Law', 'luckylaw95@gmail.com', '0745493943', 'Open', '2026-05-21 12:10:47', 'confirmed', 'individual', NULL, NULL, 1, NULL, 0.00, 0.00, NULL, 'paid', '2026-05-21 12:10:47'),
+(14, 1, 1, 'DB Commit Indiv Test', '', '', 'Open', '2026-06-12 14:49:38', 'confirmed', 'individual', '', 1, 1, NULL, 0.00, 0.00, NULL, 'paid', '2026-06-12 14:49:38'),
+(15, 1, 1, 'DB Team Player 1', '', '', 'Open', '2026-06-12 14:49:55', 'confirmed', 'team', 'DB Commit Team Test', 1, 1, NULL, 0.00, 0.00, NULL, 'paid', '2026-06-12 14:49:55'),
+(16, 1, NULL, 'gf', '', '', 'Open', '2026-06-12 14:50:08', 'confirmed', 'team', 'K', 1, 2, NULL, 0.00, 0.00, NULL, 'paid', '2026-06-12 14:50:08');
 
 -- --------------------------------------------------------
 
@@ -529,7 +533,11 @@ INSERT INTO `tournament_registration_participants` (`id`, `registration_id`, `us
 (3, 3, 1, 'Lawrence Munyaka', 'munyakalawrence01@gmail.com', '0745493943', NULL, 'chess', NULL, NULL, 'Open', NULL, 1, '2026-03-27 07:15:34', '2026-05-21 10:23:36'),
 (4, 4, 1, 'Salman Khan', 'munyakalawrence01@gmail.com', '0745493943', NULL, 'chess', NULL, NULL, 'Open', NULL, 1, '2026-03-27 07:27:15', '2026-05-21 10:23:36'),
 (8, 5, 5, 'Calvin Munyao', 'munyaocalvin@gmail.com', '0789546231', '2002-06-21', 'chess', 'MTTI Chess', 'male', 'Under 7', '', 1, '2026-05-21 11:57:23', '2026-05-21 11:57:23'),
-(9, 6, NULL, 'Lucky Law', 'luckylaw95@gmail.com', '0745493943', NULL, 'chess', NULL, NULL, 'Under 7', NULL, 1, '2026-05-21 12:10:47', '2026-05-21 12:10:47');
+(9, 6, NULL, 'Lucky Law', 'luckylaw95@gmail.com', '0745493943', NULL, 'chess', NULL, NULL, 'Under 7', NULL, 1, '2026-05-21 12:10:47', '2026-05-21 12:10:47'),
+(19, 14, 1, 'DB Commit Indiv Test', '', '', '2000-01-01', 'chess', '', 'male', 'Open', '', 1, '2026-06-12 14:49:38', '2026-06-12 14:49:38'),
+(20, 15, NULL, 'DB Team Player 1', '', '', '1995-10-10', 'chess', '', 'female', 'Open', '', 1, '2026-06-12 14:49:55', '2026-06-12 14:49:55'),
+(21, 16, NULL, 'gf', '', '', '2026-06-10', 'chess', '', 'male', 'Under 7', '', 1, '2026-06-12 14:50:08', '2026-06-12 14:50:08'),
+(22, 16, NULL, 'ffb', '', '', '2026-03-11', 'chess', '', 'female', 'Under 7', '', 0, '2026-06-12 14:50:08', '2026-06-12 14:50:08');
 
 -- --------------------------------------------------------
 
@@ -568,7 +576,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `first_name`, `last_name`, `full_name`, `elo_rating`, `membership_plan_id`, `membership_status`, `member_since`, `renewal_date`, `global_rank`, `achievements_count`, `role`, `created_at`, `profile_picture`, `phone_number`, `date_of_birth`, `gender`, `club_type`, `club_name`, `bio`) VALUES
-(1, 'lawrence.wanjohi', 'munyakalawrence01@gmail.com', '$2y$10$P92ks9x1/cFodQi4cjieSeys9SrwLtWq5ZIysn3EGKc2gmI8VBaea', 'Lawrence', 'Wanjohi', 'Lawrence Wanjohi', 1200, NULL, 'inactive', NULL, NULL, NULL, 0, 'user', '2026-03-25 16:35:34', 'uploads/profile_pictures/user_1_1777987184.jpg', NULL, NULL, NULL, 'chess', NULL, NULL),
+(1, 'lawrence.wanjohi', 'munyakalawrence01@gmail.com', '$2y$10$P92ks9x1/cFodQi4cjieSeys9SrwLtWq5ZIysn3EGKc2gmI8VBaea', 'Lawrence', 'Wanjohi', 'Team Contact DB', 1200, NULL, 'inactive', NULL, NULL, NULL, 0, 'user', '2026-03-25 16:35:34', 'uploads/profile_pictures/user_1_1777987184.jpg', NULL, '2000-01-01', 'male', 'chess', NULL, NULL),
 (2, 'admin', 'admin@ascendingpawn.co.ke', '$2y$10$bQHH47/pU7Fuz5HCXL.u6uMkAZN0bPAHZn8M4PsQiGfQGZMz7W.ny', NULL, NULL, 'System Administrator', 1200, NULL, 'active', NULL, NULL, NULL, 0, 'admin', '2026-03-26 07:15:15', NULL, NULL, NULL, NULL, 'chess', NULL, NULL),
 (3, 'magnus.carlsen', 'magnus@chess.com', '$2y$10$tRkP30KUuOzZhTSZGYhfCOQxaOaU74tGX3Gy5XaEYzCH0vmmm8XbK', 'Magnus', 'Carlsen', 'GM Magnus Carlsen', 2882, 1, 'active', NULL, '2026-04-27', NULL, 0, 'coach', '2026-03-26 09:38:27', 'uploads/coaches/magnus.jpg', '+254711111111', NULL, NULL, 'chess', NULL, 'Former World Chess Champion, widely considered one of the greatest chess players in history. Known for his deep endgame understanding and flexible style.'),
 (4, 'marriam.wambui', 'wambuimarriam@gmail.com', '$2y$10$gMbg3a7B82J7oa5E4AWAI.2iUqYy1bM9EAwGFfd7TwtfW/e1NhMvi', 'Marriam', 'Wambui', NULL, 1212, NULL, 'active', NULL, NULL, NULL, 0, 'user', '2026-04-22 14:47:35', NULL, NULL, NULL, NULL, 'chess', NULL, NULL),
@@ -751,7 +759,7 @@ ALTER TABLE `assignments`
 -- AUTO_INCREMENT for table `course_enrollments`
 --
 ALTER TABLE `course_enrollments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `course_subtopics`
@@ -811,7 +819,7 @@ ALTER TABLE `order_items`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -835,13 +843,13 @@ ALTER TABLE `tournaments`
 -- AUTO_INCREMENT for table `tournament_registrations`
 --
 ALTER TABLE `tournament_registrations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `tournament_registration_participants`
 --
 ALTER TABLE `tournament_registration_participants`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -857,7 +865,7 @@ ALTER TABLE `users`
 -- Constraints for table `academy_courses`
 --
 ALTER TABLE `academy_courses`
-  ADD CONSTRAINT `academy_courses_ibfk_1` FOREIGN KEY (`coach_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `academy_courses_ibfk_1` FOREIGN KEY (`coach_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `assignments`
@@ -907,7 +915,7 @@ ALTER TABLE `notification_content`
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `order_items`
